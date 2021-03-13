@@ -8,4 +8,14 @@
 		from community
 		where uid = #{uid} and is_delete = 0	
 	</select>
+	
+	<select id="showMySinger" parameterType="String" resultType="SingerDto">
+		select * 
+		from singer 
+		where singer_id in (
+			select singer_id 
+			from singerlike 
+			where uid=#{uid}
+		)
+	</select>
 </mapper>
