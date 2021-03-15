@@ -18,4 +18,10 @@
 			where uid=#{uid}
 		)
 	</select>
+	
+	<select id="showMyword" parameterType="String" resultType="NamuwikiDto">
+		select * from namuwiki where namu_id in (
+			select namu_id from wordlike where uid=#{uid}
+		)	
+	</select>
 </mapper>

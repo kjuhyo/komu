@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.MyDao;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 
 @Service
@@ -23,6 +24,11 @@ public class MyServiceImpl implements MyService{
 	@Override
 	public List<SingerDto> showMySinger(String uid) {
 		return myDao.showMySinger(uid);
+	}
+
+	@Override
+	public List<NamuwikiDto> showMyword(String uid) {
+		return myDao.showMyword(uid);
 	}
 
 }

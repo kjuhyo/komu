@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.service.MyService;
 
@@ -81,5 +82,28 @@ public class MyController {
 		}
 		
 		return new ResponseEntity<List<SingerDto>>(l, status);
+	}
+	
+	/*
+	 * 예쁜 단어 불러오기 
+	 * 
+	 * @param uid
+	 * @return List<NamuwikiDto>
+	 * */
+	@ApiOperation(value="예쁜 단어 불러오기", notes = "@param uid </br> @return NamuwikiDto", response=List.class)
+	@GetMapping("/word/{uid}")
+	public ResponseEntity<List<NamuwikiDto>> myWordList(@PathVariable String uid) {
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<NamuwikiDto> l=null;
+		
+		try {
+			l=myService.showMyword(uid);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<NamuwikiDto>>(l, status);
 	}
 }
