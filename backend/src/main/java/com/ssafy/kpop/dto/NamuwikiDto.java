@@ -26,6 +26,10 @@ public class NamuwikiDto {
 		this.is_delete = is_delete;
 		this.namu_img = namu_img;
 	}
+	
+	public NamuwikiDto() {
+		super();
+	}
 
 	public int getNamu_id() {
 		return namu_id;

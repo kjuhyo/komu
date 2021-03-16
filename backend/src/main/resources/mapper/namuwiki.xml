@@ -3,7 +3,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.kpop.dao.NamuDao">
-	<select id="insert" parameterType="NamuwikiDto" resultType="int">
-		
-	</select>
+	<insert id="insert" parameterType="NamuwikiDto">
+		insert into namuwiki(uid, song_id, singer_id, namu_title, namu_content, namu_date, namu_img)
+		values(#{uid}, #{song_id}, #{singer_id}, #{namu_title}, #{namu_content}, now(), #{namu_img})
+	</insert>
 </mapper>
