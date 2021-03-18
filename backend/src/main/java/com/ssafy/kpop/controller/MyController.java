@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.service.MyService;
 
 import io.swagger.annotations.Api;
@@ -38,8 +40,8 @@ public class MyController {
 	 * @return List<CommunityDto>
 	 * */
 	@ApiOperation(value="커뮤니티 내가 쓴 글 불러오기", notes = "@param uid </br> @return CommunityDto", response=List.class)
-	@GetMapping("/{uid}")
-	public ResponseEntity<List<CommunityDto>> personalList(@PathVariable String uid) {
+	@GetMapping("/community/{uid}")
+	public ResponseEntity<List<CommunityDto>> myPostList(@PathVariable String uid) {
 		HttpStatus status=HttpStatus.ACCEPTED;
 		
 		try {
@@ -56,5 +58,52 @@ public class MyController {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
+	}
+	
+	
+	/*
+	 * 내가 좋아요한 가수 불러오기 
+	 * 
+	 * @param uid
+	 * @return List<SingerDto>
+	 * */
+	@ApiOperation(value="내가 좋아요한 가수 불러오기", notes = "@param uid </br> @return SingerDto", response=List.class)
+	@GetMapping("/singer/{uid}")
+	public ResponseEntity<List<SingerDto>> mySingerList(@PathVariable String uid) {
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<SingerDto> l=null;
+		
+		try {
+			l=myService.showMySinger(uid);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<SingerDto>>(l, status);
+	}
+	
+	/*
+	 * 예쁜 단어 불러오기 
+	 * 
+	 * @param uid
+	 * @return List<NamuwikiDto>
+	 * */
+	@ApiOperation(value="예쁜 단어 불러오기", notes = "@param uid </br> @return NamuwikiDto", response=List.class)
+	@GetMapping("/word/{uid}")
+	public ResponseEntity<List<NamuwikiDto>> myWordList(@PathVariable String uid) {
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<NamuwikiDto> l=null;
+		
+		try {
+			l=myService.showMyword(uid);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<NamuwikiDto>>(l, status);
 	}
 }
