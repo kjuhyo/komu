@@ -7,4 +7,46 @@
 		insert into namuwiki(uid, song_id, singer_id, namu_title, namu_content, namu_date, namu_img)
 		values(#{uid}, #{song_id}, #{singer_id}, #{namu_title}, #{namu_content}, now(), #{namu_img})
 	</insert>
+	
+	<update id="update" parameterType="NamuwikiDto">
+		update namuwiki 
+		set song_id=#{song_id}, singer_id=#{singer_id}, namu_title=#{namu_title}, namu_content=#{namu_content}, namu_date=now(), namu_img=#{namu_img}
+		where uid=#{uid}
+	</update>
+	
+	<update id="delete" parameterType="NamuwikiDto">
+		update namuwiki set is_delete=1 where uid=#{uid}
+	</update>
+	
+	<select id="checkAuth" parameterType="map" resultType="int">
+		select count(*) from namuwiki where namu_id=#{namu_id} and uid=#{uid};
+	</select>
+	
+	<select id="callnamu" parameterType="int" resultType="NamuwikiDto">
+		select * from namuwiki where namu_id=#{namu_id}
+	</select>
+	
+	<select id="get_total" resultType="int">
+		select count(*) from namuwiki
+	</select>
+	
+	<select id="get_list" parameterType="Pagination" resultType="NamuwikiDto">
+		select * from namuwiki order by namu_date limit #{startList}, #{listSize}
+	</select>
+	
+	<select id="search_total" parameterType="String" resultType="int">
+		select count(*) from namuwiki where namu_title like concat('%',#{word},'%')
+		
+	</select>
+	
+	<select id="search_list" parameterType="map" resultType="NamuwikiDto">
+		select * from namuwiki where namu_title like concat('%',#{word},'%') order by namu_date limit #{startList}, #{listSize}
+	</select>
+	
+	
+	
+	
+	
+	
+
 </mapper>
