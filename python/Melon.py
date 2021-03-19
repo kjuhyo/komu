@@ -150,13 +150,13 @@ driver.find_element_by_xpath('//*[@id="d_chart_search"]/div/h4[2]/a').click()
 
 # song_id_list = []
 # 연대
-driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[1]/div[1]/ul/li[1]').click()
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[1]/div[1]/ul/li[3]').click()
 # 연도
-driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[2]/div[1]/ul/li[1]').click()
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[2]/div[1]/ul/li[10]').click()
 # 월간
-driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[3]/div[1]/ul/li[2]').click()
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[3]/div[1]/ul/li[12]').click()
 # 장르/스타일
-driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[5]/div[1]/ul/li[18]').click()
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[5]/div[1]/ul/li[1]').click()
 # 검색
 driver.find_element_by_xpath('//*[@id="d_srch_form"]/div[2]/button/span/span').click()
 flag = True
@@ -176,7 +176,10 @@ for j in range(1, 101):
             else:
                 song_name = driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/div/div[1]/span').text
                 print(song_name)
-                Crawling(song_id, song_name)
+                try:
+                    Crawling(song_id, song_name)
+                except:
+                    print(f'{j}번째 곡정보가 없습니다.')
     except:
         print(j)
         print('-----------------------에러 발생--------------------------------')
