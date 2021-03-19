@@ -51,7 +51,7 @@ def Crawling(song_id, song_name):
     album_name = matched2.group(1).strip()
 
     # 앨범커버
-    # album_cover = driver.find_element_by_xpath('//*[@id="downloadfrm"]/div/div/div[1]/a/img').get_attribute('src')
+    album_cover = soup.select_one('.image_typeAll > img')['src']
 
     # 발매날짜
     song_date_html = str(soup.select('.list dd')[1])
@@ -84,6 +84,10 @@ def Crawling(song_id, song_name):
 
     ### 가사가 있으면 추출
     try:
+        # lyric_html = soup.select_one('#d_video_summary').get_text()
+        # lyric_html = soup.select_one('.section_lyric .wrap_lyric .lyric').string
+        # print(lyric_html)
+        # lyric = lyric_html
         lyric_html = str(soup.select('.section_lyric .wrap_lyric .lyric')[0])
         lyric_html = lyric_html.replace('\t','').replace('\r','').split('\n')
         lyric_html = ''.join(lyric_html)
@@ -101,28 +105,19 @@ def Crawling(song_id, song_name):
     except:
         lyric = "없음"
 
-    # print('(가사)',sep='\n')
-    # print(lyric)
 
-    # singer_img = ''
-    # if singer_s != 'Various Artists':
-    #     driver.find_element_by_xpath('//*[@id="downloadfrm"]/div/div/div[2]/div[1]/div[2]/a').click()
-    #     driver.implicitly_wait(3)
-    #     time.sleep(1)
-    #     singer_img = driver.find_element_by_xpath('//*[@id="artistImgArea"]/img').get_attribute('src')
-    #     driver.back()
-    #     driver.implicitly_wait(3)
-    #     time.sleep(1)
-    
-    # print("가수 이미지:", singer_img)
+    if singer_s == 'Various Artists':
+        singer_img = ''
+    else:
+        singer_img = soup.select_one('.thumb_atist > img')['src']
 
     temp = []
     temp.append(song_id)
     temp.append(song_name)
     temp.append(singer_s)
+    temp.append(singer_img)
     temp.append(album_name)
-    # temp.append(album_cover)
-    # temp.append(singer_img)
+    temp.append(album_cover)
     temp.append(song_genre)
     temp.append(song_date)
     temp.append(lyric)
@@ -132,18 +127,19 @@ def Crawling(song_id, song_name):
         writer.writerow(temp)
 
 
-with open('kpop.csv', 'w', encoding='utf-8-sig', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(['id', '제목', '가수', '앨범명', '장르', '발매일자', '가사'])
+# 처음 받을 때만 사용
+# with open('kpop06.csv', 'w', encoding='utf-8-sig', newline='') as f:
+#     writer = csv.writer(f)
+#     writer.writerow(['id', 'song_name', 'singer_name', 'singer_img', 'album_name', 'album_cover', 'genre', 'issue_date', 'lyric'])
 
 
 # 다시 받을 때 song_id 확인
-# csv_test = pd.read_csv('kpop.csv', encoding='UTF8')
-# song_id = csv_test['id']
-# song_id_val = song_id.values
-# song_id_list = song_id_val.tolist()
-# for i in range(len(song_id_list)):
-#     song_id_list[i] = str(song_id_list[i])
+csv_test = pd.read_csv('kpop.csv', encoding='utf-8')
+song_id = csv_test['id']
+song_id_val = song_id.values
+song_id_list = song_id_val.tolist()
+for i in range(len(song_id_list)):
+    song_id_list[i] = str(song_id_list[i])
 
 
 driver = openDriver()
@@ -151,39 +147,38 @@ driver.find_element_by_class_name('btn_chart_f').click()
 driver.implicitly_wait(3)
 time.sleep(1)
 driver.find_element_by_xpath('//*[@id="d_chart_search"]/div/h4[2]/a').click()
-song_id_list = []
 
-for i in range(3, 0, -1):
-    driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[1]/div[1]/ul/li[{i}]').click()
-    if i == 3:
-        for YE in range(5, 0, -1):
-            driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[2]/div[1]/ul/li[{YE}]').click()
-            print(f'{2010 - YE}년')
-            for MO in range(1, 13):
-                driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[3]/div[1]/ul/li[{MO}]').click()
-                print(f'{MO}월')
-                for GE in [2, 4]:
-                    time.sleep(1)
-                    driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[5]/div[1]/ul/li[{GE}]').click()
-                    driver.find_element_by_xpath('//*[@id="d_srch_form"]/div[2]/button/span/span').click()
-                    print(f'장르 : {GE}')
-                    flag = True
-                    for j in range(1, 101):
-                        if (j > 50 and flag):
-                            driver.find_element_by_xpath('//*[@id="frm"]/div[2]/span/a').click()
-                            flag = False
-                        try:
-                            if driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/a').get_attribute('href')[36:42]:
-                                song_id = driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/a').get_attribute('href')[36:42]
-                                if song_id in song_id_list:
-                                    continue
-                                else:
-                                    song_name = driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/div/div[1]/span').text
-                                    print(song_name)
-                                    Crawling(song_id, song_name)
-                        except:
-                            break
-    elif i == 2:
-        break
-    elif i == 1:
+# song_id_list = []
+# 연대
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[1]/div[1]/ul/li[1]').click()
+# 연도
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[2]/div[1]/ul/li[1]').click()
+# 월간
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[3]/div[1]/ul/li[2]').click()
+# 장르/스타일
+driver.find_element_by_xpath(f'//*[@id="d_chart_search"]/div/div/div[5]/div[1]/ul/li[18]').click()
+# 검색
+driver.find_element_by_xpath('//*[@id="d_srch_form"]/div[2]/button/span/span').click()
+flag = True
+for j in range(1, 101):
+    if (j > 50 and flag):
+        driver.find_element_by_xpath('//*[@id="frm"]/div[2]/span/a').click()
+        flag = False
+    try:
+        if driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/a').get_attribute('href'):
+            s = driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/a').get_attribute('href')
+            s = s.split('(\'')
+            s = s[1]
+            s = s.split('\'')
+            song_id = s[0]
+            if song_id in song_id_list:
+                continue
+            else:
+                song_name = driver.find_element_by_xpath(f'/html/body/div/div[3]/div/div/div/div[1]/div[2]/form/div[1]/table/tbody/tr[{j}]/td[4]/div/div/div[1]/span').text
+                print(song_name)
+                Crawling(song_id, song_name)
+    except:
+        print(j)
+        print('-----------------------에러 발생--------------------------------')
+        time.sleep(2)
         break
