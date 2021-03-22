@@ -1,23 +1,152 @@
 package com.ssafy.kpop.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.kpop.dto.LoginCallBackDto;
 import com.ssafy.kpop.dto.UserDto;
+import com.ssafy.kpop.service.JwtServiceImpl;
 import com.ssafy.kpop.service.UserService;
+import com.ssafy.kpop.service.oauth.GoogleOauth;
+import com.ssafy.kpop.service.oauth.SocialOauth;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api("UserController V1")
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
 	@Autowired 
-	UserService userService;
-		
-	@GetMapping("/")
-	public UserDto login() {
-		return userService.login();
+	private UserService userService;
+	
+	@Autowired
+	private GoogleOauth googleOauthService;
+	
+	@Autowired
+	private JwtServiceImpl jwtService;
+	
+	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
+	
+	/**
+	 * 소셜로그인 access_token을 전달 받아 정보 전달 
+	 * 
+	 * @param -
+	 * @return List<BlogPostDto>
+	 */
+	@ApiOperation(value = "access_token", notes ="@param : access_token  </br> @return : access_token, message, user")
+	@PostMapping("/login/{socialLoginType}")
+	public ResponseEntity<Map<String, Object>> access(@PathVariable("socialLoginType") String socialLoginType,
+			@RequestBody String accessTocken) {
+		System.out.println("#" + socialLoginType + "로그인 요청됨!!");
+		System.out.println("# accessTocken: " + accessTocken);
+		SocialOauth socialOauth = getSocialOauth(socialLoginType);
+
+		HashMap<String, Object> userInfo = socialOauth.getUserInfoFromOauth(accessTocken);
+		logger.info("#Get userInfo: {}", userInfo);
+
+		UserDto user = null;
+		Map<String, Object> resultMap = new HashMap<>();
+		LoginCallBackDto loginCallBackDto = new LoginCallBackDto();
+
+		try {
+			user = userService.findByProvider(userInfo);
+			if (user == null) {
+				logger.info("#최초 로그인입니다.");
+				loginCallBackDto = userService.save(userInfo);
+			} else {
+				logger.info("#기존회원입니다.");
+				loginCallBackDto = getLoginCallBackByUid(user.getUid());
+			}
+			
+			resultMap.put("message", SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", e.getMessage());
+		}
+
+		System.out.println(loginCallBackDto.toString());
+		String token = jwtService.create("uid", loginCallBackDto.getUid(), "access_token");
+		logger.debug("#토큰정보: " + token);
+		resultMap.put("access_token", token);
+		resultMap.put("user", loginCallBackDto);
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 	
+	/**
+	 * Frontend에 리턴할 유저정보 객체 생성
+	 * 
+	 * @param uid
+	 * @return LoginCallBackDto
+	 */
+	public LoginCallBackDto getLoginCallBackByUid(String uid) {
+		LoginCallBackDto loginCallBackDto = null;
+		try {
+			UserDto user = userService.findById(uid);
+			
+			loginCallBackDto = new LoginCallBackDto(uid, user.getNickname(), user.getProfile(), user.getProvider());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return loginCallBackDto;
+	}
+	
+	/**
+	 * 프로필 정보 모달창
+	 * uid를 이용한 유저 정보 반환
+	 * 
+	 * @param -
+	 * @return 
+	 */
+	@ApiOperation(value = "유저 프로필 정보", notes ="@param : uid  </br> @return : UserDto")
+	@GetMapping("/profile/{uid}")
+	public ResponseEntity<Map<String, Object>> profileByUid( 
+			@PathVariable String uid ) {
+
+		System.out.println("#"+ uid +" 프로필 정보 호출");
+		Map<String, Object> resultMap = new HashMap<>();
+		UserDto user;
+		try {
+			user = userService.findById(uid);
+			if(user == null ) {
+				resultMap.put("message", "잘못된 회원정보 입니다.");
+			}else {
+				resultMap.put("message", SUCCESS);
+				resultMap.put("info", user);
+				logger.info("#Get userInfo: {}", user);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", "잘못된 회원정보 입니다.");
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
+	
+	
+	public SocialOauth getSocialOauth(String socialLoginType) {
+		switch(socialLoginType) {
+		case "google":
+			return googleOauthService;
+		default:
+			return null;
+		}
+	}
 }
