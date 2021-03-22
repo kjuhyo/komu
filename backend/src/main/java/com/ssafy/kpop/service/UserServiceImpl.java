@@ -52,6 +52,13 @@ public class UserServiceImpl implements UserService{
 		return loginCallBackDto;
 	}
 
+	//User 닉네임 업데이트
+	@Override
+	public void updateUser(UserDto user) {
+		userdao.updateUser(user);
+		return;
+	}
+
 	
 	
 	

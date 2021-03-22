@@ -140,6 +140,30 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 	
+	/**
+	 * 회원 정보 수정
+	 * 
+	 * @param UserDto
+	 * @return 
+	 */
+	@ApiOperation(value = "회원 정보 수정", notes ="@param : UserInfoDto </br> @return : ")
+	@PostMapping("/updateInfo")
+	public ResponseEntity<Map<String, Object>> updateUser(
+			@RequestBody UserDto user) {
+		System.out.println("#회원정보 수정 호출!!!");
+		logger.info("#Get userInfo: {}", user);
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		try {
+			userService.updateUser(user);
+			resultMap.put("message", "정보 수정이 완료되었습니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", "정보 수정에 실패하였습니다.");
+		}
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
 	
 	public SocialOauth getSocialOauth(String socialLoginType) {
 		switch(socialLoginType) {

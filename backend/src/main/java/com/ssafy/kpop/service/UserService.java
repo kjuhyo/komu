@@ -10,4 +10,5 @@ public interface UserService {
 	public UserDto findByProvider(HashMap<String, Object> map);
 	public UserDto findById(String uid);
 	public LoginCallBackDto save(HashMap<String, Object> user);
+	public void updateUser(UserDto user);
 }

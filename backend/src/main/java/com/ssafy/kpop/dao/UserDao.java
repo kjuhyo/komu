@@ -12,4 +12,5 @@ public interface UserDao {
 	public UserDto findByProvider(HashMap<String, String> map);
 	public UserDto findById(String uid);
 	public void save(UserDto user);
+	public void updateUser(UserDto user);
 }

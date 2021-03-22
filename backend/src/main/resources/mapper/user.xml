@@ -21,4 +21,10 @@
 		values(#{uid}, #{nickname}, #{profile}, #{provider}, #{provider_id});
 	</insert>
 	
+	<update id="updateUser" parameterType="map">
+		update user
+		set nickname=#{nickname}, profile=#{profile}
+		where uid=#{uid}
+	</update>
+	
 </mapper>
