@@ -1,7 +1,8 @@
 package com.ssafy.kpop.dto;
 
-public class SigerchatDto {
+public class SingerchatDto {
 	
+	//가수별페이지에 있는 댓글창
 	private int singerchat_id;
 	private int singer_id;
 	private String singerchat_content;
@@ -69,7 +70,7 @@ public class SigerchatDto {
 	}
 
 
-	public SigerchatDto(int singerchat_id, int singer_id, String singerchat_content, String uid, String singerchat_date,
+	public SingerchatDto(int singerchat_id, int singer_id, String singerchat_content, String uid, String singerchat_date,
 			int is_delete) {
 		super();
 		this.singerchat_id = singerchat_id;
@@ -83,10 +84,12 @@ public class SigerchatDto {
 
 	@Override
 	public String toString() {
-		return "SigerchatDto [singerchat_id=" + singerchat_id + ", singer_id=" + singer_id + ", singerchat_content="
+		return "SingerchatDto [singerchat_id=" + singerchat_id + ", singer_id=" + singer_id + ", singerchat_content="
 				+ singerchat_content + ", uid=" + uid + ", singerchat_date=" + singerchat_date + ", is_delete="
 				+ is_delete + "]";
 	}
+	
+	
 	
 	
 }
