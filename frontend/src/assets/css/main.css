@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #bfbfc0 !important;
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+}
+
+body,
+html,
+.App,
+.vue-tempalte,
+.vertical-center {
+  width: 100%;
+  height: 100%;
+}
+
+.vertical-center {
+  display: flex;
+  text-align: left;
+  justify-content: center;
+}
+
+.inner-block {
+  width: 500px;
+  margin: auto;
+  background: #ffffff;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-radius: 15px;
+  transition: all 0.3s;
+}

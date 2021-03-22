@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+body {
+  line-height: 1;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+  font-family: 'Nanum Gothic', sans-serif;
+  letter-spacing: -0.4px;
+  font-size: 13px;
+}
+
+.form-signin-heading {
+  display: block;
+  margin: 0 0 30px;
+  text-align: center;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: 47px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 15.5px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type='email'] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type='password'] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.hr {
+  height: 0.5px;
+  margin: 40px 0 35px 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.sign-in-form__action {
+  margin: 20px 0;
+  text-align: center;
+  color: #424242;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.sign-in-form__action__entry {
+  display: inline-block;
+  padding: 5px 13px;
+  margin: -5px 10px;
+  color: #424242;
+}
+
+.sign-in-form__form__submit {
+  display: block;
+  width: 100%;
+  height: 50px;
+  margin: 20px 0;
+  padding: 13px 15px;
+  font-size: 17px;
+  line-height: 1.41;
+}
+
+.btn-priority {
+  background-color: #eac03a;
+  border-color: #eac03a;
+  color: #ffffff;
+}

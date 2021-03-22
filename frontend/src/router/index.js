@@ -1,0 +1,41 @@
+import Vue from "vue";
+import VueRouter from "vue-router";
+
+Vue.use(VueRouter);
+
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../components/Login.vue')
+  },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: () => import('../components/ForgotPassword.vue')
+  },
+  {
+    path: '/forgot-password-code',
+    name: 'forgot-password-code',
+    component: () => import('../components/ForgotPasswordCode.vue')
+  },
+  {
+    path: '/forgot-password-final',
+    name: 'forgot-password-final',
+    component: () => import('../components/ForgotPasswordFinal.vue')
+  },
+  {
+    path: '/signup',
+    name: 'signup',
+    component: () => import('../components/SignUp.vue')
+  }
+
+];
+
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
+  routes
+});
+
+export default router;
