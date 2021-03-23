@@ -19,7 +19,7 @@
 	</update>
 	
 	<select id="checkAuth" parameterType="map" resultType="int">
-		select count(*) from namuwiki where namu_id=#{namu_id} and uid=#{uid};
+		select count(*) from namuwiki where namu_id=#{namu_id} and uid=#{uid}
 	</select>
 	
 	<select id="callnamu" parameterType="int" resultType="NamuwikiDto">
