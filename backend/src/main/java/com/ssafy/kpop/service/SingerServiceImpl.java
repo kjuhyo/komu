@@ -57,5 +57,18 @@ public class SingerServiceImpl implements SingerService{
 		return sdao.chat_regist(chat);
 	}
 	
+	@Override
+	public SingerchatDto check_id(int id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		return sdao.chat_id(id);
+	}
+	
+	@Override
+	public int do_delete(int id) {
+		// TODO Auto-generated method stub
+		return sdao.do_delete(id);
+	}
+	
 
 }

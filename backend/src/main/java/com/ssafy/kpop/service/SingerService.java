@@ -15,5 +15,8 @@ public interface SingerService {
 	int find_singer(String singer_name);
 	
 	int chat_regist(SingerchatDto chat);
+	SingerchatDto check_id(int id);
+	
+	int do_delete(int id);
 
 }

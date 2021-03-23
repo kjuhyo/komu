@@ -18,7 +18,9 @@ public interface SingerDao {
 	
 	int find_singer(String singer_name);
 	int chat_regist(SingerchatDto chat);
-	
+	int chat_writer(Map<String, Object> map);
+	SingerchatDto chat_id(int singerchat_id);
+	int do_delete(int singerchat_id);
 	
 
 }

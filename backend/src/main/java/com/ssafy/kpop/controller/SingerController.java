@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -112,6 +113,8 @@ public class SingerController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
+		logger.info("=====> 가수 댓글 등록 시작");
+
 		try {
 			// 가수 식별번호 찾아오기
 			int singer_id = singerservice.find_singer(singer_name);
@@ -137,7 +140,7 @@ public class SingerController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 가수페이지의 댓글 삭제
+	// 가수페이지의 댓글 신고
 	@ApiOperation(value = "Chat Report Page", notes = "댓글 신고 페이지")
 	@PostMapping("/{singer_name}/report")
 	public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name) {
@@ -155,6 +158,41 @@ public class SingerController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "Chat Delete", notes = "가수 페이지 댓글 삭제")
+	@PutMapping("/chat/delete")
+	public ResponseEntity<Map<String, Object>> modify(@RequestParam String userid, @RequestParam int singerchat_id) {
+		//@RequestBody SingerchatDto chat
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			logger.info("=====> 가수 댓글 삭제 시작");
+			// 1. singerchat_id를 통해 dto를 가져와서 writer랑 uid를 비교해줄꺼니?
+			// 2. dto를 가져가서
+			
+			SingerchatDto result = singerservice.check_id(singerchat_id);
+
+			boolean check = false;
+			
+			if (result.getUid().equals(userid)) {
+				check = true;
+				int delete = singerservice.do_delete(singerchat_id);
+				resultMap.put("message", "글 삭제가 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", "글 삭제가 실패하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("댓글 삭제 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
