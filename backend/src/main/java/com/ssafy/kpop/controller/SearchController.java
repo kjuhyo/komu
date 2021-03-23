@@ -33,7 +33,7 @@ public class SearchController {
 	 * @return List<SingerDto>
 	 * */
 	@ApiOperation(value="가수검색", notes = "@param 가수명 </br> @return SingerDto", response=List.class)
-	@GetMapping("/{name}")
+	@GetMapping("/singer/{name}")
 	public ResponseEntity<List<SingerDto>> getSingerName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
 		List<SingerDto> list=null;
@@ -49,4 +49,49 @@ public class SearchController {
 		return new ResponseEntity<List<SingerDto>>(list, status);
 	}
 	
+	/*
+	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목으로 
+	 * 
+	 * @param 노래제목
+	 * @return List<SongDto>
+	 * */
+	@ApiOperation(value="노래검색(노래제목으로)", notes = "@param 노래제목 </br> @return SongDto", response=List.class)
+	@GetMapping("/song/{name}")
+	public ResponseEntity<List<SingerDto>> getSongName(@PathVariable String name){
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<SingerDto> list=null;
+		try {
+			name= "%"+name+"%";
+			list=searchService.getSongByTitle(name);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<SingerDto>>(list, status);
+	}
+	
+	/*
+	 * 노래검색결과 ( db에 저장된 순 ) - 가수명으로
+	 * 
+	 * @param 가수명
+	 * @return List<SongDto>
+	 * */
+	@ApiOperation(value="노래검색(가수명으로)", notes = "@param 가수명 </br> @return SongDto", response=List.class)
+	@GetMapping("/song/singer/{name}")
+	public ResponseEntity<List<SingerDto>> getSongNameBySinger(@PathVariable String name){
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<SingerDto> list=null;
+		try {
+			name= "%"+name+"%";
+			list=searchService.getSongBySingerName(name);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<SingerDto>>(list, status);
+	}
 }

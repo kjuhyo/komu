@@ -9,4 +9,14 @@
 		where singer_name like #{singer_name} 
 		order by singer_like_cnt desc;
 	</select>
+	
+	<select id="getSongByTitle" parameterType="string" resultType="SongDto">
+		select * from song 
+		where song_name like #{song_name};
+	</select>
+	
+	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
+		select * from song 
+		where artist_name_basket like #{artist_name_basket};
+	</select>
 </mapper>

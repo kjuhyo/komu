@@ -19,4 +19,14 @@ public class SearchServiceImpl implements SearchService{
 		return searchdao.getSingerByName(singer_name);
 	}
 
+	@Override
+	public List<SingerDto> getSongByTitle(String song_name) {
+		return searchdao.getSongByTitle(song_name);
+	}
+
+	@Override
+	public List<SingerDto> getSongBySingerName(String singer_name) {
+		return searchdao.getSongBySingerName(singer_name);
+	}
+
 }
