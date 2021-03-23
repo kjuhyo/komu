@@ -47,7 +47,7 @@ public class SingerController {
 			// 노래 5개 리스트가져오고 최신순으로 가져와
 			List<SongDto> songList = singerservice.songlist(singer_name);
 
-			//가수 식별번호 찾아오기
+			// 가수 식별번호 찾아오기
 			int singer_id = singerservice.find_singer(singer_name);
 
 			// 댓글리스트 가져와
@@ -68,23 +68,23 @@ public class SingerController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	// 가수페이지에서 노래더보기 눌렀을 떄 노래 전체 리스트 
+	// 가수페이지에서 노래더보기 눌렀을 떄 노래 전체 리스트
 	@ApiOperation(value = "Singer's song Page", notes = "가수 노래 페이지")
 	@GetMapping("/{singer_name}/song/{page}")
 	public ResponseEntity<Map<String, Object>> getsong(@PathVariable String singer_name, @PathVariable int page) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
-		
+
 		int range = (page / 10) + 1;
-		int listCnt =0;
+		int listCnt = 0;
 
 		try {
-			
+
 			listCnt = singerservice.searchSong(singer_name);
 			logger.info("=====> 해당 가수 전체 노래 정보가져오기");
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
-			
+
 			int startList = pagination.getStartList();
 			int listSize = pagination.getListSize();
 			List<SongDto> songList = singerservice.all_song(singer_name, startList, listSize);
@@ -103,38 +103,59 @@ public class SingerController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
-	//가수페이지의 댓글 등록
-		@ApiOperation(value = "Chat regist Page", notes = "가수에 대한 댓글 등록 페이지")
-		@PostMapping("/{singer_name}/regist")
-		public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name, @RequestBody SingerchatDto singerchat) {
-			Map<String, Object> resultMap = new HashMap<>();
-			HttpStatus status = null;
-						
-			try {
-				//가수 식별번호 찾아오기
-				int singer_id = singerservice.find_singer(singer_name);
-				SingerchatDto chat = singerchat;
-				chat.setSinger_id(singer_id);
-				
-				int result = singerservice.chat_regist(chat);
-				if(result>1) {
-					resultMap.put("message", "코멘트 등록에 성공하였습니다.");
-					status = HttpStatus.ACCEPTED;
-					
-				}else {
-					resultMap.put("message", "코멘트 등록에 실패하였습니다.");
-					status = HttpStatus.ACCEPTED;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				logger.error("실행 실패 : {}", e);
-				resultMap.put("message", e.getMessage());
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
-			}
 
-			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	// 가수페이지의 댓글 등록
+	@ApiOperation(value = "Chat regist Page", notes = "가수에 대한 댓글 등록 페이지")
+	@PostMapping("/{singer_name}/regist")
+	public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name,
+			@RequestBody SingerchatDto singerchat) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			// 가수 식별번호 찾아오기
+			int singer_id = singerservice.find_singer(singer_name);
+			SingerchatDto chat = singerchat;
+			chat.setSinger_id(singer_id);
+
+			int result = singerservice.chat_regist(chat);
+			if (result > 1) {
+				resultMap.put("message", "코멘트 등록에 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+
+			} else {
+				resultMap.put("message", "코멘트 등록에 실패하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-	
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 가수페이지의 댓글 삭제
+	@ApiOperation(value = "Chat Report Page", notes = "댓글 신고 페이지")
+	@PostMapping("/{singer_name}/report")
+	public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			resultMap.put("message", "댓글이 신고되었습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", "댓글 신고에 실패하였습니다.");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 
 }
