@@ -12,9 +12,12 @@ import com.ssafy.kpop.dto.SongDto;
 public interface SingerDao {
 	
 	List<SongDto> songlist(String singer_name);
-	List<SingerchatDto> chatlist();
+	List<SingerchatDto> chatlist(int singer_id);
 	List<SongDto> all_song(Map<String, Object> map);
 	int search_song(String singer_name);
+	
+	int find_singer(String singer_name);
+	int chat_regist(SingerchatDto chat);
 	
 	
 

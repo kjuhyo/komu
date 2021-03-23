@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +35,7 @@ public class SingerController {
 	@Autowired
 	SingerService singerservice;
 
-	// 게시물 확인하기
+	// 가수 개인별페이지
 	@ApiOperation(value = "Singer Page", notes = "가수 페이지")
 	@GetMapping("/{singer_name}")
 	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String singer_name) {
@@ -45,8 +47,11 @@ public class SingerController {
 			// 노래 5개 리스트가져오고 최신순으로 가져와
 			List<SongDto> songList = singerservice.songlist(singer_name);
 
+			//가수 식별번호 찾아오기
+			int singer_id = singerservice.find_singer(singer_name);
+
 			// 댓글리스트 가져와
-			List<SingerchatDto> chatList = singerservice.chatlist();
+			List<SingerchatDto> chatList = singerservice.chatlist(singer_id);
 
 			resultMap.put("songList", songList);
 			resultMap.put("chatList", chatList);
@@ -98,5 +103,38 @@ public class SingerController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	//가수페이지의 댓글 등록
+		@ApiOperation(value = "Chat regist Page", notes = "가수에 대한 댓글 등록 페이지")
+		@PostMapping("/{singer_name}/regist")
+		public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name, @RequestBody SingerchatDto singerchat) {
+			Map<String, Object> resultMap = new HashMap<>();
+			HttpStatus status = null;
+						
+			try {
+				//가수 식별번호 찾아오기
+				int singer_id = singerservice.find_singer(singer_name);
+				SingerchatDto chat = singerchat;
+				chat.setSinger_id(singer_id);
+				
+				int result = singerservice.chat_regist(chat);
+				if(result>1) {
+					resultMap.put("message", "코멘트 등록에 성공하였습니다.");
+					status = HttpStatus.ACCEPTED;
+					
+				}else {
+					resultMap.put("message", "코멘트 등록에 실패하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("실행 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
+	
 
 }

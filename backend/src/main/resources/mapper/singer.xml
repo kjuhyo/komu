@@ -9,8 +9,8 @@
 		order by issue_date desc limit 5
 	</select>
 	
-	<select id="chatlist" resultType="SingerchatDto">
-		select * from singerchat
+	<select id="chatlist" parameterType="int" resultType="SingerchatDto">
+		select * from singerchat where singer_id="singer_id"
 	</select>
 	
 	<select id="all_song" parameterType="map" resultType="SongDto">
@@ -22,7 +22,14 @@
 		select count(*) from song where singer_name=#{singer_name}
 	</select>
 	
-
+	<select id="find_singer" parameterType="String" resultType="int">
+		select singer_id from singer where singer_name=#{singer_name}
+	</select>
+	
+	<insert id="chat_regist" parameterType="SingerchatDto">
+		insert into singerchat(singer_id, singerchat_content, uid,singerchat_date) 
+		values(#{singer_id}, #{singerchat_content}, #{uid}, now())
+	</insert>
 	
 	
 

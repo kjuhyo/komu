@@ -24,9 +24,9 @@ public class SingerServiceImpl implements SingerService{
 	}
 	
 	@Override
-	public List<SingerchatDto> chatlist() {
+	public List<SingerchatDto> chatlist(int singer_id) {
 		// TODO Auto-generated method stub
-		return sdao.chatlist();
+		return sdao.chatlist(singer_id);
 	}
 	
 	@Override
@@ -43,6 +43,18 @@ public class SingerServiceImpl implements SingerService{
 	public int searchSong(String singer_name) {
 		// TODO Auto-generated method stub
 		return sdao.search_song(singer_name);
+	}
+	
+	@Override
+	public int find_singer(String singer_name) {
+		// TODO Auto-generated method stub
+		return sdao.find_singer(singer_name);
+	}
+	
+	@Override
+	public int chat_regist(SingerchatDto chat) {
+		// TODO Auto-generated method stub
+		return sdao.chat_regist(chat);
 	}
 	
 
