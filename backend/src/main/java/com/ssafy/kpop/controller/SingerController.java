@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.SingerService;
@@ -37,7 +38,7 @@ public class SingerController {
 	SingerService singerservice;
 
 	// 가수 개인별페이지
-	@ApiOperation(value = "Singer Page", notes = "가수 페이지")
+	@ApiOperation(value = "Singer Page", notes = "가수 메인 페이지")
 	@GetMapping("/{singer_name}")
 	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String singer_name) {
 		Map<String, Object> resultMap = new HashMap<>();
@@ -45,11 +46,13 @@ public class SingerController {
 
 		try {
 			logger.info("=====> 해당 가수 정보가져오기");
+			// 가수 식별번호 찾아오기
+			SingerDto singer = singerservice.find_singer(singer_name);
+			int singer_id = singer.getSinger_id();
+//			int singer_id = singerservice.find_singer(singer_name);
+
 			// 노래 5개 리스트가져오고 최신순으로 가져와
 			List<SongDto> songList = singerservice.songlist(singer_name);
-
-			// 가수 식별번호 찾아오기
-			int singer_id = singerservice.find_singer(singer_name);
 
 			// 댓글리스트 가져와
 			List<SingerchatDto> chatList = singerservice.chatlist(singer_id);
@@ -117,7 +120,8 @@ public class SingerController {
 
 		try {
 			// 가수 식별번호 찾아오기
-			int singer_id = singerservice.find_singer(singer_name);
+			SingerDto singer = singerservice.find_singer(singer_name);
+			int singer_id = singer.getSinger_id();
 			SingerchatDto chat = singerchat;
 			chat.setSinger_id(singer_id);
 
@@ -171,14 +175,10 @@ public class SingerController {
 		try {
 			logger.info("=====> 가수 댓글 삭제 시작");
 			// 1. singerchat_id를 통해 dto를 가져와서 writer랑 uid를 비교해줄꺼니?
-			// 2. dto를 가져가서
 			
 			SingerchatDto result = singerservice.check_id(singerchat_id);
 
-			boolean check = false;
-			
 			if (result.getUid().equals(userid)) {
-				check = true;
 				int delete = singerservice.do_delete(singerchat_id);
 				resultMap.put("message", "글 삭제가 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;

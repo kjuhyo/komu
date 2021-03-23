@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.SingerDao;
+import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
 
@@ -46,7 +47,7 @@ public class SingerServiceImpl implements SingerService{
 	}
 	
 	@Override
-	public int find_singer(String singer_name) {
+	public SingerDto find_singer(String singer_name) {
 		// TODO Auto-generated method stub
 		return sdao.find_singer(singer_name);
 	}
