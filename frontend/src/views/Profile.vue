@@ -53,10 +53,10 @@
                 'My Words',
               ]"
               :tab-icon="[
-                'camera',
-                'palette',
-                'favorite',
-                'nightlight',
+                'article',
+                'music_note',
+                'person',
+                'insert_chart_outlined',
                 'favorite',
               ]"
               plain
