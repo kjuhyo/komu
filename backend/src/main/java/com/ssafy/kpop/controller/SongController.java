@@ -160,6 +160,7 @@ public class SongController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	//단어를 등록하면 namu_title이지만 나무위키에 들어가있어야지 그럼 수정하기로 들어가겠지?
 	@ApiOperation(value = "Songword Regist Page", notes = "노래 단어 등록 페이지")
 	@PostMapping("/{id}/regist")
 	public ResponseEntity<Map<String, Object>> registComm(@PathVariable int id, @RequestParam String word) {
@@ -173,7 +174,7 @@ public class SongController {
 			logger.info("=====> 노래 단어 중복 확인");
 			SongwordDto zero = songservice.check_word(id, word);
 			if(zero !=null) {
-				resultMap.put("message", "중복단어는 등록이 불가합니다");
+				resultMap.put("message", "단어 중복은 등록이 불가합니다");
 			}else {
 				logger.info("=====> 노래 단어 등록 시작");
 				
