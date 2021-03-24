@@ -16,6 +16,10 @@ public interface SongService {
 	
 	NamuwikiDto search_word(String word);
 	
+	int regist_word(int id, String word);
+	
+	SongwordDto check_word(int id, String word);
+	
 	
 
 }

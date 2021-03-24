@@ -45,5 +45,22 @@ public class SongServiceImpl implements SongService {
 		return sdao.search_word(word);
 	}
 	
+	@Override
+	public int regist_word(int id, String word) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
+		map.put("word", word);
+		return sdao.regist_word(map);
+	}
+	
+	@Override
+	public SongwordDto check_word(int id, String word) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("id", id);
+		map.put("word", word);
+		return sdao.check_word(map);
+	}
 
 }

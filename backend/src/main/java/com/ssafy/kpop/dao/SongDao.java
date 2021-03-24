@@ -19,5 +19,9 @@ public interface SongDao {
 	List<SongwordDto> get_word(int id);
 	
 	NamuwikiDto search_word(String word);
+	
+	int regist_word(Map<String, Object> map);
+	
+	SongwordDto check_word(Map<String, Object> map);
 
 }

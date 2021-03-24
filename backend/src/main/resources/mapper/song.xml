@@ -21,23 +21,14 @@
 		select * from namuwiki where namu_title=#{word}
 	</select>
 	
-	<select id="find_singer" parameterType="String" resultType="SingerDto">
-		select * from singer where singer_name=#{singer_name}
-	</select>
-	
-	<insert id="chat_regist" parameterType="SingerchatDto">
-		insert into singerchat(singer_id, singerchat_content, uid,singerchat_date) 
-		values(#{singer_id}, #{singerchat_content}, #{uid}, now())
+	<insert id="regist_word" parameterType="map">
+		insert into songword values( #{id}, #{word})
 	</insert>
 	
-	<select id="chat_id" parameterType="int" resultType="SingerchatDto">
-		select * from singerchat where singerchat_id=#{singerchat_id}
+	<select id="check_word" parameterType="map" resultType="SongwordDto">
+		select * from songword where song_id=#{id} and namu_title = #{word}
 	</select>
-	
-	<update id="do_delete" parameterType="int">
-	  update singerchat set is_delete=1 where singerchat_id=#{singerchat_id}	
-	</update>
-	
+
 	
 
 </mapper>
