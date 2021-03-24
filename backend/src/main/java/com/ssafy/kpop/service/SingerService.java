@@ -22,5 +22,7 @@ public interface SingerService {
 	int do_delete(int id);
 	int ami_like(String uid, int singer_id);
 	int do_like(SingerlikeDto singerlike);
+	int do_dislike(SingerlikeDto singerlike);
+	SingerlikeDto find_like(SingerlikeDto singerlike);
 
 }

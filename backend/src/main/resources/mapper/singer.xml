@@ -47,6 +47,13 @@
 		insert into singerlike values(#{uid}, #{singer_id})
 	</insert>
 	
+	<delete id="do_dislike" parameterType="SingerlikeDto">
+		delete from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</delete>
+	
+	<select id="find_like" parameterType="SingerlikeDto" resultType="SingerlikeDto">
+		select * from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</select>
 	
 
 </mapper>

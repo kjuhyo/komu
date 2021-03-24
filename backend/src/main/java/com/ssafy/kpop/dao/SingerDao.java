@@ -25,5 +25,7 @@ public interface SingerDao {
 	int do_delete(int singerchat_id);
 	int ami_like(Map<String, Object> map);
 	int do_like(SingerlikeDto singerlike);
+	int do_dislike(SingerlikeDto singerlike);
+	SingerlikeDto find_like(SingerlikeDto singerlike);
 
 }

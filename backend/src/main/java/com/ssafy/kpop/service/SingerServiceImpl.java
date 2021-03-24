@@ -86,5 +86,16 @@ public class SingerServiceImpl implements SingerService{
 		// TODO Auto-generated method stub
 		return sdao.do_like(singerlike);
 	}
-
+	
+	@Override
+	public int do_dislike(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.do_dislike(singerlike);
+	}
+	
+	@Override
+	public SingerlikeDto find_like(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.find_like(singerlike);
+	}
 }
