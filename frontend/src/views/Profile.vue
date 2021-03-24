@@ -81,6 +81,7 @@
 
               <!-- 좋아요한 노래 -->
               <template slot="tab-pane-2">
+                <div class="md-layout"></div>
                 <!-- <div class="md-layout">
                   <div class="md-layout-item md-size-25 ml-auto">
                     <img :src="tabPane2[0].image" class="rounded" />
@@ -92,6 +93,8 @@
                     <img :src="tabPane2[4].image" class="rounded" />
                   </div>
                 </div> -->
+
+                <Song />
               </template>
 
               <!-- 좋아요한 가수 -->
@@ -115,9 +118,7 @@
               </template>
 
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-5">
-                예쁜단어
-              </template>
+              <template slot="tab-pane-5"> 예쁜단어 </template>
             </tabs>
           </div>
         </div>
@@ -128,13 +129,14 @@
 
 <script>
 import '../assets/css/profile.css';
-import '../components/Article.vue';
 import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
+import Song from '../components/Song.vue';
 export default {
   components: {
     Tabs,
     Article,
+    Song,
   },
   bodyClass: 'profile-page',
   data() {
