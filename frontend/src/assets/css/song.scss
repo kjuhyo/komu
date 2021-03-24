@@ -89,13 +89,13 @@ img {
   }
   @media (min-width: 40rem) {
     &::before {
-      padding-top: 66.6%;
+      padding-top: 90%;
     }
   }
 }
 
 .card__image--1 {
-  background-image: url(https://unsplash.it/800/600?image=56);
+  background-image: url(https://cdnimg.melon.co.kr/cm/album/images/020/40/666/2040666_500.jpg/melon/resize/282/quality/80/optimize);
 }
 
 .card__image--2 {
@@ -121,7 +121,7 @@ img {
   text-align: left;
   line-height: 20px;
   flex: 1 1 auto;
-  margin-bottom: 1.25rem;
+  // margin-bottom: 1.25rem;
   color: $medium-gray;
   height: 3em;
 }

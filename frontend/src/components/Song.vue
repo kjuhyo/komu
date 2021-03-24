@@ -17,8 +17,8 @@
           <div class="card">
             <div class="card__image card__image--2"></div>
             <div class="card__content">
-              <div class="card__title">Project 2</div>
-              <p class="card__text">Description.</p>
+              <div class="card__title">MIC DROP</div>
+              <p class="card__text">방탄소년단</p>
             </div>
           </div>
         </a>
