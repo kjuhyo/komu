@@ -126,7 +126,7 @@ public class SingerController {
 			chat.setSinger_id(singer_id);
 
 			int result = singerservice.chat_regist(chat);
-			if (result > 1) {
+			if (result >= 1) {
 				resultMap.put("message", "코멘트 등록에 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 
