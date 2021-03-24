@@ -28,8 +28,8 @@
           <div class="card">
             <div class="card__image card__image--3"></div>
             <div class="card__content">
-              <div class="card__title">Project 3</div>
-              <p class="card__text">Description.</p>
+              <div class="card__title">롤린 (Rollin')</div>
+              <p class="card__text">브레이브걸스</p>
             </div>
           </div>
         </a>
@@ -37,10 +37,10 @@
       <li class="cards__item">
         <a href="#">
           <div class="card">
-            <div class="card__image card__image--1"></div>
+            <div class="card__image card__image--4"></div>
             <div class="card__content">
-              <div class="card__title">Projet 1</div>
-              <p class="card__text">Description.</p>
+              <div class="card__title">다시만난세계</div>
+              <p class="card__text">소녀시대</p>
             </div>
           </div>
         </a>
@@ -48,10 +48,10 @@
       <li class="cards__item">
         <a href="#">
           <div class="card">
-            <div class="card__image card__image--2"></div>
+            <div class="card__image card__image--5"></div>
             <div class="card__content">
-              <div class="card__title">Project 2</div>
-              <p class="card__text">Description.</p>
+              <div class="card__title">Dynamite</div>
+              <p class="card__text">방탄소년단</p>
             </div>
           </div>
         </a>
