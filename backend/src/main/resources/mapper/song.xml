@@ -9,13 +9,12 @@
 		order by issue_date desc limit #{startList}, #{listSize}
 	</select>
 	
-	<select id="chatlist" parameterType="int" resultType="SingerchatDto">
-		select * from singerchat where singer_id=#{singer_id} and is_delete=0
+	<select id="get_song" parameterType="int" resultType="SongDto">
+		select * from song where id=#{id}
 	</select>
 	
-	<select id="all_song" parameterType="map" resultType="SongDto">
-		select * from song where singer_name=#{singer_name} 
-		order by issue_date desc limit #{startList}, #{listSize}
+	<select id="get_word" parameterType="int" resultType="SongwordDto">
+		select * from songword where song_id=#{id}
 	</select>
 	
 	<select id="search_song" parameterType="String" resultType="int">

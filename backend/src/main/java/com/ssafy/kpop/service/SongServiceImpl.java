@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.SongDao;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongwordDto;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -23,6 +24,18 @@ public class SongServiceImpl implements SongService {
 		map.put("startList", startList);
 		map.put("listSize", listSize);
 		return sdao.newest_list(map);
+	}
+	
+	@Override
+	public SongDto get_song(int id) {
+		// TODO Auto-generated method stub
+		return sdao.get_song(id);
+	}
+	
+	@Override
+	public List<SongwordDto> get_word(int id) {
+		// TODO Auto-generated method stub
+		return sdao.get_word(id);
 	}
 	
 
