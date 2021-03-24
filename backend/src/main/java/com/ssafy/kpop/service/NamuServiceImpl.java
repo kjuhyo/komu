@@ -77,5 +77,11 @@ public class NamuServiceImpl implements NamuService{
 		map.put("listSize", listSize);
 		return ndao.search_list(map);
 	}
+	
+	@Override
+	public NamuwikiDto check_namu(String title) {
+		// TODO Auto-generated method stub
+		return ndao.check_namu(title);
+	}
 
 }

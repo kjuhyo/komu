@@ -19,4 +19,6 @@ public interface NamuDao {
 	List<NamuwikiDto> get_list(Pagination pagination);
 	int search_total(String word);
 	List<NamuwikiDto> search_list(Map<String , Object> map);
+	
+	NamuwikiDto check_namu(String title);
 }

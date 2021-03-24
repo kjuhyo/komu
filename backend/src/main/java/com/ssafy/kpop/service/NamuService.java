@@ -17,5 +17,7 @@ public interface NamuService {
 	List<NamuwikiDto> get_list(Pagination pagination);
 	int search_total(String word);
 	List<NamuwikiDto> search_list(String word, int startList, int listSize);
+	
+	NamuwikiDto check_namu(String title); //단어 중복
 
 }
