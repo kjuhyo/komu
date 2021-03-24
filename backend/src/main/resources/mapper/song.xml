@@ -17,8 +17,8 @@
 		select * from songword where song_id=#{id}
 	</select>
 	
-	<select id="search_song" parameterType="String" resultType="int">
-		select count(*) from song where singer_name=#{singer_name}
+	<select id="search_word" parameterType="String" resultType="NamuwikiDto">
+		select * from namuwiki where namu_title=#{word}
 	</select>
 	
 	<select id="find_singer" parameterType="String" resultType="SingerDto">

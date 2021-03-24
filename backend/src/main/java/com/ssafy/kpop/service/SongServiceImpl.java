@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.SongDao;
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
@@ -36,6 +37,12 @@ public class SongServiceImpl implements SongService {
 	public List<SongwordDto> get_word(int id) {
 		// TODO Auto-generated method stub
 		return sdao.get_word(id);
+	}
+	
+	@Override
+	public NamuwikiDto search_word(String word) {
+		// TODO Auto-generated method stub
+		return sdao.search_word(word);
 	}
 	
 

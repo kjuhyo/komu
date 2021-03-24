@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
@@ -112,8 +113,7 @@ public class SongController {
 			resultMap.put("song", song);
 			resultMap.put("wordList", wordList);
 			
-			
-			resultMap.put("message", "노래 정보 성공하였습니다.");
+			resultMap.put("message", "노래, 단어 정보를 가져오기를 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 
 		} catch (Exception e) {
@@ -125,5 +125,37 @@ public class SongController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	@ApiOperation(value = "Word Search Page", notes = "단어 검색 페이지")
+	@GetMapping("/search/{word}")
+	public ResponseEntity<Map<String, Object>> search_word(@PathVariable String word) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			logger.info("=====> 단어 정보 가져오기");
+			NamuwikiDto namu = songservice.search_word(word);
+			
+			boolean check = false;
+			if(namu!=null && namu.getNamu_title().equals(word)) {
+				check = true;
+				resultMap.put("namu", namu);
+				resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
+			}else {
+				resultMap.put("message", "나무 위키에 해당 단어가 존재하지않습니다.");
+			}
+			resultMap.put("check", check);
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
 
 }
