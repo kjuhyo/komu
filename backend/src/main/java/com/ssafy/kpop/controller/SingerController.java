@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.SingerService;
 import com.ssafy.kpop.util.Pagination;
@@ -75,6 +76,34 @@ public class SingerController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+		@ApiOperation(value = "Singer Like Url", notes = "가수좋아요 url")
+		@PostMapping("/like")
+		public ResponseEntity<Map<String, Object>> do_like(@RequestBody SingerlikeDto singerlike) {
+			Map<String, Object> resultMap = new HashMap<>();
+			HttpStatus status = null;
+
+			logger.info("=====> 가수 좋아요 등록");
+
+			try {
+				int result = singerservice.do_like(singerlike);
+				if(result==1) {
+					resultMap.put("like", result);
+					resultMap.put("message", "가수를 좋아요하셨습니다.");
+					status = HttpStatus.ACCEPTED;
+				}else {
+					resultMap.put("message", "가수를 좋아요에 실패하셨습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("실행 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
 	
 	
 

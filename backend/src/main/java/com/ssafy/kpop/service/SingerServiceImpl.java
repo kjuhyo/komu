@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.kpop.dao.SingerDao;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.SongDto;
 
 @Service
@@ -80,5 +81,10 @@ public class SingerServiceImpl implements SingerService{
 		return sdao.ami_like(map);
 	}
 	
+	@Override
+	public int do_like(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.do_like(singerlike);
+	}
 
 }

@@ -43,6 +43,10 @@
 		select count(*) from singerlike where uid=#{uid} and singer_id=#{singer_id}
 	</select>
 	
+	<insert id="do_like" parameterType="SingerlikeDto">
+		insert into singerlike values(#{uid}, #{singer_id})
+	</insert>
+	
 	
 
 </mapper>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.SongDto;
 
 public interface SingerService {
@@ -20,5 +21,6 @@ public interface SingerService {
 	
 	int do_delete(int id);
 	int ami_like(String uid, int singer_id);
+	int do_like(SingerlikeDto singerlike);
 
 }
