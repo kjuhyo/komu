@@ -58,10 +58,12 @@ public class SingerController {
 
 			// 댓글리스트 가져와
 			List<SingerchatDto> chatList = singerservice.chatlist(singer_id);
+			
 
 			// 좋아하는 가수인지 확인합시다
 			int like = singerservice.ami_like(uid, singer_id);
-
+			
+			resultMap.put("singerInfo", singer);
 			resultMap.put("like", like);
 			resultMap.put("songList", songList);
 			resultMap.put("chatList", chatList);
