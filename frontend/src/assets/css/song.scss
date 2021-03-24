@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
 $beige: #f7f7f5;
 $theme-color: rgba(35, 90, 133, 0.95);
 $dark-gray: #696969;
@@ -7,7 +9,8 @@ $screen-xxs-max: 470px;
 $screen-sm-min: 768px;
 $screen-xs-max: ($screen-sm-min - 1);
 
-$font-var: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+// $font-var: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
 *,
 *::before,
 *::after {
@@ -99,7 +102,7 @@ img {
 }
 
 .card__image--2 {
-  background-image: url(https://unsplash.it/800/600?image=57);
+  background-image: url(https://cdnimg.melon.co.kr/cm/album/images/100/97/112/10097112_500.jpg?554ca74478719c6fa8690467ece04914/melon/resize/282/quality/80/optimize);
 }
 
 .card__image--3 {
@@ -108,14 +111,14 @@ img {
 
 .card__title {
   font-size: 1.2em;
-  font-family: $font-var;
+  font-family: 'Nanum Gothic', sans-serif;
   font-weight: 400;
   color: $dark-gray;
   text-transform: uppercase;
 }
 
 .card__text {
-  font-family: $font-var;
+  font-family: 'Nanum Gothic', sans-serif;
   font-size: 0.85em;
   font-weight: 400;
   text-align: left;
