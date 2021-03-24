@@ -168,36 +168,19 @@ public class NamuController {
 
 	// 게시물 확인하기
 	@ApiOperation(value = "Namu single word", notes = "나무 단어 하나 보기")
-	@GetMapping("/word/{namu_id}")
-	public ResponseEntity<Map<String, Object>> getboard(@PathVariable int namu_id, @RequestParam String uid) {
+	@GetMapping("/word/{namu_title}")
+	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String namu_title) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		boolean isAuth = false;
-
-		// 수정, 삭제 버튼에 대한 권한 체크
 		try {
-			logger.info("=====> 버튼 권한 체크");
-			int check = namuservice.checkAuth(namu_id, uid);
-			System.out.println(check);
-
-			if (check > 0) {
-				logger.info("=====> 작성자");
-				isAuth = true;
-			} else {
-				logger.info("=====> 비 작성자");
-			}
-
-			System.out.println("check : " + check);
-			resultMap.put("isAuth", isAuth);
-
 			logger.info("=====> 단어 부르기");
-			NamuwikiDto dto = namuservice.callnamu(namu_id);
+			NamuwikiDto dto = namuservice.call_namu(namu_title);
 
 			if (dto != null) {
 				logger.info("=====> 글 부르기 성공");
 
-				resultMap.put("board", dto);
+				resultMap.put("namuwiki", dto);
 				resultMap.put("message", "단어 가져오기 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			} else {
