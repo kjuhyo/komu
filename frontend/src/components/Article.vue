@@ -1,37 +1,31 @@
 <template>
   <table>
-    <thead>
+    <thead class="thead-css">
       <tr>
-        <th scope="col">Account</th>
-        <th scope="col">Due Date</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Period</th>
+        <th width="5%" scope="col">No</th>
+        <th width="60%" scope="col">Contents</th>
+        <th width="15%" scope="col">Writer</th>
+        <th width="20%" scope="col">Date</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td data-label="Account">Visa - 3412</td>
-        <td data-label="Due Date">04/01/2016</td>
-        <td data-label="Amount">$1,190</td>
-        <td data-label="Period">03/01/2016 - 03/31/2016</td>
+        <td data-label="No">1</td>
+        <td data-label="Contents">이건 나의 첫번째 게시글이야</td>
+        <td data-label="Writer">이건내닉네임이얌</td>
+        <td data-label="Date">2020/03/25</td>
       </tr>
       <tr>
-        <td scope="row" data-label="Account">Visa - 6076</td>
-        <td data-label="Due Date">03/01/2016</td>
-        <td data-label="Amount">$2,443</td>
-        <td data-label="Period">02/01/2016 - 02/29/2016</td>
+        <td scope="row" data-label="No">2</td>
+        <td data-label="Contents">이건 내 두번째 게시글</td>
+        <td data-label="Writer">이건내닉네임이얌</td>
+        <td data-label="Date">2020/03/25</td>
       </tr>
       <tr>
-        <td scope="row" data-label="Account">Corporate AMEX</td>
-        <td data-label="Due Date">03/01/2016</td>
-        <td data-label="Amount">$1,181</td>
-        <td data-label="Period">02/01/2016 - 02/29/2016</td>
-      </tr>
-      <tr>
-        <td scope="row" data-label="Acount">Visa - 3412</td>
-        <td data-label="Due Date">02/01/2016</td>
-        <td data-label="Amount">$842</td>
-        <td data-label="Period">01/01/2016 - 01/31/2016</td>
+        <td scope="row" data-label="No">3</td>
+        <td data-label="Contents">이제 난 더이상 게시글을 작성하지 않을랭</td>
+        <td data-label="Writer">이건내닉네임이얌</td>
+        <td data-label="Date">2020/03/25</td>
       </tr>
     </tbody>
   </table>
