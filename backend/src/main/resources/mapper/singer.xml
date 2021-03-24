@@ -39,6 +39,10 @@
 	  update singerchat set is_delete=1 where singerchat_id=#{singerchat_id}	
 	</update>
 	
+	<select id="ami_like" parameterType="map" resultType="int">
+		select count(*) from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</select>
+	
 	
 
 </mapper>

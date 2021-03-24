@@ -22,6 +22,6 @@ public interface SingerDao {
 	int chat_writer(Map<String, Object> map);
 	SingerchatDto chat_id(int singerchat_id);
 	int do_delete(int singerchat_id);
-	
+	int ami_like(Map<String, Object> map);
 
 }

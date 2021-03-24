@@ -71,5 +71,14 @@ public class SingerServiceImpl implements SingerService{
 		return sdao.do_delete(id);
 	}
 	
+	@Override
+	public int ami_like(String uid, int singer_id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("singer_id", singer_id);
+		return sdao.ami_like(map);
+	}
+	
 
 }

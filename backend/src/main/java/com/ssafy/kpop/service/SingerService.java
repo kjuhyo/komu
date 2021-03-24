@@ -19,5 +19,6 @@ public interface SingerService {
 	SingerchatDto check_id(int id);
 	
 	int do_delete(int id);
+	int ami_like(String uid, int singer_id);
 
 }

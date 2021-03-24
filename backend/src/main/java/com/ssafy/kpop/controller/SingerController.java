@@ -38,9 +38,9 @@ public class SingerController {
 	SingerService singerservice;
 
 	// 가수 개인별페이지
-	@ApiOperation(value = "Singer Page", notes = "가수 메인 페이지")
+	@ApiOperation(value = "Singer Main Page", notes = "가수 메인 페이지")
 	@GetMapping("/{singer_name}")
-	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String singer_name) {
+	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String singer_name, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -56,7 +56,11 @@ public class SingerController {
 
 			// 댓글리스트 가져와
 			List<SingerchatDto> chatList = singerservice.chatlist(singer_id);
-
+			
+			//좋아하는 가수인지 확인합시다
+			int like = singerservice.ami_like(uid, singer_id);
+			
+			resultMap.put("like", like);
 			resultMap.put("songList", songList);
 			resultMap.put("chatList", chatList);
 			resultMap.put("message", "노래, 댓글 가져오기 성공하였습니다.");
@@ -71,6 +75,8 @@ public class SingerController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	
 
 	// 가수페이지에서 노래더보기 눌렀을 떄 노래 전체 리스트
 	@ApiOperation(value = "Singer's song Page", notes = "가수 노래 페이지")
