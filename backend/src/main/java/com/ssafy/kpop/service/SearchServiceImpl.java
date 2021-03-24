@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.SearchDao;
 import com.ssafy.kpop.dto.SingerDto;
+import com.ssafy.kpop.dto.SongDto;
 
 @Service
 public class SearchServiceImpl implements SearchService{
@@ -25,7 +26,7 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public List<SingerDto> getSongBySingerName(String singer_name) {
+	public List<SongDto> getSongBySingerName(String singer_name) {
 		return searchdao.getSongBySingerName(singer_name);
 	}
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.SingerDto;
+import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.SearchService;
 
 import io.swagger.annotations.Api;
@@ -80,9 +81,9 @@ public class SearchController {
 	 * */
 	@ApiOperation(value="노래검색(가수명으로)", notes = "@param 가수명 </br> @return SongDto", response=List.class)
 	@GetMapping("/song/singer/{name}")
-	public ResponseEntity<List<SingerDto>> getSongNameBySinger(@PathVariable String name){
+	public ResponseEntity<List<SongDto>> getSongNameBySinger(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
-		List<SingerDto> list=null;
+		List<SongDto> list=null;
 		try {
 			name= "%"+name+"%";
 			list=searchService.getSongBySingerName(name);
@@ -92,6 +93,6 @@ public class SearchController {
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		
-		return new ResponseEntity<List<SingerDto>>(list, status);
+		return new ResponseEntity<List<SongDto>>(list, status);
 	}
 }
