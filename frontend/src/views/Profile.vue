@@ -61,7 +61,7 @@
               ]"
               plain
               nav-pills-icons
-              color-button="success"
+              color-button="primary"
             >
               <!-- here you can add your content for tab-content -->
               <!-- 내가 쓴 글 -->
