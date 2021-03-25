@@ -11,30 +11,20 @@ public class ComPostDto {
 	private int cid; 
 	@ApiModelProperty(value = "글제목")
 	private String c_title;
-	@ApiModelProperty(value = "글내용")
-	private String c_content;
 	@ApiModelProperty(value = "작성일")
 	private String c_date;
 	@ApiModelProperty(value = "조회수")
 	private int c_view;
 	@ApiModelProperty(value = "작성자닉네임")
 	private String nickname;
-	@ApiModelProperty(value = "작성자프로필사진")
-	private String profile;
-	@ApiModelProperty(value = "해시태그")
-	private List<HashtagDto> hashtags;
 	
-	public ComPostDto(int cid, String c_title, String c_content, String c_date, int c_view, String nickname,
-			String profile, List<HashtagDto> hashtags) {
+	public ComPostDto(int cid, String c_title, String c_date, int c_view, String nickname) {
 		super();
 		this.cid = cid;
 		this.c_title = c_title;
-		this.c_content = c_content;
 		this.c_date = c_date;
 		this.c_view = c_view;
 		this.nickname = nickname;
-		this.profile = profile;
-		this.hashtags = hashtags;
 	}
 
 	public int getCid() {
@@ -51,14 +41,6 @@ public class ComPostDto {
 
 	public void setC_title(String c_title) {
 		this.c_title = c_title;
-	}
-
-	public String getC_content() {
-		return c_content;
-	}
-
-	public void setC_content(String c_content) {
-		this.c_content = c_content;
 	}
 
 	public String getC_date() {
@@ -85,28 +67,10 @@ public class ComPostDto {
 		this.nickname = nickname;
 	}
 
-	public String getProfile() {
-		return profile;
-	}
-
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
-	public List<HashtagDto> getHashtags() {
-		return hashtags;
-	}
-
-	public void setHashtags(List<HashtagDto> hashtags) {
-		this.hashtags = hashtags;
-	}
-
 	@Override
 	public String toString() {
-		return "ComPostDto [cid=" + cid + ", c_title=" + c_title + ", c_content=" + c_content + ", c_date=" + c_date
-				+ ", c_view=" + c_view + ", nickname=" + nickname + ", profile=" + profile + ", hashtags=" + hashtags
-				+ "]";
+		return "ComPostDto [cid=" + cid + ", c_title=" + c_title + ", c_date=" + c_date + ", c_view=" + c_view
+				+ ", nickname=" + nickname + "]";
 	}
-	
-	
+
 }

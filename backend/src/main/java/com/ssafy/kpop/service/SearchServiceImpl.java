@@ -45,9 +45,10 @@ public class SearchServiceImpl implements SearchService{
 		List<Integer> list=searchdao.searchByHash(map); 
 		
 		List<ComPostDto> result=searchdao.getPostInfo(list); //Community랑 유저정보, 프로필사진
-		Map<String, String> profile;
+		String nick="";
 		for(ComPostDto post : result) {
-			//post.set
+			nick=searchdao.getUserInfo(post.getCid()); //글쓴사람 닉네임 반환
+			post.setNickname(nick);
 		}
 		return result;
 	}

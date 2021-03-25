@@ -13,5 +13,4 @@ public interface SearchService {
 	public List<SongDto> getSongBySingerName(String singer_name);
 	
 	public List<ComPostDto> searchByHash(List<Integer> keywords);
-	
 }

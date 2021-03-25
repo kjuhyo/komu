@@ -39,4 +39,13 @@
 	    	#{id}
 	  	</foreach>
 	</select>
+	
+	<select id="getUserInfo" parameterType="int" resultType="String">
+		select nickname 
+		from user where uid in (
+				select uid
+				from community 
+				where cid=#{cid}
+		)
+	</select>	
 </mapper>

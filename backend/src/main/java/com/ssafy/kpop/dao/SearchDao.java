@@ -17,4 +17,5 @@ public interface SearchDao {
 	
 	public List<Integer> searchByHash(Map<String, Object> map);
 	public List<ComPostDto> getPostInfo(List<Integer> list);
+	public String getUserInfo(int cid);
 }
