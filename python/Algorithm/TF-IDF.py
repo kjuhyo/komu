@@ -98,9 +98,8 @@ data = data[data['pre_lyric'].notnull()].reset_index(drop=True)
 data = data[data['pre_lyric'] != '없다'].reset_index(drop=True)
 
 # user의 좋아하는 단어 data에 등록
-user_words = ['사랑', '그리움', '상처']
+user_words = ['그리움', '사랑', '이별']
 user_lyric = ' '.join(user_words)
-print(user_lyric)
 data=data.append({'id' : 999999, 'song_name' : 'user_words', 'pre_lyric' : user_lyric} , ignore_index=True)
 
 # 영어의 불용어 처리
