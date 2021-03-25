@@ -19,4 +19,24 @@
 		select * from song 
 		where artist_name_basket like #{artist_name_basket};
 	</select>
+	
+	<select id="searchByHash" resultType="int">
+		select cid
+		from hashtag h inner join com_hashtag c using(hashtag_id)
+		where h.hashtag_id in 
+		<foreach item="keyword" index="index" collection="keywords" open="(" separator="," close=")">
+	    	#{keyword}
+	  	</foreach>
+		group by c.cid
+		having(count(c.hashtag_id) = #{num})
+	</select>
+	
+	<select id="getPostInfo" resultType="ComPostDto">
+		select *
+		from community
+		where cid in
+		<foreach item="id" index="index" collection="list" open="(" separator="," close=")">
+	    	#{id}
+	  	</foreach>
+	</select>
 </mapper>

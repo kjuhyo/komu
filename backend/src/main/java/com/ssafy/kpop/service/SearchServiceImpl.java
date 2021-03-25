@@ -1,11 +1,15 @@
 package com.ssafy.kpop.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.kpop.dao.SearchDao;
+import com.ssafy.kpop.dto.ComPostDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
 
@@ -29,5 +33,25 @@ public class SearchServiceImpl implements SearchService{
 	public List<SongDto> getSongBySingerName(String singer_name) {
 		return searchdao.getSongBySingerName(singer_name);
 	}
+
+	@Override
+	@Transactional
+	public List<ComPostDto> searchByHash(List<Integer> keywords) {
+		Map<String, Object> map=new HashMap<>();
+		map.put("num", keywords.size());
+		map.put("keywords", keywords);
+		
+		//검색 결과에 맞는 블로그 글 아이디 리스트
+		List<Integer> list=searchdao.searchByHash(map); 
+		
+		List<ComPostDto> result=searchdao.getPostInfo(list); //Community랑 유저정보, 프로필사진
+		Map<String, String> profile;
+		for(ComPostDto post : result) {
+			//post.set
+		}
+		return result;
+	}
+
+
 
 }
