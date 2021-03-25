@@ -94,9 +94,17 @@ public class SingerController {
 			if(like==null) {
 				int result = singerservice.do_like(singerlike);
 				if (result == 1) {
-					resultMap.put("like", result);
-					resultMap.put("message", "가수를 좋아요하셨습니다.");
-					status = HttpStatus.ACCEPTED;
+					//singer table -> single_like_cnt 올려주기
+					int singer_id = singerlike.getSinger_id(); //가수 id 찾고
+					int like_cnt = singerservice.cnt_like(singer_id);// id의 cnt 찾고
+					like_cnt += 1;
+					int like_ok = singerservice.set_like(singer_id, like_cnt);
+					if(like_ok ==1) {
+						logger.info("=====> 삭제 성공");
+						resultMap.put("like", result);
+						resultMap.put("message", "가수를 좋아요하셨습니다.");
+						status = HttpStatus.ACCEPTED;
+					}
 				} else {
 					resultMap.put("message", "가수를 좋아요에 실패하셨습니다.");
 					status = HttpStatus.ACCEPTED;
@@ -132,10 +140,17 @@ public class SingerController {
 				int result = singerservice.do_dislike(singerlike);
 				
 				if(result == 1) {
-					logger.info("=====> 삭제 성공");
-					resultMap.put("like", 0);
-					resultMap.put("message", "가수 좋아요를 취소하셨습니다.");
-					status = HttpStatus.ACCEPTED;
+					//singer table -> single_like_cnt 올려주기
+					int singer_id = singerlike.getSinger_id(); //가수 id 찾고
+					int like_cnt = singerservice.cnt_like(singer_id);// id의 cnt 찾고
+					like_cnt -= 1;
+					int like_ok = singerservice.set_like(singer_id, like_cnt);
+					if(like_ok==1) {
+						logger.info("=====> 삭제 성공");
+						resultMap.put("like", 0);
+						resultMap.put("message", "가수 좋아요를 취소하셨습니다.");						
+						status = HttpStatus.ACCEPTED;
+					}					
 				} else {
 					resultMap.put("message", "가수 좋아요 취소를 실패하였습니다.");
 					status = HttpStatus.ACCEPTED;

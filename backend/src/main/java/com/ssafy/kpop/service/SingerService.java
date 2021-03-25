@@ -24,5 +24,9 @@ public interface SingerService {
 	int do_like(SingerlikeDto singerlike);
 	int do_dislike(SingerlikeDto singerlike);
 	SingerlikeDto find_like(SingerlikeDto singerlike);
+	
+	int cnt_like(int singer_id);
+	int set_like(int singer_id, int singer_like_cnt);
+	
 
 }

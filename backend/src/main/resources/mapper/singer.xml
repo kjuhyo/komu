@@ -55,5 +55,12 @@
 		select * from singerlike where uid=#{uid} and singer_id=#{singer_id}
 	</select>
 	
+	<select id="cnt_like" parameterType="int" resultType="int">
+		select singer_like_cnt from singer where singer_id = #{singer_id}
+	</select>
+	
+	<update id="set_like" parameterType="map">
+		update singer set singer_like_cnt=#{singer_like_cnt} where singer_id=#{singer_id}
+	</update>
 
 </mapper>

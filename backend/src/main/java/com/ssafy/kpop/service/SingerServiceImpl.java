@@ -98,4 +98,19 @@ public class SingerServiceImpl implements SingerService{
 		// TODO Auto-generated method stub
 		return sdao.find_like(singerlike);
 	}
+	
+	@Override
+	public int cnt_like(int singer_id) {
+		// TODO Auto-generated method stub
+		return sdao.cnt_like(singer_id);
+	}
+	
+	@Override
+	public int set_like(int singer_id, int singer_like_cnt) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("singer_id", singer_id);
+		map.put("singer_like_cnt", singer_like_cnt);
+		return sdao.set_like(map);
+	}
 }

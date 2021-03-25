@@ -87,6 +87,8 @@ public class SongController {
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
 
+			List<SongDto> songList = songservice.popul_list(startList, listSize);
+			
 //			List<SongDto> songList= songservice.newest_list(startList, listSize);
 //			resultMap.put("songList", songList);
 			resultMap.put("message", "인기순 노래 가져오기 성공하였습니다.");
