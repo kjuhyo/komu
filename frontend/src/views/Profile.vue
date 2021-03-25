@@ -110,6 +110,7 @@
                     <img :src="tabPane3[4].image" class="rounded" />
                   </div>
                 </div> -->
+                <Singer />
               </template>
 
               <!-- 통계 -->
@@ -132,11 +133,13 @@ import '../assets/css/profile.css';
 import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
 import Song from '../components/Song.vue';
+import Singer from '../components/Singer.vue';
 export default {
   components: {
     Tabs,
     Article,
     Song,
+    Singer,
   },
   bodyClass: 'profile-page',
   data() {
