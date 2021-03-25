@@ -9,7 +9,7 @@
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
         <h3 class="md-title">
-          KOMU
+          <img class="md-title-img" src="@/assets/img/logo.png" />
         </h3>
       </div>
       <div class="md-toolbar-section-end">
