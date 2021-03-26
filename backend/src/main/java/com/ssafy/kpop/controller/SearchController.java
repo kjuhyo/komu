@@ -1,5 +1,7 @@
 package com.ssafy.kpop.controller;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.kpop.dto.ComPostDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.SearchService;
@@ -94,5 +99,29 @@ public class SearchController {
 		}
 		
 		return new ResponseEntity<List<SongDto>>(list, status);
+	}
+	
+	/**
+	 * 해쉬태그  검색 - 조회순
+	 * 
+	 * @param List<Integer>
+	 * @return List<BlogPostDto>
+	 */
+	@ApiOperation(value = "해쉬태그  검색 - 조회순", notes = "@param List<Integer> </br> @return ComPostDto")
+	@PostMapping("view")
+	public ResponseEntity<List<ComPostDto>> orderByView(@RequestBody List<Integer> keywords) throws Exception{
+		try {
+			List<ComPostDto> list = searchService.searchByHash(keywords);
+			Collections.sort(list, new Comparator<ComPostDto>() {
+				@Override
+				public int compare(ComPostDto o1, ComPostDto o2) {
+					return o2.getC_view() - o1.getC_view();
+				}
+			});
+			return new ResponseEntity<List<ComPostDto>>(list, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
 	}
 }
