@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.SongDto;
 
 @Mapper
@@ -22,6 +23,12 @@ public interface SingerDao {
 	int chat_writer(Map<String, Object> map);
 	SingerchatDto chat_id(int singerchat_id);
 	int do_delete(int singerchat_id);
+	int ami_like(Map<String, Object> map);
+	int do_like(SingerlikeDto singerlike);
+	int do_dislike(SingerlikeDto singerlike);
+	SingerlikeDto find_like(SingerlikeDto singerlike);
 	
+	int cnt_like(int singer_id);
+	int set_like(Map<String, Object> map);
 
 }

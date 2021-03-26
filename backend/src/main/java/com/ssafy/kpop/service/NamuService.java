@@ -12,10 +12,12 @@ public interface NamuService {
 	int update(NamuwikiDto namu); //단어 수정 
 	int delete(NamuwikiDto namu); //단어 삭제
 	int checkAuth(int namu_id, String uid);
-	NamuwikiDto callnamu(int namu_id);
+	NamuwikiDto call_namu(String namu_title);
 	int get_total();
 	List<NamuwikiDto> get_list(Pagination pagination);
 	int search_total(String word);
 	List<NamuwikiDto> search_list(String word, int startList, int listSize);
+	
+	NamuwikiDto check_namu(String title); //단어 중복
 
 }

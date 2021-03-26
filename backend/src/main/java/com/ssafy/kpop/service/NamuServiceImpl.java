@@ -45,9 +45,9 @@ public class NamuServiceImpl implements NamuService{
 	}
 	
 	@Override
-	public NamuwikiDto callnamu(int namu_id) {
+	public NamuwikiDto call_namu(String namu_title) {
 		// TODO Auto-generated method stub
-		return ndao.callnamu(namu_id);
+		return ndao.call_namu(namu_title);
 	}
 	
 	@Override
@@ -76,6 +76,12 @@ public class NamuServiceImpl implements NamuService{
 		map.put("startList", startList);
 		map.put("listSize", listSize);
 		return ndao.search_list(map);
+	}
+	
+	@Override
+	public NamuwikiDto check_namu(String title) {
+		// TODO Auto-generated method stub
+		return ndao.check_namu(title);
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.kpop.dao.SingerDao;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.SongDto;
 
 @Service
@@ -71,5 +72,45 @@ public class SingerServiceImpl implements SingerService{
 		return sdao.do_delete(id);
 	}
 	
-
+	@Override
+	public int ami_like(String uid, int singer_id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("singer_id", singer_id);
+		return sdao.ami_like(map);
+	}
+	
+	@Override
+	public int do_like(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.do_like(singerlike);
+	}
+	
+	@Override
+	public int do_dislike(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.do_dislike(singerlike);
+	}
+	
+	@Override
+	public SingerlikeDto find_like(SingerlikeDto singerlike) {
+		// TODO Auto-generated method stub
+		return sdao.find_like(singerlike);
+	}
+	
+	@Override
+	public int cnt_like(int singer_id) {
+		// TODO Auto-generated method stub
+		return sdao.cnt_like(singer_id);
+	}
+	
+	@Override
+	public int set_like(int singer_id, int singer_like_cnt) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("singer_id", singer_id);
+		map.put("singer_like_cnt", singer_like_cnt);
+		return sdao.set_like(map);
+	}
 }

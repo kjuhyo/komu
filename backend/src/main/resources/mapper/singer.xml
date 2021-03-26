@@ -39,6 +39,28 @@
 	  update singerchat set is_delete=1 where singerchat_id=#{singerchat_id}	
 	</update>
 	
+	<select id="ami_like" parameterType="map" resultType="int">
+		select count(*) from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</select>
 	
+	<insert id="do_like" parameterType="SingerlikeDto">
+		insert into singerlike values(#{uid}, #{singer_id})
+	</insert>
+	
+	<delete id="do_dislike" parameterType="SingerlikeDto">
+		delete from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</delete>
+	
+	<select id="find_like" parameterType="SingerlikeDto" resultType="SingerlikeDto">
+		select * from singerlike where uid=#{uid} and singer_id=#{singer_id}
+	</select>
+	
+	<select id="cnt_like" parameterType="int" resultType="int">
+		select singer_like_cnt from singer where singer_id = #{singer_id}
+	</select>
+	
+	<update id="set_like" parameterType="map">
+		update singer set singer_like_cnt=#{singer_like_cnt} where singer_id=#{singer_id}
+	</update>
 
 </mapper>
