@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.NamuDao;
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.util.Pagination;
 
 @Service
@@ -82,6 +83,33 @@ public class NamuServiceImpl implements NamuService{
 	public NamuwikiDto check_namu(String title) {
 		// TODO Auto-generated method stub
 		return ndao.check_namu(title);
+	}
+	
+	@Override
+	public int ami_like(String uid, int namu_id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("namu_id", namu_id);
+		return ndao.ami_like(map);
+	}
+	
+	@Override
+	public WordlikeDto find_like(WordlikeDto wordlike) {
+		// TODO Auto-generated method stub
+		return ndao.find_like(wordlike);
+	}
+	
+	@Override
+	public int let_like(WordlikeDto wordlike) {
+		// TODO Auto-generated method stub
+		return ndao.let_like(wordlike);
+	}
+	
+	@Override
+	public int let_dislike(WordlikeDto wordlike) {
+		// TODO Auto-generated method stub
+		return ndao.let_dislike(wordlike);
 	}
 
 }

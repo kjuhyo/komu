@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
 public interface SongService {
 	
-	List<SongDto> newest_list(int startList, int listSize);
+	List<SongListDto> newest_list(int startList, int listSize);
 	
 	SongDto get_song(int id);
 	
@@ -19,6 +20,8 @@ public interface SongService {
 	int regist_word(int id, String word);
 	
 	SongwordDto check_word(int id, String word);
+	
+	List<SongListDto> default_list(int startList, int listSize);
 	
 	
 

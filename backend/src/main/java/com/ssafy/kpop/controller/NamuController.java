@@ -27,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.SingerlikeDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.service.NamuService;
 import com.ssafy.kpop.util.Pagination;
 import com.ssafy.kpop.util.S3Util;
@@ -169,25 +171,26 @@ public class NamuController {
 	// 게시물 확인하기
 	@ApiOperation(value = "Namu single word", notes = "나무 단어 하나 보기")
 	@GetMapping("/word/{namu_title}")
-	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String namu_title) {
+	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String namu_title, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		try {
 			logger.info("=====> 단어 부르기");
 			NamuwikiDto dto = namuservice.call_namu(namu_title);
+			int like = namuservice.ami_like(uid, dto.getNamu_id());
 
 			if (dto != null) {
 				logger.info("=====> 글 부르기 성공");
 
 				resultMap.put("namuwiki", dto);
+				resultMap.put("LIKE", like);
 				resultMap.put("message", "단어 가져오기 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			} else {
 				resultMap.put("message", "단어 가져오기 실패하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			}
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
@@ -195,6 +198,49 @@ public class NamuController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "Namu Like Url", notes = "나무위키좋아요/취소  url")
+	@PostMapping("/like")
+	public ResponseEntity<Map<String, Object>> do_like(@RequestBody WordlikeDto wordlike) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		logger.info("=====> 단어 좋아요 체크");
+
+		try {
+			logger.info("=====> 좋아요 중복 체크 ");
+			WordlikeDto like = namuservice.find_like(wordlike);
+			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
+				int result = namuservice.let_like(wordlike); // insert
+				if (result == 1) {
+					logger.info("=====> 단어 좋아요 성공");
+					resultMap.put("LIKE", result);
+					resultMap.put("message", "단어를 좋아요 하셨습니다.");
+				} else {
+					resultMap.put("message", "단어 좋아요에 실패하였습니다.");
+				}
+				status = HttpStatus.ACCEPTED;
+			} else { // like안에 좋아요 값이 있는 거야 이미 좋아요를 누른거지
+				resultMap.put("message", "이미 좋아요를 누르셨습니다.");
+				// 삭제버튼 구현시켜야죠
+				int result = namuservice.let_dislike(wordlike);
+				if (result == 1) {
+					logger.info("=====> 단어 좋아요 취소");
+					resultMap.put("LIKE", 0);
+					resultMap.put("message", "단어를 좋아요를 취소하셨습니다.");
+				} else {
+					resultMap.put("message", "단어를 좋아요를 취소에 실패하셨습니다.");
+				}
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

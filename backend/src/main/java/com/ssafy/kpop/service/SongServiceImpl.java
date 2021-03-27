@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.source.MapConfigurationPropertySource;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.SongDao;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
 @Service
@@ -19,7 +21,7 @@ public class SongServiceImpl implements SongService {
 	SongDao sdao;
 	
 	@Override
-	public List<SongDto> newest_list(int startList, int listSize) {
+	public List<SongListDto> newest_list(int startList, int listSize) {
 		// TODO Auto-generated method stub
 		Map<String, Object> map = new HashMap<>();
 		map.put("startList", startList);
@@ -61,6 +63,15 @@ public class SongServiceImpl implements SongService {
 		map.put("id", id);
 		map.put("word", word);
 		return sdao.check_word(map);
+	}
+	
+	@Override
+	public List<SongListDto> default_list(int startList, int listSize) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("startList", startList);
+		map.put("listSize", listSize);
+		return sdao.default_list(map);
 	}
 
 }

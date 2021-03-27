@@ -47,6 +47,21 @@
 		select * from namuwiki where namu_title = #{title}
 	</select>
 	
+	<select id="ami_like" parameterType="map" resultType="int">
+		select count(*) from wordlike where uid=#{uid} and namu_id=#{namu_id}
+	</select>
+	
+	<select id="find_like" parameterType="WordlikeDto" resultType="WordlikeDto">
+		select * from wordlike where namu_id=#{namu_id} and uid=#{uid}
+	</select>
+	
+	<insert id="let_like" parameterType="WordlikeDto">
+	  insert into wordlike values(#{uid}, #{namu_id})
+	</insert>
+	
+	<delete id="let_dislike" parameterType="WordlikeDto">
+		delete from wordlike where uid=#{uid} and namu_id=#{namu_id}
+	</delete>
 	
 	
 	

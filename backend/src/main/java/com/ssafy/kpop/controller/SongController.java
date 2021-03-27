@@ -21,6 +21,7 @@ import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.SongwordDto;
 import com.ssafy.kpop.service.SongService;
 import com.ssafy.kpop.util.Pagination;
@@ -53,7 +54,7 @@ public class SongController {
 
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
-			List<SongDto> songList = songservice.newest_list(startList, listSize);
+			List<SongListDto> songList = songservice.newest_list(startList, listSize);
 
 			resultMap.put("songList", songList);
 			resultMap.put("message", "최신순 노래 가져오기 성공하였습니다.");
@@ -86,11 +87,10 @@ public class SongController {
 
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
-
-			List<SongDto> songList = songservice.popul_list(startList, listSize);
 			
-//			List<SongDto> songList= songservice.newest_list(startList, listSize);
-//			resultMap.put("songList", songList);
+			List<SongListDto> songList = songservice.default_list(startList, listSize);
+
+			resultMap.put("songList", songList);
 			resultMap.put("message", "인기순 노래 가져오기 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 

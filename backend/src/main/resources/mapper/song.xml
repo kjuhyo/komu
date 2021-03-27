@@ -4,9 +4,12 @@
 	
 <mapper namespace="com.ssafy.kpop.dao.SongDao">
 	
-	<select id="newest_list" parameterType="map" resultType="SongDto">
-		select * from song
-		order by issue_date desc limit #{startList}, #{listSize}
+	<select id="newest_list" parameterType="map" resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img, s.album_name,
+		s.album_cover,s.genre, s.issue_date, ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as slc
+		on s.id = slc.song_id
+		order by s.issue_date desc limit #{startList}, #{listSize};
 	</select>
 	
 	<select id="get_song" parameterType="int" resultType="SongDto">
@@ -27,6 +30,14 @@
 	
 	<select id="check_word" parameterType="map" resultType="SongwordDto">
 		select * from songword where song_id=#{id} and namu_title = #{word}
+	</select>
+	
+	<select id="default_list" parameterType="map" resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img, s.album_name,
+		s.album_cover,s.genre, s.issue_date, ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as slc
+		on s.id = slc.song_id
+		order by slc.song_like_cnt desc, s.issue_date desc limit #{startList}, #{listSize};
 	</select>
 
 	
