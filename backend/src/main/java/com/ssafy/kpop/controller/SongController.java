@@ -87,7 +87,7 @@ public class SongController {
 
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
-			
+
 			List<SongListDto> songList = songservice.default_list(startList, listSize);
 
 			resultMap.put("songList", songList);
@@ -131,38 +131,47 @@ public class SongController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "Word Search Page", notes = "단어 검색 페이지")
-	@GetMapping("/search/{word}")
-	public ResponseEntity<Map<String, Object>> search_word(@PathVariable String word) {
+	@ApiOperation(value = "Word Insert Page", notes = "단어 등록 페이지")
+	@PostMapping("/insert/word")
+	public ResponseEntity<Map<String, Object>> search_word(@RequestBody SongwordDto sw, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		try {
-			logger.info("=====> 단어 정보 가져오기");
-			NamuwikiDto namu = songservice.search_word(word);
-
-			boolean check = false;
-			if (namu != null && namu.getNamu_title().equals(word)) {
-				check = true;
-				resultMap.put("namu", namu);
-				resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
-			} else {
-				resultMap.put("message", "나무 위키에 해당 단어가 존재하지않습니다.");
+			logger.info("=====> 노래속 단어리스트 속 단어 중복 확인");
+			SongwordDto songword = songservice.search_wordlist(sw);
+			if (songword == null) {
+				// 노래 리스트에 단어가 등록되지않았으니까 ! 등록하쟈!!
+				String word = sw.getNamu_title();
+				logger.info("=====> 단어 정보 가져오기");
+				NamuwikiDto namu = songservice.search_word(word);
+				if (namu != null && namu.getNamu_title().equals(word)) { //
+					resultMap.put("namu", namu);
+					resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					// 나무위키에등록되지않은 단어니까 등록하쟈!
+					int result = songservice.insert_namu(word, uid);
+					NamuwikiDto temp = songservice.search_word(word);
+					resultMap.put("namu", temp);
+					resultMap.put("message", "단어를 등록하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+			} else { // 노래리스트에도 없으니까 노래리스트에 단어를 등록하쟈!
+				int insert = songservice.insert_list(sw);
+				resultMap.put("message", "단어장에 존재하는 단어입니다.");
+				status = HttpStatus.ACCEPTED;
 			}
-			resultMap.put("check", check);
-			status = HttpStatus.ACCEPTED;
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	//단어를 등록하면 namu_title이지만 나무위키에 들어가있어야지 그럼 수정하기로 들어가겠지?
+	// 단어를 등록하면 namu_title이지만 나무위키에 들어가있어야지 그럼 수정하기로 들어가겠지?
 	@ApiOperation(value = "Songword Regist Page", notes = "노래 단어 등록 페이지")
 	@PostMapping("/{id}/regist")
 	public ResponseEntity<Map<String, Object>> registComm(@PathVariable int id, @RequestParam String word) {
@@ -175,11 +184,11 @@ public class SongController {
 		try {
 			logger.info("=====> 노래 단어 중복 확인");
 			SongwordDto zero = songservice.check_word(id, word);
-			if(zero !=null) {
+			if (zero != null) {
 				resultMap.put("message", "단어 중복은 등록이 불가합니다");
-			}else {
+			} else {
 				logger.info("=====> 노래 단어 등록 시작");
-				
+
 				int result = songservice.regist_word(id, word);
 				if (result >= 1) {
 					check = true;
@@ -188,7 +197,7 @@ public class SongController {
 					resultMap.put("message", "단어 등록에 실패하였습니다.");
 				}
 			}
-			resultMap.put("check", check);				
+			resultMap.put("check", check);
 			status = HttpStatus.ACCEPTED;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

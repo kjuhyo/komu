@@ -26,5 +26,8 @@ public interface SongDao {
 	SongwordDto check_word(Map<String, Object> map);
 	
 	List<SongListDto> default_list(Map<String, Object> map);
-
+	
+	SongwordDto search_wordlist(SongwordDto songword);
+	int insert_namu(Map<String, Object> map);
+	int insert_list(SongwordDto songword);
 }

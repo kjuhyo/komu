@@ -73,5 +73,26 @@ public class SongServiceImpl implements SongService {
 		map.put("listSize", listSize);
 		return sdao.default_list(map);
 	}
+	
+	@Override
+	public SongwordDto search_wordlist(SongwordDto songword) {
+		// TODO Auto-generated method stub
+		return sdao.search_wordlist(songword);
+	}
+	
+	@Override
+	public int insert_namu(String word, String uid) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("word", word);
+		map.put("uid", uid);
+		return sdao.insert_namu(map);
+	}
+	
+	@Override
+	public int insert_list(SongwordDto songword) {
+		// TODO Auto-generated method stub
+		return sdao.insert_list(songword);
+	}
 
 }

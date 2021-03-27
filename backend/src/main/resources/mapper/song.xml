@@ -39,6 +39,18 @@
 		on s.id = slc.song_id
 		order by slc.song_like_cnt desc, s.issue_date desc limit #{startList}, #{listSize};
 	</select>
+	
+	<select id="search_wordlist" parameterType="SongwordDto" resultType="SongwordDto">
+		select * from songword where song_id=#{song_id} and namu_title=#{namu_title}
+	</select>
+	
+	<insert id ="insert_namu" parameterType="map">
+		insert into namuwiki(uid, namu_title, namu_date) values(#{uid}, #{word}, now())
+	</insert>
+	
+	<insert id="insert_list" parameterType="SongwordDto">
+		insert into songword values(#{song_id}, #{namu_title});
+	</insert>
 
 	
 

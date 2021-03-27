@@ -22,6 +22,9 @@ public interface SongService {
 	SongwordDto check_word(int id, String word);
 	
 	List<SongListDto> default_list(int startList, int listSize);
+	SongwordDto search_wordlist(SongwordDto songword);
+	int insert_namu(String word, String uid);
+	int insert_list(SongwordDto songword);
 	
 	
 
