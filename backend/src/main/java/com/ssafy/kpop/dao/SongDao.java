@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.SongListDto;
+import com.ssafy.kpop.dto.Song_like_countDto;
+import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
 @Mapper
@@ -30,4 +32,11 @@ public interface SongDao {
 	SongwordDto search_wordlist(SongwordDto songword);
 	int insert_namu(Map<String, Object> map);
 	int insert_list(SongwordDto songword);
+	
+	//좋아요
+	SonglikeDto find_like(SonglikeDto songlike);
+	int let_like(SonglikeDto songlike);
+	int let_dislike(SonglikeDto songlike);
+	Song_like_countDto now_count(int song_id);
+	int set_like(Map<String, Object> map);
 }

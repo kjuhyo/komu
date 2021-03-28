@@ -5,6 +5,8 @@ import java.util.List;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.SongListDto;
+import com.ssafy.kpop.dto.Song_like_countDto;
+import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
 public interface SongService {
@@ -25,6 +27,17 @@ public interface SongService {
 	SongwordDto search_wordlist(SongwordDto songword);
 	int insert_namu(String word, String uid);
 	int insert_list(SongwordDto songword);
+	
+	//좋아요
+	SonglikeDto find_like(SonglikeDto songlike);
+	int let_like(SonglikeDto songlike);
+	int let_dislike(SonglikeDto songlike);
+	
+	Song_like_countDto now_count(int song_id);
+	
+	int set_like(int song_id, int song_like_cnt);
+	
+	
 	
 	
 

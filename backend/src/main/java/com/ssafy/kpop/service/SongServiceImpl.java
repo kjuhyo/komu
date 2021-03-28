@@ -12,6 +12,8 @@ import com.ssafy.kpop.dao.SongDao;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.SongListDto;
+import com.ssafy.kpop.dto.Song_like_countDto;
+import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
 
 @Service
@@ -93,6 +95,39 @@ public class SongServiceImpl implements SongService {
 	public int insert_list(SongwordDto songword) {
 		// TODO Auto-generated method stub
 		return sdao.insert_list(songword);
+	}
+	
+	@Override
+	public SonglikeDto find_like(SonglikeDto songlike) {
+		// TODO Auto-generated method stub
+		return sdao.find_like(songlike);
+	}
+	
+	@Override
+	public int let_like(SonglikeDto songlike) {
+		// TODO Auto-generated method stub
+		return sdao.let_like(songlike);
+	}
+	
+	@Override
+	public int let_dislike(SonglikeDto songlike) {
+		// TODO Auto-generated method stub
+		return sdao.let_dislike(songlike);
+	}
+	
+	@Override
+	public Song_like_countDto now_count(int song_id) {
+		// TODO Auto-generated method stub
+		return sdao.now_count(song_id);
+	}
+	
+	@Override
+	public int set_like(int song_id, int song_like_cnt) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("song_id", song_id);
+		map.put("song_like_cnt", song_like_cnt);
+		return sdao.set_like(map);
 	}
 
 }
