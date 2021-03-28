@@ -37,6 +37,10 @@ public interface SongService {
 	
 	int set_like(int song_id, int song_like_cnt);
 	
+	Song_like_countDto get_cnt(int song_id);
+	
+	int get_like(String uid, int song_id);
+	
 	
 	
 	

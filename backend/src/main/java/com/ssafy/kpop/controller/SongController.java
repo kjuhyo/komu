@@ -109,7 +109,7 @@ public class SongController {
 
 	@ApiOperation(value = "Song Page", notes = "가사 페이지")
 	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id) {
+	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -117,9 +117,15 @@ public class SongController {
 			logger.info("=====> 노래 정보 가져오기");
 			SongDto song = songservice.get_song(id);
 			List<SongwordDto> wordList = songservice.get_word(id);
+			//전체 좋아요한갯수
+			Song_like_countDto songlikecnt = songservice.get_cnt(id);
+			//내가 좋아요했는지랑
+			int LIKE = songservice.get_like(uid, id);
 
 			resultMap.put("song", song);
 			resultMap.put("wordList", wordList);
+			resultMap.put("song_like_count", songlikecnt);
+			resultMap.put("LIKE", LIKE);
 
 			resultMap.put("message", "노래, 단어 정보를 가져오기를 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
@@ -185,6 +191,7 @@ public class SongController {
 		try {
 			logger.info("=====> 좋아요 중복 체크 ");
 			SonglikeDto like = songservice.find_like(songlike); // 좋아요눌렀는지 확인
+			System.out.println(like);
 
 			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
 				int result = songservice.let_like(songlike); // insert
@@ -222,7 +229,7 @@ public class SongController {
 					}
 					status = HttpStatus.ACCEPTED;
 				}
-			}
+			} //null 값이 아니라는거지
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);

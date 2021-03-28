@@ -129,5 +129,20 @@ public class SongServiceImpl implements SongService {
 		map.put("song_like_cnt", song_like_cnt);
 		return sdao.set_like(map);
 	}
+	
+	@Override
+	public Song_like_countDto get_cnt(int song_id) {
+		// TODO Auto-generated method stub
+		return sdao.get_cnt(song_id);
+	}
+	
+	@Override
+	public int get_like(String uid, int song_id) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("uid", uid);
+		map.put("song_id", song_id);
+		return sdao.get_like(map);
+	}
 
 }
