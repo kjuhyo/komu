@@ -119,7 +119,7 @@
               </template>
 
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-5"> 예쁜단어 </template>
+              <template slot="tab-pane-5"> <MyWord /></template>
             </tabs>
           </div>
         </div>
@@ -134,12 +134,14 @@ import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
 import Song from '../components/Song.vue';
 import Singer from '../components/Singer.vue';
+import MyWord from '../components/MyWord.vue';
 export default {
   components: {
     Tabs,
     Article,
     Song,
     Singer,
+    MyWord,
   },
   bodyClass: 'profile-page',
   data() {
