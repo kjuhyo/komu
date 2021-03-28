@@ -243,7 +243,7 @@ public class SingerController {
 	// 가수페이지의 댓글 신고
 	@ApiOperation(value = "Chat Report Page", notes = "댓글 신고 페이지")
 	@PostMapping("/{singer_name}/report")
-	public ResponseEntity<Map<String, Object>> registComm(@PathVariable String singer_name) {
+	public ResponseEntity<Map<String, Object>> reportComm(@PathVariable String singer_name) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
