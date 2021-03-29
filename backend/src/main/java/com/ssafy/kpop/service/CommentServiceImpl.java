@@ -1,5 +1,7 @@
 package com.ssafy.kpop.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,12 @@ public class CommentServiceImpl implements CommentService{
 	public int do_delete(Comm_commentDto comment) {
 		// TODO Auto-generated method stub
 		return cdao.do_delete(comment);
+	}
+	
+	@Override
+	public List<Comm_commentDto> get_list(int cid) {
+		// TODO Auto-generated method stub
+		return cdao.get_list(cid);
 	}
 
 }
