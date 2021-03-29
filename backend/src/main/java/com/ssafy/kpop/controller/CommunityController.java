@@ -53,7 +53,6 @@ public class CommunityController {
 
 		try {
 			logger.info("=====> 커뮤니티 글 등록 시작");
-//			int result = cservice.insert_post()
 			String originName = file.getOriginalFilename(); //파일 이름 가져오기
 			
 			String ext = originName.substring(originName.lastIndexOf('.')); //파일 확장명 가져오기
@@ -72,17 +71,17 @@ public class CommunityController {
 			String url = s3util.setS3Client().getUrl(bucket, saveFileName).toString();
 			tempfile.delete();
 
-//			community.setsetNamu_img(url);
-//
-//			int result = namuservice.insert(namu);
+			community.setC_img(url);
+
+			int result = cservice.insert_post(community);
 
 			if (result == 1) {
-				logger.info("=====> 나무위키 글 등록 성공");
-				resultMap.put("message", "단어 등록에 성공하였습니다.");
+				logger.info("=====> 커뮤니티 글 등록 성공");
+				resultMap.put("message", "게시글 등록에 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			} else {
-				logger.info("=====> 나무위키 글 등록 실패");
-				resultMap.put("message", "단어 등록에 실패하였습니다.");
+				logger.info("=====> 커뮤니티 글 등록 실패");
+				resultMap.put("message", "게시글 등록에 실패하였습니다.");
 				status = HttpStatus.NOT_FOUND;
 			}
 
