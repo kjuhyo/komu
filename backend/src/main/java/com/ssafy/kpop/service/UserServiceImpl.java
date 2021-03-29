@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService{
 
 	//최초 로그인에 필요한 save
 	@Override
-	public LoginCallBackDto save(HashMap<String, Object> user) {
-		String uid=(String) user.get("uid");
+	public LoginCallBackDto save(HashMap<String, Object> user) throws Exception {
+		String uid=makeUid();
 		String nickname=(String) user.get("nickname");
 		String profile=(String) user.get("profile");
 		String provider=(String) user.get("provider");
@@ -49,9 +49,32 @@ public class UserServiceImpl implements UserService{
 		loginCallBackDto.setProfile(profile);
 		loginCallBackDto.setProvider(provider_id);
 		
+		userdao.save(u);
+		
+		//System.out.println("서비스콜백"+loginCallBackDto);
 		return loginCallBackDto;
 	}
 
+	/**
+	 * 13자리 난수값 생성 Uid 중복체크
+	 * */
+	public String makeUid() throws Exception {
+		UserDto user = null;
+		StringBuilder sb = new StringBuilder();
+		while (true) {
+			String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+
+			for (int i = 0; i < 12; i++) {
+				sb.append(str.charAt((int) (Math.random() * str.length())));
+			}
+			//System.out.println("투스트링"+sb.toString());
+			user = findById(sb.toString());
+			if (user == null)
+				break;
+		}
+		return sb.toString();
+	}
+	
 	//User 닉네임 업데이트
 	@Override
 	public void updateUser(UserDto user) {

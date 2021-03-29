@@ -82,11 +82,13 @@ public class UserController {
 			resultMap.put("message", e.getMessage());
 		}
 
-		System.out.println(loginCallBackDto.toString());
+		//System.out.println("엑세스로그인콜백dto"+loginCallBackDto.toString());
 		String token = jwtService.create("uid", loginCallBackDto.getUid(), "access_token");
+		//System.out.println(token);
 		logger.debug("#토큰정보: " + token);
 		resultMap.put("access_token", token);
 		resultMap.put("user", loginCallBackDto);
+		//System.out.println("resultMap "+resultMap);
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
@@ -100,13 +102,16 @@ public class UserController {
 	public LoginCallBackDto getLoginCallBackByUid(String uid) {
 		LoginCallBackDto loginCallBackDto = null;
 		try {
-			UserDto user = userService.findById(uid);
+			//System.out.println("로그인콜백"+uid);
+			UserDto user = userService.findById(uid); 
+			//System.out.println("컨트롤러"+user);
 			
 			loginCallBackDto = new LoginCallBackDto(uid, user.getNickname(), user.getProfile(), user.getProvider());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		//System.out.println("로그인콜백dto"+loginCallBackDto); 
 		return loginCallBackDto;
 	}
 	
@@ -123,6 +128,7 @@ public class UserController {
 		final String jwt = request.getHeader("access_token");
 		String uid = null;
 		uid = jwtService.getUserId(jwt);
+		System.out.println("uid "+uid);
 		
 		Map<String, Object> resultMap = new HashMap<>();
 		LoginCallBackDto loginCallBackDto = null;

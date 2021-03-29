@@ -15,7 +15,7 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from ".";
-// import store from './store';
+import store from './store';
 
 import MaterialKit from "./plugins/material-kit";
 
@@ -37,6 +37,6 @@ Vue.mixin({
 
 new Vue({
   router,
-  // store,
+  store,
   render: h => h(App)
 }).$mount("#app");

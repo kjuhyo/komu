@@ -9,6 +9,6 @@ import com.ssafy.kpop.dto.UserDto;
 public interface UserService {
 	public UserDto findByProvider(HashMap<String, Object> map);
 	public UserDto findById(String uid);
-	public LoginCallBackDto save(HashMap<String, Object> user);
+	public LoginCallBackDto save(HashMap<String, Object> user) throws Exception;
 	public void updateUser(UserDto user);
 }

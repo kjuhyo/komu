@@ -4,10 +4,11 @@ import {saveUserToCookie } from '@/util/cookie.js'
 const actions = {
   // 구글 토큰 localstorage에 저장
     googleCallback(context, data) {
+      console.log(data)
         axios
-          .post("http://localhost:9999/komu/user/login/google", data.uc.id_token)
+          .post("http://localhost:9999/komu/user/login/google", data.tc.id_token)
           .then(response => {
-            // console.log(response.data.user)
+            console.log(response.data.user)
             let token = response.data.access_token
             let provider = response.data.user.provider
             localStorage.setItem('provider',provider)
@@ -17,7 +18,7 @@ const actions = {
           .catch(function (error) {
             console.log(error);
           });
-        // console.log("success");
+         console.log("actions success");
     },
     // 유저 정보 가져오기
     getMemberInfo({ commit }){
@@ -31,15 +32,18 @@ const actions = {
         axios
             .get("http://localhost:9999/komu/user/getUserInfo", config)
             .then(response=> {
+              console.log(response.data)
               let userInfo = {
+                
                 uid: response.data.user.uid,
                 nickname: response.data.user.nickname,
                 profile: response.data.user.profile
               }
-              saveUserToCookie(response.data.user.uid)
+              saveUserToCookie(response.data.uid)
               commit('fetchLoggedInUserData', userInfo)        
             })
             .catch(function (error) {
+              console.log("actions데이터불러오기실패")
               console.log(error);
             });
       } 
