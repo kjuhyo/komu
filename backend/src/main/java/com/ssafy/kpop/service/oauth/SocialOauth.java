@@ -70,6 +70,7 @@ public interface SocialOauth {
 			JsonElement element = parser.parse(result);
 
 			if(socialLoginType.equals("google")) {
+				System.out.println("이상하다이상해");
 				access_Token = element.getAsJsonObject().get("id_token").getAsString();
 			}else {
 				access_Token = element.getAsJsonObject().get("access_token").getAsString();

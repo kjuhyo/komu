@@ -3,6 +3,8 @@ package com.ssafy.kpop.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,11 +82,13 @@ public class UserController {
 			resultMap.put("message", e.getMessage());
 		}
 
-		System.out.println(loginCallBackDto.toString());
+		//System.out.println("엑세스로그인콜백dto"+loginCallBackDto.toString());
 		String token = jwtService.create("uid", loginCallBackDto.getUid(), "access_token");
+		//System.out.println(token);
 		logger.debug("#토큰정보: " + token);
 		resultMap.put("access_token", token);
 		resultMap.put("user", loginCallBackDto);
+		//System.out.println("resultMap "+resultMap);
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
@@ -98,14 +102,71 @@ public class UserController {
 	public LoginCallBackDto getLoginCallBackByUid(String uid) {
 		LoginCallBackDto loginCallBackDto = null;
 		try {
-			UserDto user = userService.findById(uid);
+			//System.out.println("로그인콜백"+uid);
+			UserDto user = userService.findById(uid); 
+			//System.out.println("컨트롤러"+user);
 			
 			loginCallBackDto = new LoginCallBackDto(uid, user.getNickname(), user.getProfile(), user.getProvider());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		//System.out.println("로그인콜백dto"+loginCallBackDto); 
 		return loginCallBackDto;
+	}
+	
+	/**
+	 * JWT 토큰을 이용한 유저 정보 반환
+	 * 
+	 * @param -
+	 * @return 
+	 */
+	@ApiOperation(value = "헤더에 담긴 JWT 토큰 값을 확인, <br> 이를 이용한 유저 정보 검색 및 반환", notes ="@param :  </br> @return : message, user")
+	@GetMapping("/getUserInfo")
+	public ResponseEntity<Map<String, Object>> getUserInfo(
+			HttpServletRequest request ) {
+		final String jwt = request.getHeader("access_token");
+		String uid = null;
+		uid = jwtService.getUserId(jwt);
+		System.out.println("uid "+uid);
+		
+		Map<String, Object> resultMap = new HashMap<>();
+		LoginCallBackDto loginCallBackDto = null;
+		try {
+			loginCallBackDto = getLoginCallBackByUid(uid);
+			resultMap.put("message", SUCCESS);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultMap.put("message", e.getMessage());
+		}
+		
+		logger.info("#Get userInfo: {}", loginCallBackDto);
+//		String token = jwtService.create("uid", uid, "access_token");
+//		logger.debug("#토큰정보: " + token);
+//		resultMap.put("access_token", token);
+		resultMap.put("user", loginCallBackDto);
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+	}
+	
+	@GetMapping("/getRefreshToken")
+	public ResponseEntity<Map<String, Object>> getRefreshToken(	HttpServletRequest request ) {
+
+		final String jwt = request.getHeader("access_token");
+		Map<String, Object> resultMap = new HashMap<>();
+		String uid = jwtService.getUserId(jwt);
+		
+		if(uid == null ) {
+			resultMap.put("message", FAIL);
+			return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
+		}
+		
+		String token = jwtService.create("uid", uid, "access_token");
+		logger.debug("#토큰정보: " + token);
+		resultMap.put("access_token", token);
+		resultMap.put("message", SUCCESS);
+		
+		return new ResponseEntity<Map<String, Object>>(resultMap, HttpStatus.OK);
 	}
 	
 	/**

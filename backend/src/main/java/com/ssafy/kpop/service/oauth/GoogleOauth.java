@@ -50,7 +50,9 @@ public class GoogleOauth implements SocialOauth{
 				String provider_id = element.getAsJsonObject().get("sub").getAsString();
 				String nickname = element.getAsJsonObject().get("name").getAsString();
 				String profileImg = element.getAsJsonObject().get("picture").getAsString();
-
+				String uid="";
+				
+				userInfo.put("uid", uid);
 				userInfo.put("nickname", nickname);
 				userInfo.put("profile", profileImg);
 				userInfo.put("provider", provider);
