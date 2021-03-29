@@ -178,9 +178,9 @@ public class NamuController {
 		try {
 			logger.info("=====> 단어 부르기");
 			NamuwikiDto dto = namuservice.call_namu(namu_title);
-			int like = namuservice.ami_like(uid, dto.getNamu_id());
 
 			if (dto != null) {
+				int like = namuservice.ami_like(uid, dto.getNamu_id());
 				logger.info("=====> 글 부르기 성공");
 
 				resultMap.put("namuwiki", dto);
@@ -284,7 +284,7 @@ public class NamuController {
 	}
 
 	// 검색에 해당하는 리스트만 가져오기
-	@ApiOperation(value = "NamuWiki page list", notes = "나무위키 페이지 단어 목록")
+	@ApiOperation(value = "NamuWiki Search page list", notes = "나무위키 페이지 검색 단어 목록")
 	@GetMapping("/search/{page}")
 	public ResponseEntity<Map<String, Object>> allList(@PathVariable int page, @RequestParam String word) {
 		Map<String, Object> resultMap = new HashMap<>();
