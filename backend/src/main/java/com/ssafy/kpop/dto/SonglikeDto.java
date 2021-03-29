@@ -4,13 +4,13 @@ public class SonglikeDto {
 	
 	//노래좋아요 //songlike
 	
-	private int song_id;
 	private String uid;
-	
-	public SonglikeDto(int song_id, String uid) {
+	private int song_id;
+
+	public SonglikeDto(String uid, int song_id) {
 		super();
-		this.song_id = song_id;
 		this.uid = uid;
+		this.song_id = song_id;
 	}
 
 	public int getSong_id() {

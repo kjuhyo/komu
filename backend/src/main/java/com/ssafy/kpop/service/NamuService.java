@@ -3,6 +3,7 @@ package com.ssafy.kpop.service;
 import java.util.List;
 
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.util.Pagination;
 
 public interface NamuService {
@@ -19,5 +20,9 @@ public interface NamuService {
 	List<NamuwikiDto> search_list(String word, int startList, int listSize);
 	
 	NamuwikiDto check_namu(String title); //단어 중복
+	int ami_like(String uid, int namu_id);
+	WordlikeDto find_like(WordlikeDto wordlike);
+	int let_like(WordlikeDto wordlike);
+	int let_dislike(WordlikeDto wordlike);
 
 }

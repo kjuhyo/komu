@@ -1,34 +1,103 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+
 <mapper namespace="com.ssafy.kpop.dao.SongDao">
-	
-	<select id="newest_list" parameterType="map" resultType="SongDto">
-		select * from song
-		order by issue_date desc limit #{startList}, #{listSize}
-	</select>
-	
-	<select id="get_song" parameterType="int" resultType="SongDto">
-		select * from song where id=#{id}
-	</select>
-	
-	<select id="get_word" parameterType="int" resultType="SongwordDto">
-		select * from songword where song_id=#{id}
-	</select>
-	
-	<select id="search_word" parameterType="String" resultType="NamuwikiDto">
-		select * from namuwiki where namu_title=#{word}
-	</select>
-	
-	<insert id="regist_word" parameterType="map">
-		insert into songword values( #{id}, #{word})
-	</insert>
-	
-	<select id="check_word" parameterType="map" resultType="SongwordDto">
-		select * from songword where song_id=#{id} and namu_title = #{word}
+
+	<select id="newest_list" parameterType="map"
+		resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img,
+		s.album_name,
+		s.album_cover,s.genre, s.issue_date,
+		ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as
+		slc
+		on s.id = slc.song_id
+		order by s.issue_date desc limit #{startList},
+		#{listSize};
 	</select>
 
+	<select id="get_song" parameterType="int" resultType="SongDto">
+		select *
+		from song where id=#{id}
+	</select>
+
+	<select id="get_word" parameterType="int"
+		resultType="SongwordDto">
+		select * from songword where song_id=#{id}
+	</select>
+
+	<select id="search_word" parameterType="String"
+		resultType="NamuwikiDto">
+		select * from namuwiki where namu_title=#{word}
+	</select>
+
+	<insert id="regist_word" parameterType="map">
+		insert into songword
+		values( #{id}, #{word})
+	</insert>
+
+	<select id="check_word" parameterType="map"
+		resultType="SongwordDto">
+		select * from songword where song_id=#{id} and namu_title =
+		#{word}
+	</select>
+
+	<select id="default_list" parameterType="map"
+		resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img,
+		s.album_name,
+		s.album_cover,s.genre, s.issue_date,
+		ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as
+		slc
+		on s.id = slc.song_id
+		order by slc.song_like_cnt desc, s.issue_date
+		desc limit #{startList}, #{listSize};
+	</select>
+
+	<select id="search_wordlist" parameterType="SongwordDto"
+		resultType="SongwordDto">
+		select * from songword where song_id=#{song_id} and
+		namu_title=#{namu_title}
+	</select>
+
+	<insert id="insert_namu" parameterType="map">
+		insert into namuwiki(uid,
+		namu_title, namu_date) values(#{uid}, #{word}, now())
+	</insert>
+
+	<insert id="insert_list" parameterType="SongwordDto">
+		insert into songword values(#{song_id}, #{namu_title});
+	</insert>
+
+	<select id="find_like" parameterType="SonglikeDto" resultType="SonglikeDto">
+		select * from songlike where song_id=#{song_id} and uid=#{uid}
+	</select>
+
+	<insert id="let_like" parameterType="SonglikeDto">
+		insert into songlike values(#{uid},#{song_id})
+	</insert>
+
+	<delete id="let_dislike" parameterType="SonglikeDto">
+		delete from songlike where uid=#{uid} and song_id=#{song_id}
+	</delete>
 	
+	<select id="now_count" parameterType="int" resultType="Song_like_countDto">
+		select * from song_like_count where song_id=#{song_id}
+	</select>
+	
+	<update id="set_like" parameterType="map">
+		update song_like_count set song_like_cnt=#{song_like_cnt} where song_id=#{song_id}
+	</update>
+	
+	<select id="get_cnt" parameterType="int" resultType="Song_like_countDto">
+		select * from song_like_count where song_id=#{song_id}
+	</select>
+	
+	<select id="get_like" parameterType="map" resultType="int">
+		select count(*) from songlike where uid=#{uid} and song_id=#{song_id}
+	</select>
+
 
 </mapper>
