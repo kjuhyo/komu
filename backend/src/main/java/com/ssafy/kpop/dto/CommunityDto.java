@@ -10,9 +10,16 @@ public class CommunityDto {
 	private String c_date;
 	private int is_delete;
 	private int c_view;
+	private int c_like_cnt;
+	private String c_img;
 	
-	public CommunityDto(int cid, String uid, String c_title, String c_content, String c_date, int is_delete,
-			int c_view) {
+	public CommunityDto() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public CommunityDto(int cid, String uid, String c_title, String c_content, String c_date, int is_delete, int c_view,
+			int c_like_cnt, String c_img) {
 		super();
 		this.cid = cid;
 		this.uid = uid;
@@ -21,6 +28,8 @@ public class CommunityDto {
 		this.c_date = c_date;
 		this.is_delete = is_delete;
 		this.c_view = c_view;
+		this.c_like_cnt = c_like_cnt;
+		this.c_img = c_img;
 	}
 
 	public int getCid() {
@@ -79,12 +88,29 @@ public class CommunityDto {
 		this.c_view = c_view;
 	}
 
+	public int getC_like_cnt() {
+		return c_like_cnt;
+	}
+
+	public void setC_like_cnt(int c_like_cnt) {
+		this.c_like_cnt = c_like_cnt;
+	}
+
+	public String getC_img() {
+		return c_img;
+	}
+
+	public void setC_img(String c_img) {
+		this.c_img = c_img;
+	}
+
 	@Override
 	public String toString() {
 		return "CommunityDto [cid=" + cid + ", uid=" + uid + ", c_title=" + c_title + ", c_content=" + c_content
-				+ ", c_date=" + c_date + ", is_delete=" + is_delete + ", c_view=" + c_view + "]";
+				+ ", c_date=" + c_date + ", is_delete=" + is_delete + ", c_view=" + c_view + ", c_like_cnt="
+				+ c_like_cnt + ", c_img=" + c_img + "]";
 	}
-	
+	 
 	
 	
 	
