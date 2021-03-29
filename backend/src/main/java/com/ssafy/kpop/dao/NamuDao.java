@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.util.Pagination;
 
 @Mapper
@@ -21,4 +22,9 @@ public interface NamuDao {
 	List<NamuwikiDto> search_list(Map<String , Object> map);
 	
 	NamuwikiDto check_namu(String title);
+	
+	int ami_like(Map<String, Object> map);
+	WordlikeDto find_like(WordlikeDto wordlike);
+	int let_like(WordlikeDto wordlike);
+	int let_dislike(WordlikeDto wordlike);
 }

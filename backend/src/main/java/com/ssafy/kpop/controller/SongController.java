@@ -21,7 +21,11 @@ import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
+import com.ssafy.kpop.dto.Song_like_countDto;
+import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.service.SongService;
 import com.ssafy.kpop.util.Pagination;
 
@@ -53,7 +57,7 @@ public class SongController {
 
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
-			List<SongDto> songList = songservice.newest_list(startList, listSize);
+			List<SongListDto> songList = songservice.newest_list(startList, listSize);
 
 			resultMap.put("songList", songList);
 			resultMap.put("message", "최신순 노래 가져오기 성공하였습니다.");
@@ -87,10 +91,9 @@ public class SongController {
 			int startList = pagi.getStartList();
 			int listSize = pagi.getListSize();
 
-			List<SongDto> songList = songservice.popul_list(startList, listSize);
-			
-//			List<SongDto> songList= songservice.newest_list(startList, listSize);
-//			resultMap.put("songList", songList);
+			List<SongListDto> songList = songservice.default_list(startList, listSize);
+
+			resultMap.put("songList", songList);
 			resultMap.put("message", "인기순 노래 가져오기 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 
@@ -106,7 +109,7 @@ public class SongController {
 
 	@ApiOperation(value = "Song Page", notes = "가사 페이지")
 	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id) {
+	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -114,9 +117,15 @@ public class SongController {
 			logger.info("=====> 노래 정보 가져오기");
 			SongDto song = songservice.get_song(id);
 			List<SongwordDto> wordList = songservice.get_word(id);
+			//전체 좋아요한갯수
+			Song_like_countDto songlikecnt = songservice.get_cnt(id);
+			//내가 좋아요했는지랑
+			int LIKE = songservice.get_like(uid, id);
 
 			resultMap.put("song", song);
 			resultMap.put("wordList", wordList);
+			resultMap.put("song_like_count", songlikecnt);
+			resultMap.put("LIKE", LIKE);
 
 			resultMap.put("message", "노래, 단어 정보를 가져오기를 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
@@ -131,72 +140,102 @@ public class SongController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "Word Search Page", notes = "단어 검색 페이지")
-	@GetMapping("/search/{word}")
-	public ResponseEntity<Map<String, Object>> search_word(@PathVariable String word) {
+	@ApiOperation(value = "Word Insert Page", notes = "단어 등록 페이지")
+	@PostMapping("/insert/word")
+	public ResponseEntity<Map<String, Object>> search_word(@RequestBody SongwordDto sw, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		try {
-			logger.info("=====> 단어 정보 가져오기");
-			NamuwikiDto namu = songservice.search_word(word);
-
-			boolean check = false;
-			if (namu != null && namu.getNamu_title().equals(word)) {
-				check = true;
-				resultMap.put("namu", namu);
-				resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
-			} else {
-				resultMap.put("message", "나무 위키에 해당 단어가 존재하지않습니다.");
+			logger.info("=====> 노래속 단어리스트 속 단어 중복 확인");
+			SongwordDto songword = songservice.search_wordlist(sw);
+			if (songword == null) {
+				// 노래 리스트에 단어가 등록되지않았으니까 ! 등록하쟈!!
+				String word = sw.getNamu_title();
+				logger.info("=====> 단어 정보 가져오기");
+				NamuwikiDto namu = songservice.search_word(word);
+				if (namu != null && namu.getNamu_title().equals(word)) { //
+					resultMap.put("namu", namu);
+					resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					// 나무위키에등록되지않은 단어니까 등록하쟈!
+					int result = songservice.insert_namu(word, uid);
+					NamuwikiDto temp = songservice.search_word(word);
+					resultMap.put("namu", temp);
+					resultMap.put("message", "단어를 등록하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+			} else { // 노래리스트에도 없으니까 노래리스트에 단어를 등록하쟈!
+				int insert = songservice.insert_list(sw);
+				resultMap.put("message", "단어장에 존재하는 단어입니다.");
+				status = HttpStatus.ACCEPTED;
 			}
-			resultMap.put("check", check);
-			status = HttpStatus.ACCEPTED;
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	//단어를 등록하면 namu_title이지만 나무위키에 들어가있어야지 그럼 수정하기로 들어가겠지?
-	@ApiOperation(value = "Songword Regist Page", notes = "노래 단어 등록 페이지")
-	@PostMapping("/{id}/regist")
-	public ResponseEntity<Map<String, Object>> registComm(@PathVariable int id, @RequestParam String word) {
-
+	@ApiOperation(value = "Song Like Url", notes = "노래 좋아요/취소  url")
+	@PostMapping("/like")
+	public ResponseEntity<Map<String, Object>> do_like(@RequestBody SonglikeDto songlike) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		boolean check = false;
+		logger.info("=====> 노래 좋아요 체크");
 
 		try {
-			logger.info("=====> 노래 단어 중복 확인");
-			SongwordDto zero = songservice.check_word(id, word);
-			if(zero !=null) {
-				resultMap.put("message", "단어 중복은 등록이 불가합니다");
-			}else {
-				logger.info("=====> 노래 단어 등록 시작");
-				
-				int result = songservice.regist_word(id, word);
-				if (result >= 1) {
-					check = true;
-					resultMap.put("message", "단어 등록에 성공하였습니다.");
-				} else {
-					resultMap.put("message", "단어 등록에 실패하였습니다.");
+			logger.info("=====> 좋아요 중복 체크 ");
+			SonglikeDto like = songservice.find_like(songlike); // 좋아요눌렀는지 확인
+			System.out.println(like);
+
+			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
+				int result = songservice.let_like(songlike); // insert
+				logger.info("=====> 노래 좋아요 성공");
+				if (result == 1) {
+					int song_id = songlike.getSong_id();
+					Song_like_countDto songcount = songservice.now_count(song_id);
+					int ress = songcount.getSong_like_cnt() + 1;
+					int cnt_result = songservice.set_like(song_id, ress); // +1해줘
+					if (cnt_result == 1) {
+						logger.info("=====> 노래 좋아요 카운트 성공");
+						resultMap.put("LIKE", result);
+						resultMap.put("message", "노래 좋아요를 누르셨습니다.");
+					} else {
+						resultMap.put("message", "노래 좋아요에 실패하였습니다.");
+					}
+					status = HttpStatus.ACCEPTED;
 				}
-			}
-			resultMap.put("check", check);				
-			status = HttpStatus.ACCEPTED;
+			} else { // like안에 좋아요 값이 있는 거야 이미 좋아요를 누른거지
+				logger.info("=====> 이미 좋아요를 누르셨습니다. 그러니 삭제를 해봅시다");
+				// 삭제버튼 구현시켜야죠
+				int result = songservice.let_dislike(songlike);
+				logger.info("=====> 노래 좋아요 취소");
+				if (result == 1) {
+					int song_id = songlike.getSong_id();
+					Song_like_countDto song_count = songservice.now_count(song_id);
+					int songres = song_count.getSong_like_cnt() - 1;
+					int dis_result = songservice.set_like(song_id, songres); // -1해줫어
+					if (dis_result == 1) {
+						logger.info("=====> 노래 좋아요 취소 카운트 성공");
+						resultMap.put("LIKE", 0);
+						resultMap.put("message", "단어를 좋아요를 취소하셨습니다.");
+					} else {
+						resultMap.put("message", "단어를 좋아요를 취소에 실패하셨습니다.");
+					}
+					status = HttpStatus.ACCEPTED;
+				}
+			} //null 값이 아니라는거지
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
