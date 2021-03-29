@@ -52,7 +52,7 @@ export default {
     googleCallback(data){
       //console.log("콜백데이터"+data)
       this.$store.dispatch('googleCallback',data)
-      if (this.$route.path !== '/profile') this.$router.replace('/profile');
+      if (this.$route.path !== '/') this.$router.replace('/');
     
     },
     onFailure,

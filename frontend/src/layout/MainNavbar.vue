@@ -312,7 +312,7 @@ export default {
       this.$store
         .dispatch('LOGOUT')
         .then(() => {
-         // if (this.$route.path !== '/') this.$router.replace('/profile');
+          if (this.$route.path !== '/') this.$router.replace('/');
           console.log('네브바로그아웃');
           this.showModal=false;
         })

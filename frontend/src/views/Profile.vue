@@ -13,7 +13,7 @@
                 <div class="avatar">
                   <!-- 사용자 프로필이미지 -->
                   <img
-                    :src="img"
+                    :src="this.profile"
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid userprofile-image"
                   />
@@ -24,7 +24,7 @@
                   </button> -->
                 </div>
                 <div class="name">
-                  <h3 class="title">Ariana Grande</h3>
+                  <h3 class="title">{{this.nickname}}</h3>
                 </div>
                 <div class="profile-edit-div">
                   <!-- 프로필수정버튼 -->
@@ -129,12 +129,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import '../assets/css/profile.css';
 import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
 import Song from '../components/Song.vue';
 import Singer from '../components/Singer.vue';
 import MyWord from '../components/MyWord.vue';
+import { getuidCookie } from "@/util/cookie.js";
+import { profileByUid } from "@/api/user.js";
 export default {
   components: {
     Tabs,
@@ -144,6 +147,29 @@ export default {
     MyWord,
   },
   bodyClass: 'profile-page',
+  created(){
+    this.initUser(),
+    profileByUid(
+      this.uid,
+      //console.log(this.loggedInUserData.uid),
+      (response) => {
+        // console.log('프로피이이일');
+        // console.log(response.data);
+         this.nickname = response.data.info.nickname;
+         this.profile = response.data.info.profile;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
+  methods:{
+    initUser(){
+     // console.log('사용자'),
+     // console.log(getuidCookie());
+      this.uid = getuidCookie();
+    },
+  },
   data() {
     return {
       // tabPane1: [
@@ -166,6 +192,9 @@ export default {
       //   { image: require('@/assets/img/examples/olu-eletu.jpg') },
       //   { image: require('@/assets/img/examples/studio-1.jpg') },
       // ],
+      profile: "",
+      nickname: "",
+      uid:'',
     };
   },
   props: {
@@ -179,6 +208,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(["loggedInUserData"]),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
