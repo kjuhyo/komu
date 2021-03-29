@@ -134,9 +134,12 @@
                 </a>
               </li>
 
-              <md-list-item href="#/login" target="_blank" v-if="!showLogout">
+              <md-list-item v-if="!isLogin" @click="showModal=true">
                 <i class="material-icons">login</i>
                 <p>로그인</p>
+                <div v-if="showModal">
+                <login-modal></login-modal>
+               </div>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -162,17 +165,18 @@
                           </a>
                         </li>
                         <li>
-                          <a href="#/login">
+                          <a href="#/profile" @click.prevent="logout">
                             <i class="material-icons">logout</i>
                             <p>로그아웃</p>
                           </a>
                         </li>
                       </ul>
+                      
                     </drop-down>
                   </div>
                 </a>
               </li>
-
+            
               <!-- <md-list-item
                 href="https://www.instagram.com/CreativeTimOfficial"
                 target="_blank"
@@ -206,11 +210,18 @@ function resizeThrottler(actualResizeHandler) {
 }
 
 import MobileMenu from '@/layout/MobileMenu';
+import { mapState } from 'vuex';
+//import Modal from '../components/Modal';
+import LoginModal from './LoginModal';
+
 export default {
   components: {
     MobileMenu,
+  //  Modal: Modal,
+    LoginModal,
   },
-  props: {
+
+    props: {
     type: {
       type: String,
       default: 'white',
@@ -235,6 +246,7 @@ export default {
     return {
       extraNavClasses: '',
       toggledClass: false,
+      showModal:false,
     };
   },
   // computed: {
@@ -244,10 +256,11 @@ export default {
   //   },
   // },
   computed: {
-    showLogout() {
-      const excludedRoutes = ['index'];
-      return excludedRoutes.every((r) => r !== this.$route.name);
-    },
+    ...mapState(['isLogin','loggedInUserData', 'userInfo']),
+    //showLogout() {
+    //  const excludedRoutes = ['index'];
+    // return excludedRoutes.every((r) => r !== this.$route.name);
+    // },
   },
   methods: {
     bodyClick() {
@@ -293,6 +306,19 @@ export default {
       if (element_id) {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
+    },
+    
+    logout() {
+      this.$store
+        .dispatch('LOGOUT')
+        .then(() => {
+         // if (this.$route.path !== '/') this.$router.replace('/profile');
+          console.log('네브바로그아웃');
+          this.showModal=false;
+        })
+        .catch(() => {
+          console.log('로그아웃 문제!');
+        });
     },
   },
   mounted() {

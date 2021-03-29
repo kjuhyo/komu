@@ -50,6 +50,7 @@ const actions = {
     },
     // 로그아웃
     LOGOUT({ commit }) {
+      console.log('actions 로그아웃')
       commit("logout");
     },
   }
