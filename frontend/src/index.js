@@ -11,6 +11,7 @@ import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
 import KomuWiki from "./views/KomuWiki.vue";
+import NotFound from "./views/NotFound.vue";
 
 Vue.use(Router);
 
@@ -97,6 +98,19 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
+    },
+    {
+      path:'/404',
+      name:"notfound",
+      components: { default: NotFound, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: "/404"
     },
     
 
