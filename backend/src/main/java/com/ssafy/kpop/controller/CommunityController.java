@@ -12,12 +12,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
@@ -53,13 +56,13 @@ public class CommunityController {
 
 		try {
 			logger.info("=====> 커뮤니티 글 등록 시작");
-			String originName = file.getOriginalFilename(); //파일 이름 가져오기
-			
-			String ext = originName.substring(originName.lastIndexOf('.')); //파일 확장명 가져오기
-			String saveFileName = UUID.randomUUID().toString() + ext; //암호화해서 파일확장넣어주기
-			String path = System.getProperty("user.dir"); //경로설정해주고
+			String originName = file.getOriginalFilename(); // 파일 이름 가져오기
 
-			File tempfile = new File(path, saveFileName); //경로에 파일만들어주고
+			String ext = originName.substring(originName.lastIndexOf('.')); // 파일 확장명 가져오기
+			String saveFileName = UUID.randomUUID().toString() + ext; // 암호화해서 파일확장넣어주기
+			String path = System.getProperty("user.dir"); // 경로설정해주고
+
+			File tempfile = new File(path, saveFileName); // 경로에 파일만들어주고
 
 			String line = "community/";
 
@@ -88,6 +91,77 @@ public class CommunityController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("글 등록 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 게시물 수정하기
+	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글  수정")
+	@PutMapping("/update")
+	public ResponseEntity<Map<String, Object>> modify(@RequestPart MultipartFile file,
+			@RequestPart CommunityDto community) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		CommunityDto old = cservice.get_old(community.getCid());
+		try {
+			logger.info("=====> 사진, 내용 수정");
+			if (file != null) { // 사진 수정할 파일 있을때
+				// 파일 가져와서 삭제하고 db에 있는거 삭제
+				String photo = old.getC_img();
+				if (photo != null) { // 이미 사진이 저장되어있을때
+					s3util.setS3Client().deleteObject(new DeleteObjectRequest(bucket, photo));
+				}
+				//그전에 등록한 사진이 없으면 바로 등록하면 됩니다!
+				// 자 사진 삭제했으니 다시 사진을 등록해 봅시다! 렛츠꼬우!
+				String originName = file.getOriginalFilename(); // 파일 이름 가져오기
+
+				String ext = originName.substring(originName.lastIndexOf('.')); // 파일 확장명 가져오기
+				String saveFileName = UUID.randomUUID().toString() + ext; // 암호화해서 파일확장넣어주기
+				String path = System.getProperty("user.dir"); // 경로설정해주고
+
+				File tempfile = new File(path, saveFileName); // 경로에 파일만들어주고
+
+				String line = "community/";
+
+				saveFileName = line + saveFileName;
+
+				file.transferTo(tempfile);
+				s3util.setS3Client().putObject(new PutObjectRequest(bucket, saveFileName, tempfile)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
+				String url = s3util.setS3Client().getUrl(bucket, saveFileName).toString();
+				tempfile.delete();
+
+				community.setC_img(url); // 사진 등록했꼬
+
+				logger.info("=====> 사진 등록완료! 글 등록 해야합니다!");
+				int result = cservice.update_post(community);
+				if (result == 1) {
+					System.out.println("=====> 수정 성공");
+					resultMap.put("message", "글 수정에 성공하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					resultMap.put("message", "글 수정에 실패하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+				// 아마 키앞에 photo/ 붙여야할꺼야
+
+			} else { // 사진 수정할 필요가 없을 때 글만 수정하면돼 ! 렛츠꼬!
+				int content_update = cservice.update(community);
+				if (content_update == 1) {
+					System.out.println("=====> 수정 성공");
+					resultMap.put("message", "글 수정에 성공하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					resultMap.put("message", "글 수정에 실패하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				}
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("글 수정 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}

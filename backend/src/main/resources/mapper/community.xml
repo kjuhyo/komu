@@ -8,6 +8,21 @@
 		insert into community(uid,c_title, c_content, c_date, c_img)
 		values(#{uid}, #{uid}, #{c_content}, now(), #{c_img})
 	</insert>
+	
+	<select id="get_old" parameterType="int" resultType="CommunityDto">
+		select * from community where cid=#{cid}
+	</select>
+	
+	<update id="update_post" parameterType="CommunityDto">
+		update community set c_title=#{c_title}, c_content=#{c_content}, c_img=#{c_img}
+		where cid=#{cid}
+	</update>
+	
+	<update id="update" parameterType="CommunityDto">
+		update community set c_title=#{c_title}, c_content=#{c_content}
+		where cid=#{cid}
+	</update>
+
 
 
 
