@@ -25,7 +25,6 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.CommunityDto;
-import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.service.CommunityService;
 import com.ssafy.kpop.util.S3Util;
 
@@ -51,7 +50,7 @@ public class CommunityController {
 	// 게시물 등록하기
 	@ApiOperation(value = "Community Post Insert", notes = "커뮤니티 글 등록")
 	@PostMapping("/insert")
-	public ResponseEntity<Map<String, Object>> insert(@RequestPart MultipartFile file,
+	public ResponseEntity<Map<String, Object>> insert_post(@RequestPart MultipartFile file,
 			@RequestPart CommunityDto community) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -102,7 +101,7 @@ public class CommunityController {
 	// 게시물 수정하기
 	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글 수정")
 	@PutMapping("/update")
-	public ResponseEntity<Map<String, Object>> modify(@RequestPart MultipartFile file,
+	public ResponseEntity<Map<String, Object>> modify_post(@RequestPart MultipartFile file,
 			@RequestPart CommunityDto community) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -173,7 +172,7 @@ public class CommunityController {
 	// 게시물 삭제하기
 	@ApiOperation(value = "Community Post Delete", notes = "커뮤니티 글 삭제")
 	@PostMapping("/delete/{cid}")
-	public ResponseEntity<Map<String, Object>> delete(@PathVariable int cid) {
+	public ResponseEntity<Map<String, Object>> delete_post(@PathVariable int cid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -194,6 +193,27 @@ public class CommunityController {
 			// TODO Auto-generated catch block
 			logger.error("글 삭제 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+	
+	// 커뮤니티 글 신고
+	@ApiOperation(value = "Community Post Report", notes = "커뮤니티 글 신고")
+	@PostMapping("/report/{cid}")
+	public ResponseEntity<Map<String, Object>> report_post(@PathVariable int cid) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			resultMap.put("message", "댓글이 신고되었습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", "댓글 신고에 실패하였습니다.");
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
