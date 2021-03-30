@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -98,7 +100,7 @@ public class CommunityController {
 	}
 
 	// 게시물 수정하기
-	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글  수정")
+	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글 수정")
 	@PutMapping("/update")
 	public ResponseEntity<Map<String, Object>> modify(@RequestPart MultipartFile file,
 			@RequestPart CommunityDto community) {
@@ -114,7 +116,7 @@ public class CommunityController {
 				if (photo != null) { // 이미 사진이 저장되어있을때
 					s3util.setS3Client().deleteObject(new DeleteObjectRequest(bucket, photo));
 				}
-				//그전에 등록한 사진이 없으면 바로 등록하면 됩니다!
+				// 그전에 등록한 사진이 없으면 바로 등록하면 됩니다!
 				// 자 사진 삭제했으니 다시 사진을 등록해 봅시다! 렛츠꼬우!
 				String originName = file.getOriginalFilename(); // 파일 이름 가져오기
 
@@ -165,6 +167,36 @@ public class CommunityController {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 게시물 삭제하기
+	@ApiOperation(value = "Community Post Delete", notes = "커뮤니티 글 삭제")
+	@PostMapping("/delete/{cid}")
+	public ResponseEntity<Map<String, Object>> delete(@PathVariable int cid) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			logger.info("=====> 커뮤니티 글 삭제");
+			int result = cservice.delete(cid);
+
+			if (result == 1) {
+				logger.info("=====> 삭제 성공");
+				resultMap.put("message", "글 삭제에 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", "글 삭제에 실패하였습니다.");
+				status = HttpStatus.NOT_FOUND;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("글 삭제 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

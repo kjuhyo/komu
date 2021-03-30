@@ -11,4 +11,5 @@ public interface CommunityDao {
 	CommunityDto get_old(int cid);
 	int update_post(CommunityDto community);
 	int update(CommunityDto community);
+	int delete(int cid);
 }

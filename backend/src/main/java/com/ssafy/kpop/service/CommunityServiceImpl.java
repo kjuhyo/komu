@@ -34,4 +34,9 @@ public class CommunityServiceImpl implements CommunityService{
 		// TODO Auto-generated method stub
 		return cdao.update(community);
 	}
+	@Override
+	public int delete(int cid) {
+		// TODO Auto-generated method stub
+		return cdao.delete(cid);
+	}
 }

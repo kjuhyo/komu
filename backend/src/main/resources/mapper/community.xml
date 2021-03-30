@@ -22,6 +22,10 @@
 		update community set c_title=#{c_title}, c_content=#{c_content}
 		where cid=#{cid}
 	</update>
+	
+	<update id="delete" parameterType="int">
+		update community set is_delete=0 where cid=#{cid}
+	</update>
 
 
 
