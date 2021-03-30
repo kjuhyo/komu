@@ -32,14 +32,17 @@ const actions = {
         axios
             .get("http://localhost:9999/komu/user/getUserInfo", config)
             .then(response=> {
-              console.log(response.data)
+             // console.log("actions에서")
+             // console.log(response.data)
               let userInfo = {
                 
                 uid: response.data.user.uid,
                 nickname: response.data.user.nickname,
                 profile: response.data.user.profile
               }
-              saveUserToCookie(response.data.uid)
+              saveUserToCookie(response.data.user.uid)
+             // console.log('쿠키에넣었다')
+             // console.log(response.data.user.uid)
               commit('fetchLoggedInUserData', userInfo)        
             })
             .catch(function (error) {

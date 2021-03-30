@@ -17,7 +17,7 @@
 	
 	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
 		select * from song 
-		where artist_name_basket like #{artist_name_basket};
+		where singer_name like #{singer_name};
 	</select>
 	
 	<select id="searchByHash" resultType="int">
