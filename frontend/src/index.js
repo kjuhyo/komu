@@ -9,10 +9,12 @@ import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
+import KomuWikiDetail from "./views/KomuWikiDetail.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  mode:'history',
   routes: [
     {
       path: "/index",
@@ -76,6 +78,16 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
+    {
+      path: "/komuwikidetail",
+      name: "komuwikidetail",
+      components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+
   ],
   scrollBehavior: to => {
     if (to.hash) {
