@@ -50,6 +50,15 @@
 	<delete id="let_dislike" parameterType="Comm_likeDto">
 		delete from comm_like where uid=#{uid} and cid=#{cid}
 	</delete>
+	
+	<select id="cnt_like" parameterType="int" resultType="int">
+		select c_like_cnt from community where cid=#{cid}
+	</select>
+	
+	<update id="set_like" parameterType="map">
+		update community set c_like_cnt=#{c_like_cnt} where cid=#{cid}
+	</update>
+	 
 
 
 

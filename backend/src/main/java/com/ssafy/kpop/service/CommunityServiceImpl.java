@@ -83,4 +83,20 @@ public class CommunityServiceImpl implements CommunityService{
 		// TODO Auto-generated method stub
 		return cdao.let_dislike(commlike);
 	}
+	
+	@Override
+	public int cnt_like(int cid) {
+		// TODO Auto-generated method stub
+		return cdao.cnt_like(cid);
+	}
+	
+	@Override
+	public int set_like(int cid, int c_like_cnt) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("cid", cid);
+		map.put("c_like_cnt", c_like_cnt);
+		return cdao.set_like(map);
+	}
+	
 }

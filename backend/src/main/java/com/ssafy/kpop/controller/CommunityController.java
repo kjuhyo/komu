@@ -286,24 +286,51 @@ public class CommunityController {
 			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
 				int result = cservice.let_like(commlike);
 				if (result == 1) {
-					logger.info("=====> 커뮤니티 글 좋아요 성공");
-					resultMap.put("LIKE", result);
-					resultMap.put("message", "게시글을 좋아요 누르셨습니다.");
-				} else {
-					resultMap.put("message", "게시글 좋아요에 실패하셨습니다.");
+					// 좋아요를 누르면 community 테이블의 c_like_cnt를 높여줘야해
+					int cid = commlike.getCid();
+					int like_cnt = cservice.cnt_like(cid);
+					like_cnt += 1;
+					int like_ok = cservice.set_like(cid, like_cnt);
+					if (like_ok == 1) {
+						logger.info("=====> 커뮤니티 글 좋아요 성공");
+						resultMap.put("LIKE", result);
+						resultMap.put("message", "게시글을 좋아요 누르셨습니다.");
+
+					} else {
+						resultMap.put("message", "게시글 좋아요에 실패하셨습니다.");
+					}
+					status = HttpStatus.ACCEPTED;
 				}
-				status = HttpStatus.ACCEPTED;
 			} else { // like안에 좋아요 값이 있는 거야 이미 좋아요를 누른거지
 				// 삭제버튼 구현시켜야죠
 				int result = cservice.let_dislike(commlike);
 				if (result == 1) {
-					logger.info("=====>커뮤니티 글 좋아요 취소");
-					resultMap.put("LIKE", 0);
-					resultMap.put("message", "게시글 좋아요를 취소하셨습니다.");
-				} else {
-					resultMap.put("message", "게시글 좋아요 취소에 실패하셨습니다.");
+					// singer table -> single_like_cnt 올려주기
+//					int singer_id = singerlike.getSinger_id(); // 가수 id 찾고
+//					int like_cnt = singerservice.cnt_like(singer_id);// id의 cnt 찾고
+//					like_cnt -= 1;
+//					int like_ok = singerservice.set_like(singer_id, like_cnt);
+//					if (like_ok == 1) {
+//						logger.info("=====> 좋아요 취소 성공");
+//						resultMap.put("like", 0);
+//						resultMap.put("message", "가수 좋아요를 취소하셨습니다.");
+//						status = HttpStatus.ACCEPTED;
+//					}
+					// 좋아요 취소를 누르면 community 테이블의 c_like_cnt 낮춰주셔야해요
+					// --여기서부터 작성해주싮다
+					int cid = commlike.getCid();
+					int like_cnt = cservice.cnt_like(cid);
+					like_cnt -= 1;
+					int like_ok = cservice.set_like(cid, like_cnt);
+					if (like_ok == 1) {
+						logger.info("=====> 커뮤니티 글 좋아요 취소 성공");
+						resultMap.put("LIKE", 0);
+						resultMap.put("message", "게시글 좋아요 취소 성공하였습니다.");
+					} else {
+						resultMap.put("message", "게시글 좋아요 취소에 실패하였습니다.");
+					}
+					status = HttpStatus.ACCEPTED;
 				}
-				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

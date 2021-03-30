@@ -23,4 +23,6 @@ public interface CommunityDao {
 	Comm_likeDto find_like(Comm_likeDto commlike);
 	int let_like(Comm_likeDto commlike);
 	int let_dislike(Comm_likeDto commlike);
+	int cnt_like(int cid);
+	int set_like(Map<String, Object> map);
 }
