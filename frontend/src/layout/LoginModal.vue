@@ -1,12 +1,15 @@
 <template>
   <transition name="modal">
-    <div class="modal-mask">
+    <div class="modal-mask" @click="closeModal">
       <div class="modal-wrapper">
-        <div class="modal-container" v-click-outside="closeModal">
+        <div class="modal-container">
           <div class="modal-header">
             <slot name="header">
               <Login/>
             </slot>
+            <slot name="footer">
+              <button aria-label="Close">x</button>
+            </slot> 
           </div>
 
         </div>
@@ -33,10 +36,11 @@ export default {
           'Login', 'Register',
         ],
         // closeOnContentClick: true,
+       // modalclose:false,
       }
     },
   methods: {
-      closeModal: function() {
+    closeModal: function() {
       this.$emit("close");
     }
   },
