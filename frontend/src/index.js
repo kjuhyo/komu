@@ -10,6 +10,7 @@ import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
+import KomuWiki from "./views/KomuWiki.vue";
 
 Vue.use(Router);
 
@@ -87,6 +88,17 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
+
+    {
+      path: "/komuwiki",
+      name: "komuwiki",
+      components: { default: KomuWiki, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    
 
   ],
   scrollBehavior: to => {
