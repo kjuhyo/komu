@@ -8,6 +8,15 @@
   margin-bottom: 20px;
   font-family: 'Nanum Gothic', sans-serif;
 
+  .navbarrouting {
+    font-size: 12px !important;
+    margin: 0px 0px 0px 5px !important;
+  }
+
+  .navfont {
+    font-size: 12px;
+  }
+
   &.md-transparent {
     background-color: transparent !important;
     box-shadow: none;

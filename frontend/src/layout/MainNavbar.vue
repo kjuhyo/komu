@@ -94,12 +94,11 @@
                 <p>노래리스트</p>
               </md-list-item>
 
-              <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-              >
-                <i class="material-icons">view_carousel</i>
-                <p>코뮤위키</p>
+              <md-list-item>
+                <router-link class="navbarrouting" to="/komuwiki">
+                  <i class="material-icons">view_carousel</i>
+                  <p class="navfont">코뮤위키</p>
+                </router-link>
               </md-list-item>
 
               <li class="md-list-item">
@@ -119,10 +118,10 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/landing">
+                          <router-link class="navbarrouting" to="/community">
                             <i class="material-icons">chat_bubble_outline</i>
                             <p>전체 커뮤니티</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a href="#/login">
