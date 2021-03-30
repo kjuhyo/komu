@@ -22,6 +22,12 @@ public class Comm_likeDto {
 	public String toString() {
 		return "Comm_likeDto [uid=" + uid + ", cid=" + cid + "]";
 	}
+	public Comm_likeDto(String uid, int cid) {
+		super();
+		this.uid = uid;
+		this.cid = cid;
+	}
+	
 	
 	
 	

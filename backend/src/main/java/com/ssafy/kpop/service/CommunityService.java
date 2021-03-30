@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.util.Pagination;
 
 public interface CommunityService {
 	
@@ -23,4 +24,6 @@ public interface CommunityService {
 	int let_dislike(Comm_likeDto commlike);
 	int cnt_like(int cid);
 	int set_like(int cid, int c_like_cnt);
+	int total_post();
+	List<CommunityDto> all_post(Pagination pagination);
 }

@@ -31,8 +31,10 @@ import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.service.CommunityService;
+import com.ssafy.kpop.util.Pagination;
 import com.ssafy.kpop.util.S3Util;
 
 import io.swagger.annotations.Api;
@@ -249,6 +251,14 @@ public class CommunityController {
 			int view_res = cservice.up_view(cid, now_view);
 			// 들어갔으니까 조회수 한번 올려줘야지
 
+			// 내가 좋아요눌렀는지 확인하기
+			int LIKE = 0;
+			Comm_likeDto commlike = new Comm_likeDto(uid, cid);
+			Comm_likeDto doi_like = cservice.find_like(commlike);
+			if (doi_like != null) {// 좋아요 누른상태
+				LIKE = 1;
+			}
+
 			CommunityDto new_com = cservice.get_community(cid);
 
 			List<Comm_commentDto> commentList = cservice.get_comment(cid);
@@ -259,6 +269,7 @@ public class CommunityController {
 			resultMap.put("commentList", commentList); // 댓글 리스트
 			resultMap.put("cnt_comment", cnt_comment); // 댓글 총개수
 			resultMap.put("check", check); // 작성자인지 아닌지
+			resultMap.put("LIKE", LIKE); // 유저가 좋아요눌렀는지?
 			resultMap.put("message", "게시글 가져오기 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 
@@ -305,19 +316,7 @@ public class CommunityController {
 				// 삭제버튼 구현시켜야죠
 				int result = cservice.let_dislike(commlike);
 				if (result == 1) {
-					// singer table -> single_like_cnt 올려주기
-//					int singer_id = singerlike.getSinger_id(); // 가수 id 찾고
-//					int like_cnt = singerservice.cnt_like(singer_id);// id의 cnt 찾고
-//					like_cnt -= 1;
-//					int like_ok = singerservice.set_like(singer_id, like_cnt);
-//					if (like_ok == 1) {
-//						logger.info("=====> 좋아요 취소 성공");
-//						resultMap.put("like", 0);
-//						resultMap.put("message", "가수 좋아요를 취소하셨습니다.");
-//						status = HttpStatus.ACCEPTED;
-//					}
 					// 좋아요 취소를 누르면 community 테이블의 c_like_cnt 낮춰주셔야해요
-					// --여기서부터 작성해주싮다
 					int cid = commlike.getCid();
 					int like_cnt = cservice.cnt_like(cid);
 					like_cnt -= 1;
@@ -338,6 +337,39 @@ public class CommunityController {
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	//커뮤니티 글 페이징 처리
+	@ApiOperation(value = "Community List", notes = "커뮤니티 글 페이지")
+	@GetMapping("/list/{page}")
+	public ResponseEntity<Map<String, Object>> get_list(@PathVariable int page) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		int range = (page / 10) + 1;
+		int listCnt = 0;
+
+		try {
+			listCnt = cservice.total_post(); 
+			logger.info("=====> 해당 가수 전체 노래 정보가져오기");
+			Pagination pagination = new Pagination();
+			pagination.pageInfo(page, range, listCnt);
+
+			List<CommunityDto> commList = cservice.all_post(pagination);
+
+			resultMap.put("pagination", pagination);
+			resultMap.put("commList", commList);
+			resultMap.put("message", "노래 페이지별 가져오기 성공하였습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

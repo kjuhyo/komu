@@ -11,6 +11,7 @@ import com.ssafy.kpop.dao.CommunityDao;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.util.Pagination;
 
 @Service
 public class CommunityServiceImpl implements CommunityService{
@@ -97,6 +98,16 @@ public class CommunityServiceImpl implements CommunityService{
 		map.put("cid", cid);
 		map.put("c_like_cnt", c_like_cnt);
 		return cdao.set_like(map);
+	}
+	@Override
+	public int total_post() {
+		// TODO Auto-generated method stub
+		return cdao.total_post();
+	}
+	@Override
+	public List<CommunityDto> all_post(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return cdao.all_post(pagination);
 	}
 	
 }

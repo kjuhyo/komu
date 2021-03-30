@@ -58,6 +58,14 @@
 	<update id="set_like" parameterType="map">
 		update community set c_like_cnt=#{c_like_cnt} where cid=#{cid}
 	</update>
+	
+	<select id="total_post" resultType="int">
+		select count(*) from community where is_delete=0
+	</select>
+	
+	<select id="all_post" parameterType="Pagination" resultType="CommunityDto">
+		select * from community where is_delete=0 order by c_date desc limit #{startList}, #{listSize}
+	</select>
 	 
 
 
