@@ -136,8 +136,8 @@
               </li>
 
               <md-list-item v-if="!isLogin" @click="showModal = true">
-                <i class="material-icons">login</i>
-                <p>로그인</p>
+                <i class="material-icons navicons">login</i>
+                <p class="navfont">로그인</p>
                 <div v-if="showModal">
                   <login-modal></login-modal>
                 </div>
@@ -160,10 +160,10 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/landing">
+                          <router-link to="/profile">
                             <i class="material-icons">person</i>
                             <p>마이페이지</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a href="#/profile" @click.prevent="logout">
