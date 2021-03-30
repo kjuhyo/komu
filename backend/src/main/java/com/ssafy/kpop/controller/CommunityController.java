@@ -2,6 +2,7 @@ package com.ssafy.kpop.controller;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,11 +13,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.service.CommunityService;
 import com.ssafy.kpop.util.S3Util;
 
@@ -198,7 +203,7 @@ public class CommunityController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	// 커뮤니티 글 신고
 	@ApiOperation(value = "Community Post Report", notes = "커뮤니티 글 신고")
 	@PostMapping("/report/{cid}")
@@ -214,6 +219,51 @@ public class CommunityController {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
 			resultMap.put("message", "댓글 신고에 실패하였습니다.");
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 게시물 확인하기
+	@ApiOperation(value = "Community Post Show", notes = "커뮤니티 글 보기")
+	@GetMapping("/{cid}")
+	public ResponseEntity<Map<String, Object>> get_post(@PathVariable int cid, @RequestParam String uid) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		boolean check = false;
+
+		try {
+			logger.info("=====> 조회수 하나 올려주자");
+			CommunityDto now_com = cservice.get_community(cid);
+
+			if (now_com.getUid().equals(uid)) {
+				check = true;
+			}
+
+			int now_view = now_com.getC_view() + 1;
+
+			int view_res = cservice.up_view(cid, now_view);
+			// 들어갔으니까 조회수 한번 올려줘야지
+
+			CommunityDto new_com = cservice.get_community(cid);
+
+			List<Comm_commentDto> commentList = cservice.get_comment(cid);
+
+			int cnt_comment = commentList.size();
+
+			resultMap.put("Community", new_com); // 커뮤니티글
+			resultMap.put("commentList", commentList); // 댓글 리스트
+			resultMap.put("cnt_comment", cnt_comment); // 댓글 총개수
+			resultMap.put("check", check); // 작성자인지 아닌지
+			resultMap.put("message", "게시글 가져오기 성공하였습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 

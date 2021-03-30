@@ -26,6 +26,18 @@
 	<update id="delete" parameterType="int">
 		update community set is_delete=1 where cid=#{cid}
 	</update>
+	
+	<select id="get_community" parameterType="int" resultType="CommunityDto">
+		select * from community where cid=#{cid}
+	</select>
+	
+	<update id="up_view" parameterType="map">
+		update community set c_view=#{now_view} where cid=#{cid}
+	</update>
+	
+	<select id="get_comment" parameterType="int" resultType="Comm_commentDto">
+		select * from comm_comment where cid=#{cid} and is_delete=0
+	</select>
 
 
 
