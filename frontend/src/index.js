@@ -8,6 +8,7 @@ import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
+import SingerDetail from "./views/SingerDetail.vue";
 
 Vue.use(Router);
 
@@ -65,7 +66,16 @@ export default new Router({
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
-    }
+    },
+    {
+      path: "/singerdetail",
+      name: "singerdetail",
+      components: { default: SingerDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {
