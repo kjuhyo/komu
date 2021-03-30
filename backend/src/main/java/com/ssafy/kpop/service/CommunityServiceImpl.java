@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.CommunityDao;
 import com.ssafy.kpop.dto.Comm_commentDto;
+import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
 
 @Service
@@ -63,5 +64,23 @@ public class CommunityServiceImpl implements CommunityService{
 	public List<Comm_commentDto> get_comment(int cid) {
 		// TODO Auto-generated method stub
 		return cdao.get_comment(cid);
+	}
+	
+	@Override
+	public Comm_likeDto find_like(Comm_likeDto commlike) {
+		// TODO Auto-generated method stub
+		return cdao.find_like(commlike);
+	}
+	
+	@Override
+	public int let_like(Comm_likeDto commlike) {
+		// TODO Auto-generated method stub
+		return cdao.let_like(commlike);
+	}
+	
+	@Override
+	public int let_dislike(Comm_likeDto commlike) {
+		// TODO Auto-generated method stub
+		return cdao.let_dislike(commlike);
 	}
 }

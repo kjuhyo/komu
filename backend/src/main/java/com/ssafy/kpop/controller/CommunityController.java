@@ -28,8 +28,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.Comm_commentDto;
+import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
+import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.service.CommunityService;
 import com.ssafy.kpop.util.S3Util;
 
@@ -267,6 +269,48 @@ public class CommunityController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	@ApiOperation(value = "Community Post Like", notes = "커뮤니티 글 좋아요")
+	@PostMapping("/like")
+	public ResponseEntity<Map<String, Object>> like_post(@RequestBody Comm_likeDto commlike) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		logger.info("=====> 게시글 좋아요 체크");
+
+		try {
+			logger.info("=====> 좋아요 중복 체크 ");
+			Comm_likeDto like = cservice.find_like(commlike);
+			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
+				int result = cservice.let_like(commlike);
+				if (result == 1) {
+					logger.info("=====> 커뮤니티 글 좋아요 성공");
+					resultMap.put("LIKE", result);
+					resultMap.put("message", "게시글을 좋아요 누르셨습니다.");
+				} else {
+					resultMap.put("message", "게시글 좋아요에 실패하셨습니다.");
+				}
+				status = HttpStatus.ACCEPTED;
+			} else { // like안에 좋아요 값이 있는 거야 이미 좋아요를 누른거지
+				// 삭제버튼 구현시켜야죠
+				int result = cservice.let_dislike(commlike);
+				if (result == 1) {
+					logger.info("=====>커뮤니티 글 좋아요 취소");
+					resultMap.put("LIKE", 0);
+					resultMap.put("message", "게시글 좋아요를 취소하셨습니다.");
+				} else {
+					resultMap.put("message", "게시글 좋아요 취소에 실패하셨습니다.");
+				}
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

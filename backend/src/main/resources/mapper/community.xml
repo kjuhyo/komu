@@ -38,6 +38,18 @@
 	<select id="get_comment" parameterType="int" resultType="Comm_commentDto">
 		select * from comm_comment where cid=#{cid} and is_delete=0
 	</select>
+	
+	<select id="find_like" parameterType="Comm_likeDto" resultType="Comm_likeDto">
+		select * from comm_like where uid=#{uid} and cid=#{cid}
+	</select>
+	
+	<insert id="let_like" parameterType="Comm_likeDto">
+		insert into comm_like values(#{uid}, #{cid})
+	</insert>
+	
+	<delete id="let_dislike" parameterType="Comm_likeDto">
+		delete from comm_like where uid=#{uid} and cid=#{cid}
+	</delete>
 
 
 
