@@ -16,36 +16,9 @@
           <div>
             <SearchBar />
           </div>
-          <div class="tab-write">
-            <div>
-              <span>최신순 | 인기순</span>
-            </div>
-            <div>
-              <a href="#">글 작성</a>
-            </div>
-          </div>
           <div class="community-tabs">
             <div class="md-layout"></div>
             <Article />
-            <!-- <tabs
-              :tab-name="[
-                'My Article',
-                'My Song',
-              ]"
-              :tab-icon="[
-                'article',
-                'music_note',
-              ]"
-              plain
-              nav-pills-icons
-              color-button="primary"
-            >
-              <template slot="tab-pane-1">
-                <div class="md-layout">
-                </div>
-                <Article />
-              </template>
-            </tabs> -->
           </div>
           <div class="paging">
             <Pagination />
