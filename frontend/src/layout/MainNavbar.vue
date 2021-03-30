@@ -9,7 +9,9 @@
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
         <h3 class="md-title">
-          <img class="md-title-img" src="@/assets/img/logo.png" />
+          <router-link to="/">
+            <img class="md-title-img" src="@/assets/img/logo.png" />
+          </router-link>
         </h3>
       </div>
       <div class="md-toolbar-section-end">
@@ -134,12 +136,12 @@
                 </a>
               </li>
 
-              <md-list-item v-if="!isLogin" @click="showModal=true">
+              <md-list-item v-if="!isLogin" @click="showModal = true">
                 <i class="material-icons">login</i>
                 <p>로그인</p>
                 <div v-if="showModal">
-                <login-modal></login-modal>
-               </div>
+                  <login-modal></login-modal>
+                </div>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -171,12 +173,11 @@
                           </a>
                         </li>
                       </ul>
-                      
                     </drop-down>
                   </div>
                 </a>
               </li>
-            
+
               <!-- <md-list-item
                 href="https://www.instagram.com/CreativeTimOfficial"
                 target="_blank"
@@ -217,11 +218,11 @@ import LoginModal from './LoginModal';
 export default {
   components: {
     MobileMenu,
-  //  Modal: Modal,
+    //  Modal: Modal,
     LoginModal,
   },
 
-    props: {
+  props: {
     type: {
       type: String,
       default: 'white',
@@ -246,7 +247,7 @@ export default {
     return {
       extraNavClasses: '',
       toggledClass: false,
-      showModal:false,
+      showModal: false,
     };
   },
   // computed: {
@@ -256,7 +257,7 @@ export default {
   //   },
   // },
   computed: {
-    ...mapState(['isLogin','loggedInUserData', 'userInfo']),
+    ...mapState(['isLogin', 'loggedInUserData', 'userInfo']),
     //showLogout() {
     //  const excludedRoutes = ['index'];
     // return excludedRoutes.every((r) => r !== this.$route.name);
@@ -307,14 +308,14 @@ export default {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     },
-    
+
     logout() {
       this.$store
         .dispatch('LOGOUT')
         .then(() => {
           if (this.$route.path !== '/') this.$router.replace('/');
           console.log('네브바로그아웃');
-          this.showModal=false;
+          this.showModal = false;
         })
         .catch(() => {
           console.log('로그아웃 문제!');
