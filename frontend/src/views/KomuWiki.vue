@@ -10,8 +10,45 @@
           <div class="md-layout">
             <div class="md-layout-item md-size-50 mx-auto"></div>
           </div>
-          <div class="komuwiki_container">
-            코뮤위키
+          <div class="community-title text-center">
+            <h1>코뮤위키</h1>
+          </div>
+          <div>
+            <SearchBar />
+          </div>
+          <div class="tab-write">
+            <div>
+              <span>최신순 | 인기순</span>
+            </div>
+            <div>
+              <a href="#">글 작성</a>
+            </div>
+          </div>
+          <div class="community-tabs">
+            <div class="md-layout"></div>
+            <Article />
+            <!-- <tabs
+              :tab-name="[
+                'My Article',
+                'My Song',
+              ]"
+              :tab-icon="[
+                'article',
+                'music_note',
+              ]"
+              plain
+              nav-pills-icons
+              color-button="primary"
+            >
+              <template slot="tab-pane-1">
+                <div class="md-layout">
+                </div>
+                <Article />
+              </template>
+            </tabs> -->
+          </div>
+          <div class="paging">
+            <Pagination />
           </div>
         </div>
       </div>
@@ -20,15 +57,23 @@
 </template>
 
 <script>
-import '../assets/css/komuwikidetail.scss';
+import '../assets/css/profile.css';
+// import { Tabs } from '@/components';
+import { Pagination } from '@/components';
+import Article from '../components/Article.vue';
+import SearchBar from '../components/SearchBar.vue';
+
 export default {
-  components: {},
-  data() {
-    return {
-      isMobile: false,
-    };
+  components: {
+    // Tabs,
+    Article,
+    Pagination,
+    SearchBar,
   },
   bodyClass: 'profile-page',
+  data() {
+    return {};
+  },
   props: {
     header: {
       type: String,
@@ -42,14 +87,38 @@ export default {
       };
     },
   },
-  mounted() {
-    this.onResize();
-    window.addEventListener('resize', this.onResize);
-  },
-  methods: {
-    onResize: function() {
-      this.isMobile = window.innerWidth <= 480;
-    },
-  },
 };
 </script>
+
+<style lang="scss" scoped>
+.section {
+  padding: 0;
+}
+
+.community-tabs::v-deep {
+  .md-card-tabs .md-list {
+    justify-content: center;
+  }
+
+  [class*='tab-pane-'] {
+    margin-top: 3.213rem;
+    padding-bottom: 50px;
+
+    img {
+      margin-bottom: 2.142rem;
+    }
+  }
+}
+.community-title {
+  margin-bottom: 20px;
+}
+.tab-write {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.paging {
+  display: flex;
+  justify-content: center;
+}
+</style>
