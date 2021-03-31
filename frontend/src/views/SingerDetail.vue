@@ -44,8 +44,8 @@
             <div class="track_section">
               <div>
                 <div class="track_list">
-                  <table border="1">
-                    <thead>
+                  <table>
+                    <!-- <thead>
                       <tr>
                         <th scope="col" class="thumb">
                           <span class="blind">자켓 이미지</span>
@@ -60,7 +60,7 @@
                           <span class="blind">앨범명</span>
                         </th>
                       </tr>
-                    </thead>
+                    </thead> -->
                     <tbody>
                       <tr>
                         <td class="thumb">
@@ -75,12 +75,12 @@
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="artist">
                             <span>방탄소년단</span>
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="album">
                             <span>Dynamite (DayTime Version)</span>
                           </div>
                         </td>
@@ -98,12 +98,12 @@
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="artist">
                             <span>방탄소년단</span>
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="album">
                             <span>BE</span>
                           </div>
                         </td>
@@ -121,12 +121,12 @@
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="artist">
                             <span>방탄소년단</span>
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="album">
                             <span>YOU NEVER WALK ALONE</span>
                           </div>
                         </td>
@@ -144,12 +144,12 @@
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="artist">
                             <span>Jawsh 685, Jason Derulo, 방탄소년단</span>
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="album">
                             <span>Savage Love (Laxed - Siren Beat) [BTS Remix]</span>
                           </div>
                         </td>
@@ -167,12 +167,12 @@
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="artist">
                             <span>방탄소년단</span>
                           </div>
                         </td>
                         <td>
-                          <div>
+                          <div class="album">
                             <span>MAP OF THE SOUL : PERSONA</span>
                           </div>
                         </td>
@@ -232,7 +232,7 @@
           <div>
             <hr>
           </div>
-          <Comment />
+          <SingerComment />
         </div>
       </div>
     </div>
@@ -240,11 +240,11 @@
 </template>
 
 <script>
-import Comment from '../components/Comment.vue';
+import SingerComment from '../components/SingerComment.vue';
 
 export default {
   components: {
-    Comment
+    SingerComment
   },
   bodyClass: 'profile-page',
   props: {
@@ -276,41 +276,56 @@ export default {
   .artist_summary {
     margin-left: 30px;
   }
+  .song_list {
+    margin-bottom: 20px;
+  }
   .item {
     font-size: 20px;
   }
-  .track_section {
-    padding: 5px 0 32px;
+  .thumb {
+    width: 10%;
   }
-  .track_list {
-    position: relative;
-    margin: 0 -14px;
-    color: #232323;
+  .song {
+    text-align: left;
   }
-  table {
-    width: 100%;
-    text-align: center;
-    border: 0;
-    // border: 1px solid black;
+  .artist {
+    text-align: left;
   }
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
+  .album {
+    text-align: left;
   }
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  .blind {
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-  }
+  // .track_section {
+  //   padding: 5px 0 32px;
+  // }
+  // .track_list {
+  //   position: relative;
+  //   margin: 0 -14px;
+  //   color: #232323;
+  // }
+  // table {
+  //   width: 100%;
+  //   text-align: center;
+  //   // border: 0;
+  //   // border: 1px solid black;
+  // }
+  // thead {
+  //   display: table-header-group;
+  //   vertical-align: middle;
+  //   border-color: inherit;
+  // }
+  // tbody {
+  //   display: table-row-group;
+  //   vertical-align: middle;
+  //   border-color: inherit;
+  // }
+  // .blind {
+  //   overflow: hidden;
+  //   position: absolute;
+  //   clip: rect(0 0 0 0);
+  //   width: 1px;
+  //   height: 1px;
+  //   margin: -1px;
+  // }
   .inner {
     position: relative;
     width: 60px;

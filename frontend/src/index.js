@@ -9,6 +9,7 @@ import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
+import Singer from "./views/Singer.vue";
 
 Vue.use(Router);
 
@@ -59,8 +60,8 @@ export default new Router({
       }
     },
     {
-      path: "/communityDetail",
-      name: "communityDetail",
+      path: "/communitydetail",
+      name: "communitydetail",
       components: { default: CommunityDetail, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
@@ -71,6 +72,15 @@ export default new Router({
       path: "/singerdetail",
       name: "singerdetail",
       components: { default: SingerDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/singer",
+      name: "singer",
+      components: { default: Singer, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
