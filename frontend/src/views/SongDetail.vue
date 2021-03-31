@@ -12,10 +12,14 @@
             </div>
           </div>
           <div class="songTitle_summary_section">
-              <span>
-                <h3><strong>작은 것들을 위한 시</strong></h3>
-                <h5>방탄소년단</h5>
-              </span>
+              <div>
+                <h3><strong>{{this.song_name}}</strong></h3>
+                <h5>{{this.singer_name}}</h5>
+                <div>{{this.LIKE}}</div>
+                <div class="like">
+                    <h5>좋아요 {{this.song_like_count}}</h5>
+                </div>
+              </div>
           </div>
 
           <div class="video-list">
@@ -24,6 +28,11 @@
                 <a href="https://www.youtube.com/watch?v=XsX3ATc3FbA">
                   <img src="https://i.ytimg.com/vi/XsX3ATc3FbA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAzjeJ1TqEib1np5etuP_oBKhAIcw" alt="작은 것들을 위한 시">
                 </a>
+              </div>
+              <div class="video-item">
+                <div v-for="(item,index) in this.wordList" :key="index">
+                    {{item.namu_title}}
+                </div>
               </div>
             </div>
           </div>
@@ -50,6 +59,14 @@ export default {
         uid: '',
         id:31737197, //노래 id
         lyric:'',
+        singer_name:'',
+        song_name:'',
+        song_like_count:'', //총 좋아요 갯수
+        wordList:{
+            song_id:'',
+            namu_title:'',
+        },
+        LIKE:'', //내가 좋아요 눌렀는지
       }
   },
   created(){
@@ -73,7 +90,13 @@ export default {
         this.id,
         this.uid,
         (response) => {
+          console.log(response.data);
+          this.singer_name=response.data.song.singer_name;
+          this.song_name=response.data.song.song_name;
           this.lyric= response.data.song.lyric;
+          this.song_like_count=response.data.song_like_count;
+          this.wordList=response.data.wordList;
+          this.LIKE=response.data.LIKE;
         },
         (error) => {
           console.log(error);
