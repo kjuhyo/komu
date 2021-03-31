@@ -108,8 +108,8 @@ public class SongController {
 	}
 
 	@ApiOperation(value = "Song Page", notes = "가사 페이지")
-	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id, @RequestParam String uid) {
+	@GetMapping("/info")
+	public ResponseEntity<Map<String, Object>> get_song(@RequestParam int id, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
