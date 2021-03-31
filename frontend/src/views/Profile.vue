@@ -24,13 +24,13 @@
                   </button> -->
                 </div>
                 <div class="name">
-                  <h3 class="title">{{this.nickname}}</h3>
+                  <h3 class="title">{{ this.nickname }}</h3>
                 </div>
                 <div class="profile-edit-div">
                   <!-- 프로필수정버튼 -->
-                  <button class="profile-edit-btn">
+                  <!-- <button class="profile-edit-btn">
                     <i class="material-icons">mode_edit</i>
-                  </button>
+                  </button> -->
                 </div>
               </div>
             </div>
@@ -129,15 +129,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 import '../assets/css/profile.css';
 import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
 import Song from '../components/Song.vue';
 import Singer from '../components/Singer.vue';
 import MyWord from '../components/MyWord.vue';
-import { getuidCookie } from "@/util/cookie.js";
-import { profileByUid } from "@/api/user.js";
+import { getuidCookie } from '@/util/cookie.js';
+import { profileByUid } from '@/api/user.js';
 export default {
   components: {
     Tabs,
@@ -147,26 +147,26 @@ export default {
     MyWord,
   },
   bodyClass: 'profile-page',
-  created(){
+  created() {
     this.initUser(),
-    profileByUid(
-      this.uid,
-      //console.log(this.loggedInUserData.uid),
-      (response) => {
-        // console.log('프로피이이일');
-        // console.log(response.data);
-         this.nickname = response.data.info.nickname;
-         this.profile = response.data.info.profile;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      profileByUid(
+        this.uid,
+        //console.log(this.loggedInUserData.uid),
+        (response) => {
+          // console.log('프로피이이일');
+          // console.log(response.data);
+          this.nickname = response.data.info.nickname;
+          this.profile = response.data.info.profile;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   },
-  methods:{
-    initUser(){
-     // console.log('사용자'),
-     // console.log(getuidCookie());
+  methods: {
+    initUser() {
+      // console.log('사용자'),
+      // console.log(getuidCookie());
       this.uid = getuidCookie();
     },
   },
@@ -192,9 +192,9 @@ export default {
       //   { image: require('@/assets/img/examples/olu-eletu.jpg') },
       //   { image: require('@/assets/img/examples/studio-1.jpg') },
       // ],
-      profile: "",
-      nickname: "",
-      uid:'',
+      profile: '',
+      nickname: '',
+      uid: '',
     };
   },
   props: {
@@ -208,7 +208,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["loggedInUserData"]),
+    ...mapState(['loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
