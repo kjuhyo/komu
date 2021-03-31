@@ -15,7 +15,7 @@
               <div>
                 <h3><strong>{{this.song_name}}</strong></h3>
                 <h5>{{this.singer_name}}</h5>
-                <div>{{this.LIKE}}</div>
+                <div v-if="isLogin">{{this.LIKE}}</div>
                 <div class="like">
                     <h5>좋아요 {{this.song_like_count}}</h5>
                 </div>
@@ -110,7 +110,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['loggedInUserData']),
+    ...mapState(['isLogin','loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
