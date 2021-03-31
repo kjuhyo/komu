@@ -131,7 +131,7 @@ public class SongServiceImpl implements SongService {
 	}
 	
 	@Override
-	public Song_like_countDto get_cnt(int song_id) {
+	public int get_cnt(int song_id) {
 		// TODO Auto-generated method stub
 		return sdao.get_cnt(song_id);
 	}

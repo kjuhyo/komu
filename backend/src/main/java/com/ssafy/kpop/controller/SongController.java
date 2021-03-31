@@ -118,7 +118,7 @@ public class SongController {
 			SongDto song = songservice.get_song(id);
 			List<SongwordDto> wordList = songservice.get_word(id);
 			//전체 좋아요한갯수
-			Song_like_countDto songlikecnt = songservice.get_cnt(id);
+			int songlikecnt = songservice.get_cnt(id);
 			//내가 좋아요했는지랑
 			int LIKE = songservice.get_like(uid, id);
 
