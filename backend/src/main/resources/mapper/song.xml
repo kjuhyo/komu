@@ -91,8 +91,8 @@
 		update song_like_count set song_like_cnt=#{song_like_cnt} where song_id=#{song_id}
 	</update>
 	
-	<select id="get_cnt" parameterType="int" resultType="Song_like_countDto">
-		select * from song_like_count where song_id=#{song_id}
+	<select id="get_cnt" parameterType="int" resultType="int">
+		select count(*) from song_like_count where song_id=#{song_id}
 	</select>
 	
 	<select id="get_like" parameterType="map" resultType="int">

@@ -108,8 +108,8 @@ public class SongController {
 	}
 
 	@ApiOperation(value = "Song Page", notes = "가사 페이지")
-	@GetMapping("/{id}")
-	public ResponseEntity<Map<String, Object>> get_song(@PathVariable int id, @RequestParam String uid) {
+	@GetMapping("/info")
+	public ResponseEntity<Map<String, Object>> get_song(@RequestParam int id, @RequestParam String uid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -118,7 +118,7 @@ public class SongController {
 			SongDto song = songservice.get_song(id);
 			List<SongwordDto> wordList = songservice.get_word(id);
 			//전체 좋아요한갯수
-			Song_like_countDto songlikecnt = songservice.get_cnt(id);
+			int songlikecnt = songservice.get_cnt(id);
 			//내가 좋아요했는지랑
 			int LIKE = songservice.get_like(uid, id);
 

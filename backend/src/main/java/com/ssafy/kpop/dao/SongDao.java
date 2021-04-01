@@ -39,6 +39,6 @@ public interface SongDao {
 	int let_dislike(SonglikeDto songlike);
 	Song_like_countDto now_count(int song_id);
 	int set_like(Map<String, Object> map);
-	Song_like_countDto get_cnt(int song_id);
+	int get_cnt(int song_id);
 	int get_like(Map<String, Object> map);
 }
