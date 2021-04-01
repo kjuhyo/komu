@@ -26,7 +26,7 @@
             <div class="video-items">
               <div class="video-item">
                 <a href="https://www.youtube.com/watch?v=XsX3ATc3FbA">
-                  <img src="https://i.ytimg.com/vi/XsX3ATc3FbA/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAzjeJ1TqEib1np5etuP_oBKhAIcw" alt="작은 것들을 위한 시">
+                  <img :src="this.album_cover" alt="album_cover">
                 </a>
               </div>
               <div class="video-item">
@@ -57,8 +57,9 @@ export default {
   data(){
       return {
         uid: '',
-        id:31737197, //노래 id
+        id: this.$route.query.id, //노래 id
         lyric:'',
+        album_cover:'',
         singer_name:'',
         song_name:'',
         song_like_count:'', //총 좋아요 갯수
@@ -90,10 +91,11 @@ export default {
         this.id,
         this.uid,
         (response) => {
-          console.log(response.data);
+          //console.log(response.data);
           this.singer_name=response.data.song.singer_name;
           this.song_name=response.data.song.song_name;
           this.lyric= response.data.song.lyric;
+          this.album_cover=response.data.song.album_cover;
           this.song_like_count=response.data.song_like_count;
           this.wordList=response.data.wordList;
           this.LIKE=response.data.LIKE;
@@ -132,52 +134,9 @@ export default {
     margin-bottom: 20px;
     margin-left: 2%;
   }
-  .summary_thumb {
-    width: 176px;
-    height: 176px;
-  }
-  .artist_summary {
-    margin-left: 30px;
-  }
+ 
   .item {
     font-size: 20px;
-  }
-  .track_section {
-    padding: 5px 0 32px;
-  }
-  .track_list {
-    position: relative;
-    margin: 0 -14px;
-    color: #232323;
-  }
-  table {
-    width: 100%;
-    text-align: center;
-    border: 0;
-    // border: 1px solid black;
-  }
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  .blind {
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-  }
-  .inner {
-    position: relative;
-    width: 60px;
-    height: 60px;
   }
   .video-list {
     margin-bottom: 20px;

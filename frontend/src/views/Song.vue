@@ -8,7 +8,7 @@
       <div class="section profile-content">
         <div class="container">
           
-          <div class="artist_summary_section">
+          <div class="title">
             <div class="summary_thumb">
              <h2 class="title_area">
                   <span class="title">노래 리스트</span>
@@ -21,6 +21,7 @@
               <span><SearchBar /></span>
             </h3>
             <div class="track_section">
+            <div>
             <table>
                 <colgroup>
                   <col :style="{ width: '15%' }" />
@@ -30,25 +31,27 @@
                   <col :style="{ width: '15%' }" />
                   <col :style="{ width: '5%' }" />
                 </colgroup>
-                <tr>
-                  <th>album_cover</th>
-                  <th>song_name</th>
-                  <th>singer_name</th>
-                  <th>genre</th>
-                  <th>issue_date</th>
-                  <th>song_like_cnt</th>
-                </tr>
-               <!-- <tr v-for="(item, index) in items" :key="`${index}_items`">
-                  <td>{{ item.no }}</td>
-                  <td>
-                    <router-link :to="`/read?no=${item.no}`">{{
-                      item.title
+
+                <tr v-for="(item) in this.songList" :key="item.id">
+                 <td><img :src= "item.album_cover" alt="앨범사진"></td>
+                 <td> <router-link :to="{
+                    name:'songdetail',
+                    query:{
+                        id:item.id,
+                    },
+                }">{{
+                      item.song_name
                     }}</router-link>
+                
                   </td>
-                  <td>{{ item.writer }}</td>
-                  <td>{{ getFormatDate(item.regtime) }}</td>
-                </tr>-->
+                  <td>{{ item.singer_name }}</td>
+                  <td>{{ item.genre }}</td>
+                  <td>{{ item.issue_date }}</td>
+                  <td>{{ item.song_like_cnt }}</td>
+                </tr>
+
               </table>
+              </div>
               <div class="paging">
                 <Pagination />
               </div>
@@ -64,7 +67,10 @@
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
-import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
+//import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
+import { getlist_new} from '@/api/song.js';
+import { mapState } from 'vuex';
+import { getuidCookie } from '@/util/cookie.js';
 
 export default {
   components: {
@@ -73,14 +79,17 @@ export default {
   },
     data(){
       return {
-        id: '', //노래 id
-        song_name: '',
-        singer_name:'',
-        album_cover:'',
-        song_like_cnt:'', //총 좋아요 갯수
-        genre:'발라드',
-        issue_date:'',
-        page:1,
+        uid: '',
+        songList:{
+            id: '', //노래 id
+            song_name: '',
+            singer_name:'',
+            album_cover:'',
+            song_like_cnt:'', //총 좋아요 갯수
+            genre:'발라드',
+            issue_date:'',
+            page:2,
+        }
       }
   },
   bodyClass: 'profile-page',
@@ -91,9 +100,10 @@ export default {
     },
   },
   created(){
-      getlist_genre(
-        this.genre,
-        this.page,
+    this.initUser(),
+     /* getlist_genre(
+        this.items.genre,
+        this.items.page,
         (response) => {
           console.log("장르별");
           console.log(response.data);
@@ -101,19 +111,20 @@ export default {
         (error) => {
           console.log(error);
         }
-      ),
+      ),*/
     getlist_new(
-        this.page,
+        this.songList.page,
         (response) => {
-            console.log("최신순");
-          console.log(response.data);
+         // console.log("최신순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
         },
         (error) => {
           console.log(error);
         }
-      ),
-    getlist_pop(
-        this.page,
+      )
+   /* getlist_pop(
+        this.items.page,
         (response) => {
             console.log("인기순");
           console.log(response.data);
@@ -121,20 +132,26 @@ export default {
         (error) => {
           console.log(error);
         }
-      )
+      )*/
   },
   computed: {
+    ...mapState(['isLogin','loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
       };
     },
   },
+  methods: {
+    initUser() {
+      this.uid = getuidCookie();
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-  .artist_summary_section {
+  .title {
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -142,9 +159,6 @@ export default {
   .summary_thumb {
     width: 200px;
     height: 176px;
-  }
-  .artist_summary {
-    margin-left: 30px;
   }
   .item {
     font-size: 20px;
@@ -162,38 +176,6 @@ export default {
     text-align: center;
     border: 0;
     // border: 1px solid black;
-  }
-  thead {
-    display: table-header-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  tbody {
-    display: table-row-group;
-    vertical-align: middle;
-    border-color: inherit;
-  }
-  .blind {
-    overflow: hidden;
-    position: absolute;
-    clip: rect(0 0 0 0);
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-  }
-  .inner {
-    position: relative;
-    width: 60px;
-    height: 60px;
-  }
-  .video-list {
-    margin-bottom: 20px;
-  }
-  .video-items {
-    display: flex;
-  }
-  .video-item {
-    margin-left: 10px;
   }
   .paging {
   display: flex;
