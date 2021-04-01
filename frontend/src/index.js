@@ -12,6 +12,8 @@ import SingerDetail from "./views/SingerDetail.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
 import KomuWiki from "./views/KomuWiki.vue";
 import NotFound from "./views/NotFound.vue";
+import Song from "./views/Song.vue";
+import SongDetail from "./views/SongDetail.vue";
 
 Vue.use(Router);
 
@@ -100,6 +102,24 @@ export default new Router({
       }
     },
     {
+      path: "/song",
+      name: "song",
+      components: { default: Song, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/songdetail",
+      name: "songdetail",
+      components: { default: SongDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
       path:'/404',
       name:"notfound",
       components: { default: NotFound, header: MainNavbar, footer: MainFooter},
@@ -112,6 +132,7 @@ export default new Router({
       path: '/:pathMatch(.*)*',
       redirect: "/404"
     },
+   
     
 
   ],
