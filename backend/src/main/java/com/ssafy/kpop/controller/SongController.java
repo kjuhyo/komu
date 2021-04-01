@@ -238,5 +238,40 @@ public class SongController {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	
+	@ApiOperation(value = "Song Genre List Page", notes = "노래 리스트 페이지 (장르정렬)")
+	@GetMapping("/genre/{page}")
+	public ResponseEntity<Map<String, Object>> getlist_genre(@PathVariable int page, @RequestParam String genre) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		int range = (page / 10) + 1;
+		int listCnt = 0;
+
+		try {
+			logger.info("=====> 장르별 노래 리스트 가져오기");
+			listCnt = songservice.get_listCnt(genre);
+			
+			Pagination pagi = new Pagination();
+			pagi.pageInfo(page, range, listCnt);
+
+			int startList = pagi.getStartList();
+			int listSize = pagi.getListSize();
+			List<SongListDto> songList = songservice.genre_list(genre, startList, listSize);
+
+			resultMap.put("songList", songList);
+			resultMap.put("pagination", pagi);
+			resultMap.put("message", "최신순 노래 가져오기 성공하였습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 
 }

@@ -41,6 +41,11 @@ public interface SongService {
 	
 	int get_like(String uid, int song_id);
 	
+	int get_listCnt(String genre);
+	
+	List<SongListDto> genre_list(String genre, int startList, int listSize);
+
+
 	
 	
 	
