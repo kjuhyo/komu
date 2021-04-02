@@ -47,5 +47,11 @@
 				from community 
 				where cid=#{cid}
 		)
-	</select>	
+	</select>
+	
+	<select id="searchCommunity" parameterType="string" resultType="CommunityDto">
+		select * 
+		from community
+		where c_title like #{c_title} order by c_view desc
+	</select>
 </mapper>
