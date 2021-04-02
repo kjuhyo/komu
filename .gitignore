@@ -35,3 +35,7 @@ build/
 .vscode/
 
 /.metadata/
+
+
+### Backend ###
+./backend/application.pid

@@ -10,10 +10,18 @@ import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
 import Singer from "./views/Singer.vue";
+import KomuWikiDetail from "./views/KomuWikiDetail.vue";
+import KomuWiki from "./views/KomuWiki.vue";
+import NotFound from "./views/NotFound.vue";
+import Song from "./views/Song.vue";
+import SongDetail from "./views/SongDetail.vue";
+import GenreRecommend from "./views/GenreRecommend.vue";
+import Write from "./views/Write.vue";
 
 Vue.use(Router);
 
 export default new Router({
+  mode:'history',
   routes: [
     {
       path: "/index",
@@ -81,11 +89,75 @@ export default new Router({
       path: "/singer",
       name: "singer",
       components: { default: Singer, header: MainNavbar, footer: MainFooter},
+      path: "/komuwikidetail",
+      name: "komuwikidetail",
+      components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
       }
     },
+
+    {
+      path: "/komuwiki",
+      name: "komuwiki",
+      components: { default: KomuWiki, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/song",
+      name: "song",
+      components: { default: Song, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/songdetail",
+      name: "songdetail",
+      components: { default: SongDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/genrerecommend",
+      name: "genrerecommend",
+      components: { default: GenreRecommend, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/communitywrite",
+      name: "communitywrite",
+      components: { default: Write, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path:'/404',
+      name:"notfound",
+      components: { default: NotFound, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: "/404"
+    },
+   
+    
   ],
   scrollBehavior: to => {
     if (to.hash) {

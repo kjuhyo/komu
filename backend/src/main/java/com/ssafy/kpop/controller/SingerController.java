@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
@@ -79,18 +80,18 @@ public class SingerController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	@ApiOperation(value = "Singer Like Url", notes = "가수좋아요 url")
+	@ApiOperation(value = "Singer Like Url", notes = "가수좋아요")
 	@PostMapping("/like")
-	public ResponseEntity<Map<String, Object>> do_like(@RequestBody SingerlikeDto singerlike) {
+	public ResponseEntity<Map<String, Object>> like_singer(@RequestBody SingerlikeDto singerlike) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		logger.info("=====> 가수 좋아요 등록");
-
+		////////// 여기서부터 할꺼에여
 		try {
-			logger.info("=====> 좋아요 중복 체크 ");
+			logger.info("=====> 유저 좋아요 누른적 있는지 체크 ");
 			SingerlikeDto like = singerservice.find_like(singerlike);
-			if (like == null) {
+			if (like == null) { // 좋아요 누른적이 없네요? 누르러 갑시다
 				int result = singerservice.do_like(singerlike);
 				if (result == 1) {
 					// singer table -> single_like_cnt 올려주기
@@ -99,7 +100,7 @@ public class SingerController {
 					like_cnt += 1;
 					int like_ok = singerservice.set_like(singer_id, like_cnt);
 					if (like_ok == 1) {
-						logger.info("=====> 삭제 성공");
+						logger.info("=====> 좋아요 성공");
 						resultMap.put("like", result);
 						resultMap.put("message", "가수를 좋아요하셨습니다.");
 						status = HttpStatus.ACCEPTED;
@@ -108,33 +109,8 @@ public class SingerController {
 					resultMap.put("message", "가수를 좋아요에 실패하셨습니다.");
 					status = HttpStatus.ACCEPTED;
 				}
-			} else {
-				resultMap.put("message", "이미 좋아요를 누르셨습니다.");
-				status = HttpStatus.ACCEPTED;
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			logger.error("실행 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-	}
-
-	@ApiOperation(value = "Singer DisLike Url", notes = "가수좋아요 취소 url")
-	@DeleteMapping("/dislike")
-	public ResponseEntity<Map<String, Object>> do_dislike(@RequestBody SingerlikeDto singerlike) {
-		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = null;
-
-		logger.info("=====> 가수 싫어요 시작");
-
-		try {
-			logger.info("=====> 싫어요 취소 중복 체크 ");
-			SingerlikeDto like = singerservice.find_like(singerlike);
-			if (like != null) {
+			} else { // like안에 좋아요 값이 있는 거야 이미 좋아요를 누른거지
+				// 삭제버튼 구현시켜야죠
 				int result = singerservice.do_dislike(singerlike);
 
 				if (result == 1) {
@@ -144,7 +120,7 @@ public class SingerController {
 					like_cnt -= 1;
 					int like_ok = singerservice.set_like(singer_id, like_cnt);
 					if (like_ok == 1) {
-						logger.info("=====> 삭제 성공");
+						logger.info("=====> 좋아요 취소 성공");
 						resultMap.put("like", 0);
 						resultMap.put("message", "가수 좋아요를 취소하셨습니다.");
 						status = HttpStatus.ACCEPTED;
@@ -153,18 +129,13 @@ public class SingerController {
 					resultMap.put("message", "가수 좋아요 취소를 실패하였습니다.");
 					status = HttpStatus.ACCEPTED;
 				}
-			} else {
-				resultMap.put("message", "이미 좋아요를 취소하셨습니다.");
-				status = HttpStatus.ACCEPTED;
 			}
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.error("글 삭제 실패 : {}", e);
+			logger.error("실행 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
-
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 

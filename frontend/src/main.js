@@ -13,6 +13,7 @@
 // * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 import Vue from "vue";
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import App from "./App.vue";
 import router from ".";
 import store from './store';
@@ -22,6 +23,8 @@ import MaterialKit from "./plugins/material-kit";
 Vue.config.productionTip = false;
 
 Vue.use(MaterialKit);
+Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 const NavbarStore = {
   showNavbar: false

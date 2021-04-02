@@ -1,0 +1,57 @@
+/* textarea */
+.ProseMirror {
+  border: 1px solid #ddd;
+  border-radius: 0px 0px 5px 5px;
+  width: 100%;
+  min-height: 200px;
+}
+
+.editor-buttons-first {
+  text-align: center;
+  width: 100%;
+}
+
+.editor-buttons-second {
+  text-align: center;
+  width: 100%;
+}
+
+.editor-button {
+  border-radius: 0px !important;
+  background-color: #ce93d8 !important;
+  border-color: #ce93d8 !important;
+  color: #f3e5f5;
+  font-size: 15px;
+  /* padding: 2px !important; */
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.editor-button:hover {
+  background-color: #ba68c8;
+  border-color: #ba68c8;
+}
+
+.editor-button:focus,
+.editor-button:active {
+  background: #ba68c8 !important;
+  border-color: #ba68c8;
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.editor-buttons-first,
+.editor-buttons-second {
+  width: 100%;
+}
+
+.editor-buttons-first button:first-child {
+  border-radius: 5px 0px 0px 0px !important;
+}
+
+.editor-buttons-first button:last-child {
+  border-radius: 0px 5px 0px 0px !important;
+}

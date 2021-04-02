@@ -9,7 +9,9 @@
     <div class="md-toolbar-row md-collapse-lateral">
       <div class="md-toolbar-section-start">
         <h3 class="md-title">
-          <img class="md-title-img" src="@/assets/img/logo.png" />
+          <router-link to="/">
+            <img class="md-title-img" src="@/assets/img/logo.png" />
+          </router-link>
         </h3>
       </div>
       <div class="md-toolbar-section-end">
@@ -47,10 +49,13 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/">
+                          <router-link
+                            class="navbarrouting"
+                            to="/genrerecommend"
+                          >
                             <i class="material-icons">layers</i>
                             <p>장르별 추천</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a
@@ -92,12 +97,11 @@
                 <p>노래리스트</p>
               </md-list-item>
 
-              <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-              >
-                <i class="material-icons">view_carousel</i>
-                <p>코뮤위키</p>
+              <md-list-item>
+                <router-link class="navbarrouting" to="/komuwiki">
+                  <i class="material-icons">view_carousel</i>
+                  <p class="navfont">코뮤위키</p>
+                </router-link>
               </md-list-item>
 
               <li class="md-list-item">
@@ -117,10 +121,10 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/landing">
+                          <router-link class="navbarrouting" to="/community">
                             <i class="material-icons">chat_bubble_outline</i>
                             <p>전체 커뮤니티</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a href="#/login">
@@ -134,12 +138,12 @@
                 </a>
               </li>
 
-              <md-list-item v-if="!isLogin" @click="showModal=true">
-                <i class="material-icons">login</i>
-                <p>로그인</p>
+              <md-list-item v-if="!isLogin" @click="showModal = true">
+                <i class="material-icons navicons">login</i>
+                <p class="navfont">로그인</p>
                 <div v-if="showModal">
-                <login-modal></login-modal>
-               </div>
+                  <login-modal></login-modal>
+                </div>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -159,10 +163,10 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/landing">
+                          <router-link to="/profile">
                             <i class="material-icons">person</i>
                             <p>마이페이지</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a href="#/profile" @click.prevent="logout">
@@ -171,12 +175,11 @@
                           </a>
                         </li>
                       </ul>
-                      
                     </drop-down>
                   </div>
                 </a>
               </li>
-            
+
               <!-- <md-list-item
                 href="https://www.instagram.com/CreativeTimOfficial"
                 target="_blank"
@@ -217,11 +220,11 @@ import LoginModal from './LoginModal';
 export default {
   components: {
     MobileMenu,
-  //  Modal: Modal,
+    //  Modal: Modal,
     LoginModal,
   },
 
-    props: {
+  props: {
     type: {
       type: String,
       default: 'white',
@@ -246,7 +249,7 @@ export default {
     return {
       extraNavClasses: '',
       toggledClass: false,
-      showModal:false,
+      showModal: false,
     };
   },
   // computed: {
@@ -256,7 +259,7 @@ export default {
   //   },
   // },
   computed: {
-    ...mapState(['isLogin','loggedInUserData', 'userInfo']),
+    ...mapState(['isLogin', 'loggedInUserData', 'userInfo']),
     //showLogout() {
     //  const excludedRoutes = ['index'];
     // return excludedRoutes.every((r) => r !== this.$route.name);
@@ -307,14 +310,14 @@ export default {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     },
-    
+
     logout() {
       this.$store
         .dispatch('LOGOUT')
         .then(() => {
           if (this.$route.path !== '/') this.$router.replace('/');
           console.log('네브바로그아웃');
-          this.showModal=false;
+          this.showModal = false;
         })
         .catch(() => {
           console.log('로그아웃 문제!');
