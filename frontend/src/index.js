@@ -14,6 +14,7 @@ import KomuWiki from "./views/KomuWiki.vue";
 import NotFound from "./views/NotFound.vue";
 import Song from "./views/Song.vue";
 import SongDetail from "./views/SongDetail.vue";
+import GenreRecommend from "./views/GenreRecommend.vue";
 
 Vue.use(Router);
 
@@ -114,6 +115,15 @@ export default new Router({
       path: "/songdetail",
       name: "songdetail",
       components: { default: SongDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/genrerecommend",
+      name: "genrerecommend",
+      components: { default: GenreRecommend, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }

@@ -49,10 +49,13 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/">
+                          <router-link
+                            class="navbarrouting"
+                            to="/genrerecommend"
+                          >
                             <i class="material-icons">layers</i>
                             <p>장르별 추천</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
                           <a
