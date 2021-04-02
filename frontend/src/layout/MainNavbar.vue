@@ -127,10 +127,10 @@
                           </router-link>
                         </li>
                         <li>
-                          <a href="#/login">
+                          <router-link class="navbarrouting" to="/singer">
                             <i class="material-icons">group</i>
                             <p>가수별 커뮤니티</p>
-                          </a>
+                          </router-link>
                         </li>
                       </ul>
                     </drop-down>
