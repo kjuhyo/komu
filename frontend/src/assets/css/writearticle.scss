@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+.b-form-container {
+  border: none;
+}
+.write_title {
+  width: 100%;
+  white-space: nowrap;
+  text-align: center;
+  padding: 5px;
+}
+.title_css {
+  //   padding-left: 5px;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.content_title {
+  width: 80%;
+  padding: 10px;
+  margin-left: 10px;
+  border-color: #ccc7b8;
+  border-radius: 5px;
+  border: solid 1px #dbdbdb;
+  font-family: 'Nanum Gothic', sans-serif;
+}
+#__BVID__20 {
+  margin: auto;
+  /* text-align: center; */
+}
+/* 안내문구 */
+.cert-upload-info {
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.cert-big {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.cert-small {
+  font-size: 14px;
+}
+/* 이미지 */
+
+.community-photo {
+  width: 25%;
+}
+
+.community-photo-img {
+  position: relative;
+  padding-top: 100%; /* 1:1 ratio */
+  overflow: hidden;
+}
+
+.community-photo-img .centered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: translate(50%, 50%);
+  -ms-transform: translate(50%, 50%);
+  transform: translate(50%, 50%);
+}
+.community-photo-img .centered img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#community-photo-x-button {
+  border: none !important;
+  background: none !important;
+  color: black;
+}
+
+#community-photo-x-button:hover {
+  color: #eac03a;
+}
+
+#community-photo-x-button:focus,
+#community-photo-x-button:active {
+  box-shadow: none !important;
+  border: none !important;
+  color: #eac03a !important;
+}
+
+.community-image-upload {
+  margin: 10px 0px;
+  font-size: 14px;
+}
+
+.form-group {
+  margin: auto;
+  width: 100%;
+}
+
+.custom-file-input.is-valid ~ .custom-file-label,
+.was-validated .custom-file-input:valid ~ .custom-file-label {
+  border-color: #ccc7b8;
+}
+
+.custom-file-input.is-invalid ~ .custom-file-label,
+.was-validated .custom-file-input:invalid ~ .custom-file-label {
+  border-color: #ccc7b8;
+}
+
+.custom-file-input.is-invalid:focus ~ .custom-file-label,
+.was-validated .custom-file-input:invalid:focus ~ .custom-file-label {
+  border-color: #ccc7b8;
+}
+
+.community-image-name {
+  font-size: 14px;
+}
+
+.community-upload-image {
+  width: 100%;
+}
+
+/* 문구 */
+.community-text-upload {
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: 14px;
+}
+/* 버튼 */
+.community-submit {
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: auto;
+  text-align: center;
+  margin-top: 18px;
+  background-color: #ce93d8;
+  color: #f3e5f5;
+  padding: 10px;
+  border: none;
+  font-size: 15px;
+  border-radius: 5px;
+  width: 80px;
+}
+
+.align-center {
+  text-align: center;
+  margin: auto;
+}
