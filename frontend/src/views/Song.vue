@@ -17,9 +17,7 @@
             </div>
           </div>
           <div class="song_list">
-            <h3>
-              <span><SearchBar /></span>
-            </h3>
+            <SearchBar/>
             <div class="track_section">
               
             <div>
@@ -48,7 +46,7 @@
                     <p>랩/힙합</p>
                   </md-list-item>
                   <md-list-item href="javascript:void(1)" @click="getlist_genre('성인가요')">
-                    <p>성인가요</p>
+                    <p>트로트</p>
                   </md-list-item>
                   <md-list-item href="javascript:void(1)" @click="getlist_genre('국내')">
                     <p>국내영화/드라마</p>
@@ -78,7 +76,9 @@
             </div>
           </md-toolbar>
         </div>
-        
+        <span>
+        <div @click="popular">ㆍ인기순</div> <div @click="newList">ㆍ최신순</div>
+        </span>
       </div>
     </div>
     <!-- end menu -->
@@ -128,11 +128,10 @@
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
-//import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
-import { getlist_new, getlist_genre } from '@/api/song.js';
+import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-//import {Small} from './components/SmallNavigationSection';
+import { getSongName } from '@/api/search.js';
 
 export default {
   components: {
@@ -176,16 +175,6 @@ export default {
         }
       )
       
-    /*getlist_pop(
-        this.items.page,
-        (response) => {
-            console.log("인기순");
-          console.log(response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      )*/
   },
   computed: {
     ...mapState(['isLogin','loggedInUserData']),
@@ -199,7 +188,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    getlist_genre:function(genre){
+    doSearch:function(genre){
       //console.log("함수실행");
       this.pickgenre=genre;
       getlist_genre(
@@ -213,6 +202,46 @@ export default {
         }
       )
     },
+    getSearchList:function(searchcontent){
+      this.searchInput = searchcontent.target.value;
+      getSongName(
+        searchcontent,
+        (response) => {
+          console.log("검색");
+          console.log(response.data);
+          //this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    popular:function(){
+      getlist_pop( //인기순
+        this.page,
+        (response) => {
+         // console.log("인기순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    newList:function(){
+       getlist_new( //최신순
+        this.page,
+        (response) => {
+         // console.log("최신순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
   }
 }
 </script>
@@ -248,4 +277,5 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 </style>
