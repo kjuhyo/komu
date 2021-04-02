@@ -9,6 +9,7 @@ import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
+import Singer from "./views/Singer.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
 import KomuWiki from "./views/KomuWiki.vue";
 import NotFound from "./views/NotFound.vue";
@@ -67,8 +68,8 @@ export default new Router({
       }
     },
     {
-      path: "/communityDetail",
-      name: "communityDetail",
+      path: "/communitydetail",
+      name: "communitydetail",
       components: { default: CommunityDetail, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
@@ -85,6 +86,9 @@ export default new Router({
       }
     },
     {
+      path: "/singer",
+      name: "singer",
+      components: { default: Singer, header: MainNavbar, footer: MainFooter},
       path: "/komuwikidetail",
       name: "komuwikidetail",
       components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
@@ -154,7 +158,6 @@ export default new Router({
     },
    
     
-
   ],
   scrollBehavior: to => {
     if (to.hash) {
