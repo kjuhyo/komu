@@ -15,6 +15,7 @@ import NotFound from "./views/NotFound.vue";
 import Song from "./views/Song.vue";
 import SongDetail from "./views/SongDetail.vue";
 import GenreRecommend from "./views/GenreRecommend.vue";
+import Write from "./views/Write.vue";
 
 Vue.use(Router);
 
@@ -124,6 +125,15 @@ export default new Router({
       path: "/genrerecommend",
       name: "genrerecommend",
       components: { default: GenreRecommend, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/communitywrite",
+      name: "communitywrite",
+      components: { default: Write, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
