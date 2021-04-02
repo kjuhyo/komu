@@ -56,12 +56,12 @@ public class SearchController {
 	}
 	
 	/*
-	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목으로 
+	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목+가수명
 	 * 
 	 * @param 노래제목
 	 * @return List<SongDto>
 	 * */
-	@ApiOperation(value="노래검색(노래제목으로)", notes = "@param 노래제목 </br> @return SongDto", response=List.class)
+	@ApiOperation(value="노래검색(노래제목+가수명)", notes = "제목이나 가수명으로 노래 검색", response=List.class)
 	@GetMapping("/song/{name}")
 	public ResponseEntity<List<SingerDto>> getSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;

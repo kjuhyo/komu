@@ -12,7 +12,7 @@
 	
 	<select id="getSongByTitle" parameterType="string" resultType="SongDto">
 		select * from song 
-		where song_name like #{song_name};
+		where song_name like #{song_name} || singer_name like #{singer_name};
 	</select>
 	
 	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
