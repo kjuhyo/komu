@@ -88,7 +88,13 @@ export default new Router({
     {
       path: "/singer",
       name: "singer",
-      components: { default: Singer, header: MainNavbar, footer: MainFooter},
+      components: { default: Singer, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
       path: "/komuwikidetail",
       name: "komuwikidetail",
       components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
