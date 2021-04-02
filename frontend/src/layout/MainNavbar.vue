@@ -58,12 +58,13 @@
                           </router-link>
                         </li>
                         <li>
-                          <a
-                            href="https://demos.creative-tim.com/vue-material-kit/documentation/"
+                          <router-link
+                            class="navbarrouting"
+                            to="/lyricsrecommend"
                           >
                             <i class="material-icons">content_paste</i>
                             <p>가사별 추천</p>
-                          </a>
+                          </router-link>
                         </li>
                       </ul>
                     </drop-down>
