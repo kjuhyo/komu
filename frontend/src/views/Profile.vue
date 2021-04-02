@@ -232,9 +232,9 @@ export default {
     margin-top: 3.213rem;
     padding-bottom: 50px;
 
-    img {
-      margin-bottom: 2.142rem;
-    }
+    // img {
+    //   margin-bottom: 2.142rem;
+    // }
   }
 }
 </style>
