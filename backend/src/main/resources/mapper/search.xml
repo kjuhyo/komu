@@ -11,13 +11,19 @@
 	</select>
 	
 	<select id="getSongByTitle" parameterType="string" resultType="SongDto">
-		select * from song 
-		where song_name like #{song_name} || singer_name like #{singer_name};
+		select * 
+        from song as s left join song_like_count as slc
+        on s.id=slc.song_id
+		where song_name like #{song_name} || singer_name like #{singer_name}
+        order by slc.song_like_cnt desc;
 	</select>
 	
 	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
-		select * from song 
-		where singer_name like #{singer_name};
+		select * 
+        from song as s left join song_like_count as slc
+        on s.id=slc.song_id
+		where song_name like #{singer_name} || singer_name like #{singer_name}
+        order by s.issue_date desc;
 	</select>
 	
 	<select id="searchByHash" resultType="int">

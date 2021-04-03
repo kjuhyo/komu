@@ -57,14 +57,14 @@ public class SearchController {
 	}
 	
 	/*
-	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목+가수명
+	 * 노래검색결과 ( 인기순 ) - 노래제목+가수명
 	 * 
 	 * @param 노래제목
 	 * @return List<SongDto>
 	 * */
-	@ApiOperation(value="노래검색(노래제목+가수명)", notes = "제목이나 가수명으로 노래 검색", response=List.class)
+	@ApiOperation(value="노래검색(노래제목+가수명),인기순", notes = "제목이나 가수명으로 노래 검색,인기순", response=List.class)
 	@GetMapping("/song/{name}")
-	public ResponseEntity<List<SingerDto>> getSongName(@PathVariable String name){
+	public ResponseEntity<List<SingerDto>> getPopularSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
 		List<SingerDto> list=null;
 		try {
@@ -80,14 +80,14 @@ public class SearchController {
 	}
 	
 	/*
-	 * 노래검색결과 ( db에 저장된 순 ) - 가수명으로
+	 * 노래검색결과 ( 최신순 ) - 노래제목+가수명
 	 * 
 	 * @param 가수명
 	 * @return List<SongDto>
 	 * */
-	@ApiOperation(value="노래검색(가수명으로)", notes = "@param 가수명 </br> @return SongDto", response=List.class)
-	@GetMapping("/song/singer/{name}")
-	public ResponseEntity<List<SongDto>> getSongNameBySinger(@PathVariable String name){
+	@ApiOperation(value="노래검색(노래제목+가수명),최신순", notes = "제목이나 가수명으로 노래 검색,인기순", response=List.class)
+	@GetMapping("/song/new/{name}")
+	public ResponseEntity<List<SongDto>> getNewSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
 		List<SongDto> list=null;
 		try {
