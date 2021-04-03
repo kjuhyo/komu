@@ -90,12 +90,11 @@
                 <p>Download</p>
               </md-list-item> -->
 
-              <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-              >
-                <i class="material-icons">queue_music</i>
-                <p>노래리스트</p>
+              <md-list-item>
+                <router-link class="navbarrouting" to="/song"
+                  ><i class="material-icons">queue_music</i>
+                  <p class="navfont">노래리스트</p>
+                </router-link>
               </md-list-item>
 
               <md-list-item>
