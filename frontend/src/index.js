@@ -18,6 +18,7 @@ import SongDetail from "./views/SongDetail.vue";
 import GenreRecommend from "./views/GenreRecommend.vue";
 import Write from "./views/Write.vue";
 import LyricsRecommend from "./views/LyricsRecommend.vue";
+import PopularSong from "./views/PopularSong.vue";
 
 Vue.use(Router);
 
@@ -154,6 +155,15 @@ export default new Router({
       path: "/communitywrite",
       name: "communitywrite",
       components: { default: Write, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/popularsong",
+      name: "PopularSong",
+      components: { default: PopularSong, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
