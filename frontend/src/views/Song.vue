@@ -188,7 +188,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    doSearch:function(genre){
+    getlist_genre:function(genre){
       //console.log("함수실행");
       this.pickgenre=genre;
       getlist_genre(
