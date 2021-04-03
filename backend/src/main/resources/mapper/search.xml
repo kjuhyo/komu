@@ -10,20 +10,26 @@
 		order by singer_like_cnt desc;
 	</select>
 	
-	<select id="getSongByTitle" parameterType="string" resultType="SongDto">
-		select * 
-        from song as s left join song_like_count as slc
-        on s.id=slc.song_id
+	<select id="getSongLikeSort" parameterType="string" resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img,
+		s.album_name,
+		s.album_cover, s.genre, s.issue_date,
+		ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as slc
+		on s.id = slc.song_id
 		where song_name like #{song_name} || singer_name like #{singer_name}
-        order by slc.song_like_cnt desc;
+		order by slc.song_like_cnt 
 	</select>
 	
-	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
-		select * 
-        from song as s left join song_like_count as slc
-        on s.id=slc.song_id
-		where song_name like #{singer_name} || singer_name like #{singer_name}
-        order by s.issue_date desc;
+	<select id="getSongNewSort" parameterType="string" resultType="SongListDto">
+		select s.id, s.song_name, s.singer_name, s.singer_img,
+		s.album_name,
+		s.album_cover,s.genre, s.issue_date,
+		ifnull(slc.song_like_cnt,0)
+		from song as s left join song_like_count as slc
+		on s.id = slc.song_id
+		where song_name like #{song_name} || singer_name like #{singer_name}
+		order by s.issue_date desc;
 	</select>
 	
 	<select id="searchByHash" resultType="int">

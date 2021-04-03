@@ -9,12 +9,13 @@ import com.ssafy.kpop.dto.ComPostDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 
 @Mapper
 public interface SearchDao {
 	public List<SingerDto> getSingerByName(String singer_name);
-	public List<SingerDto> getSongByTitle(String song_name);
-	public List<SongDto> getSongBySingerName(String singer_name);
+	public List<SongListDto> getSongLikeSort(String song_name);
+	public List<SongListDto> getSongNewSort(String singer_name);
 	public List<CommunityDto> searchCommunity(String c_title);
 	
 	public List<Integer> searchByHash(Map<String, Object> map);

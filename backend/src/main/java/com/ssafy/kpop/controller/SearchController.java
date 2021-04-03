@@ -18,6 +18,7 @@ import com.ssafy.kpop.dto.ComPostDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.service.SearchService;
 
 import io.swagger.annotations.Api;
@@ -64,19 +65,19 @@ public class SearchController {
 	 * */
 	@ApiOperation(value="노래검색(노래제목+가수명),인기순", notes = "제목이나 가수명으로 노래 검색,인기순", response=List.class)
 	@GetMapping("/song/{name}")
-	public ResponseEntity<List<SingerDto>> getPopularSongName(@PathVariable String name){
+	public ResponseEntity<List<SongListDto>> getPopularSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
-		List<SingerDto> list=null;
+		List<SongListDto> list=null;
 		try {
 			name= "%"+name+"%";
-			list=searchService.getSongByTitle(name);
+			list=searchService.getSongLikeSort(name);
 			status=HttpStatus.ACCEPTED;
 		}catch(Exception e) {
 			e.printStackTrace();
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		
-		return new ResponseEntity<List<SingerDto>>(list, status);
+		return new ResponseEntity<List<SongListDto>>(list, status);
 	}
 	
 	/*
@@ -87,19 +88,19 @@ public class SearchController {
 	 * */
 	@ApiOperation(value="노래검색(노래제목+가수명),최신순", notes = "제목이나 가수명으로 노래 검색,인기순", response=List.class)
 	@GetMapping("/song/new/{name}")
-	public ResponseEntity<List<SongDto>> getNewSongName(@PathVariable String name){
+	public ResponseEntity<List<SongListDto>> getNewSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
-		List<SongDto> list=null;
+		List<SongListDto> list=null;
 		try {
 			name= "%"+name+"%";
-			list=searchService.getSongBySingerName(name);
+			list=searchService.getSongNewSort(name);
 			status=HttpStatus.ACCEPTED;
 		}catch(Exception e) {
 			e.printStackTrace();
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		
-		return new ResponseEntity<List<SongDto>>(list, status);
+		return new ResponseEntity<List<SongListDto>>(list, status);
 	}
 	
 	/**
