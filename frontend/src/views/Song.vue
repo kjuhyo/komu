@@ -17,7 +17,27 @@
             </div>
           </div>
           <div class="song_list">
-            <SearchBar/>
+            <div v-if="isMobile">
+    <form class="m-search-container">
+      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+      <div @click="findname"
+        ><img
+          class="search-icon"
+          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+      /></div>
+    </form>
+  </div>
+
+  <div v-else>
+    <form class="search-container">
+      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+      <div @click="findname"
+        ><img
+          class="search-icon"
+          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+      /></div>
+    </form>
+  </div>
             <div class="track_section">
               
             <div>
@@ -125,7 +145,7 @@
 </template>
 
 <script>
-import SearchBar from '../components/SearchBar.vue';
+//import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
 import { getlist_new, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
@@ -134,7 +154,7 @@ import { getNewSongName } from '@/api/search.js';
 
 export default {
   components: {
-    SearchBar,
+   // SearchBar,
     Pagination,
     //Small,
   },
@@ -153,7 +173,8 @@ export default {
         },
         pickgenre:'',
         page:1,
-        sort:1,
+        isMobile: false,
+        searchtext: "",
       }
   },
   bodyClass: 'profile-page',
@@ -215,10 +236,10 @@ export default {
         )
       }
     },
-    getSearchList:function(searchcontent){
-      this.searchInput = searchcontent.target.value;
+    findname:function(){
+      //this.searchInput = searchcontent.target.value;
       getNewSongName(
-        searchcontent,
+        this.searchtext,
         (response) => {
           console.log("검색");
           console.log(response.data);
@@ -229,7 +250,14 @@ export default {
         }
       )
     },
-  }
+    onResize: function() {
+      this.isMobile = window.innerWidth <= 480;
+    },
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  },
 }
 </script>
 
