@@ -160,5 +160,11 @@ public class SongServiceImpl implements SongService {
 		map.put("listSize", listSize);
 		return sdao.genre_list(map);
 	}
+	
+	@Override
+	public int get_totalcnt() {
+		// TODO Auto-generated method stub
+		return sdao.get_totalcnt();
+	}
 
 }

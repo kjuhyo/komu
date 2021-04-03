@@ -115,6 +115,10 @@
 		where s.genre like concat('%',#{genre},'%')
 		order by s.issue_date desc limit #{startList}, #{listSize};
 	</select>
+	
+	<select id="get_totalcnt" resultType="int">
+		select count(*) from song;
+	</select>
 
 
 </mapper>
