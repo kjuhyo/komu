@@ -30,7 +30,7 @@
           <div class="video-list">
             <div class="video-items">
               <div class="video-item">
-                <a href="https://www.youtube.com/watch?v=XsX3ATc3FbA">
+                <a :href="`https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`" target="_blank">
                   <img :src="this.album_cover" alt="album_cover">
                 </a>
               </div>
