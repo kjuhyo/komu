@@ -83,6 +83,10 @@ export default {
   padding: 0;
 }
 
+.container {
+  padding-bottom: 2rem;
+}
+
 .comm_sorting_container {
   padding-left: 10px;
 }
@@ -124,7 +128,6 @@ export default {
 .paging {
   display: flex;
   justify-content: center;
-  padding-bottom: 2rem;
 }
 
 .comm-searchbar {
