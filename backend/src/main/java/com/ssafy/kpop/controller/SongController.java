@@ -52,6 +52,7 @@ public class SongController {
 
 		try {
 			logger.info("=====> 최신순 노래 리스트 가져오기");
+			listCnt = songservice.get_totalcnt();
 			Pagination pagi = new Pagination();
 			pagi.pageInfo(page, range, listCnt);
 
@@ -60,6 +61,7 @@ public class SongController {
 			List<SongListDto> songList = songservice.newest_list(startList, listSize);
 
 			resultMap.put("songList", songList);
+			resultMap.put("pagination", pagi);
 			resultMap.put("message", "최신순 노래 가져오기 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 
@@ -85,6 +87,7 @@ public class SongController {
 
 		try {
 			logger.info("=====> 인기순 노래 리스트 가져오기");
+			listCnt = songservice.get_totalcnt();
 			Pagination pagi = new Pagination();
 			pagi.pageInfo(page, range, listCnt);
 
@@ -94,6 +97,7 @@ public class SongController {
 			List<SongListDto> songList = songservice.default_list(startList, listSize);
 
 			resultMap.put("songList", songList);
+			resultMap.put("pagination", pagi);
 			resultMap.put("message", "인기순 노래 가져오기 성공하였습니다.");
 			status = HttpStatus.ACCEPTED;
 
