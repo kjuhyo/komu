@@ -130,7 +130,7 @@ import { Pagination } from '@/components';
 import { getlist_new, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-import { getSongName } from '@/api/search.js';
+import { getNewSongName } from '@/api/search.js';
 
 export default {
   components: {
@@ -217,7 +217,7 @@ export default {
     },
     getSearchList:function(searchcontent){
       this.searchInput = searchcontent.target.value;
-      getSongName(
+      getNewSongName(
         searchcontent,
         (response) => {
           console.log("검색");
