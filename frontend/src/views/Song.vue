@@ -17,11 +17,72 @@
             </div>
           </div>
           <div class="song_list">
-            <h3>
-              <span><SearchBar /></span>
-            </h3>
+            <SearchBar/>
             <div class="track_section">
+              
             <div>
+              <div class="wrapper">
+    <div id="menu">
+      <div class="md-layout">
+        <div class="md-layout-item md-size-150 md-small-size-200">
+          <md-toolbar class="md-primary">
+            <div class="md-toolbar-row">
+              <div class="md-toolbar-section-start">
+                <h3 class="md-title">장르</h3>
+                <md-list>
+                  <md-list-item href="#/" @click="getlist_genre('댄스')">
+                    <p>댄스</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('발라드')">
+                    <p>발라드</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('록/메탈')">
+                    <p>록/메탈</p>
+                  </md-list-item>
+                   <md-list-item href="javascript:void(1)" @click="getlist_genre('R&B')">
+                    <p>R&B</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('랩/힙합')">
+                    <p>랩/힙합</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('성인가요')">
+                    <p>트로트</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('국내')">
+                    <p>국내영화/드라마</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('애니메이션')">
+                    <p>애니메이션</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('인디')">
+                    <p>인디음악</p>
+                  </md-list-item>
+                  <md-list-item href="javascript:void(1)" @click="getlist_genre('포크')">
+                    <p>포크/블루스</p>
+                  </md-list-item>
+                </md-list>
+              </div>
+              <div class="md-toolbar-section-end">
+                <md-button
+                  class="md-just-icon md-simple md-white md-toolbar-toggle"
+                >
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </md-button>
+
+                <div class="md-collapse"></div>
+              </div>
+            </div>
+          </md-toolbar>
+        </div>
+        <span>
+        <div @click="popular">ㆍ인기순</div> <div @click="newList">ㆍ최신순</div>
+        </span>
+      </div>
+    </div>
+    <!-- end menu -->
+  </div>
             <table>
                 <colgroup>
                   <col :style="{ width: '15%' }" />
@@ -67,15 +128,16 @@
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
-//import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
-import { getlist_new} from '@/api/song.js';
+import { getlist_new, getlist_pop, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
+import { getSongName } from '@/api/search.js';
 
 export default {
   components: {
     SearchBar,
     Pagination,
+    //Small,
   },
     data(){
       return {
@@ -86,10 +148,12 @@ export default {
             singer_name:'',
             album_cover:'',
             song_like_cnt:'', //총 좋아요 갯수
-            genre:'발라드',
+            genre:'',
             issue_date:'',
             page:2,
-        }
+        },
+        pickgenre:'',
+        page:1,
       }
   },
   bodyClass: 'profile-page',
@@ -101,38 +165,16 @@ export default {
   },
   created(){
     this.initUser(),
-     /* getlist_genre(
-        this.items.genre,
-        this.items.page,
-        (response) => {
-          console.log("장르별");
-          console.log(response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      ),*/
-    getlist_new(
+      getlist_new( //최신순
         this.songList.page,
         (response) => {
-         // console.log("최신순");
-         // console.log(response.data);
           this.songList=response.data.songList;
         },
         (error) => {
           console.log(error);
         }
       )
-   /* getlist_pop(
-        this.items.page,
-        (response) => {
-            console.log("인기순");
-          console.log(response.data);
-        },
-        (error) => {
-          console.log(error);
-        }
-      )*/
+      
   },
   computed: {
     ...mapState(['isLogin','loggedInUserData']),
@@ -145,6 +187,60 @@ export default {
   methods: {
     initUser() {
       this.uid = getuidCookie();
+    },
+    getlist_genre:function(genre){
+      //console.log("함수실행");
+      this.pickgenre=genre;
+      getlist_genre(
+        this.pickgenre,
+        this.page,
+        (response) => {
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    getSearchList:function(searchcontent){
+      this.searchInput = searchcontent.target.value;
+      getSongName(
+        searchcontent,
+        (response) => {
+          console.log("검색");
+          console.log(response.data);
+          //this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    popular:function(){
+      getlist_pop( //인기순
+        this.page,
+        (response) => {
+         // console.log("인기순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+    newList:function(){
+       getlist_new( //최신순
+        this.page,
+        (response) => {
+         // console.log("최신순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
     }
   }
 }
@@ -181,4 +277,5 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 </style>

@@ -15,10 +15,15 @@
               <div>
                 <h3><strong>{{this.song_name}}</strong></h3>
                 <h5>{{this.singer_name}}</h5>
-                <div v-if="isLogin">{{this.LIKE}}</div>
+                <div v-if="isLogin">
+                  {{this.LIKE}}
+                </div>
                 <div class="like">
                     <h5>좋아요 {{this.song_like_count}}</h5>
                 </div>
+                <md-button class="md-primary md-just-icon md-round"
+            ><md-icon>favorite</md-icon></md-button
+          >
               </div>
           </div>
 

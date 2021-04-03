@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.ComPostDto;
+import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.SearchService;
@@ -56,12 +57,12 @@ public class SearchController {
 	}
 	
 	/*
-	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목으로 
+	 * 노래검색결과 ( db에 저장된 순 ) - 노래제목+가수명
 	 * 
 	 * @param 노래제목
 	 * @return List<SongDto>
 	 * */
-	@ApiOperation(value="노래검색(노래제목으로)", notes = "@param 노래제목 </br> @return SongDto", response=List.class)
+	@ApiOperation(value="노래검색(노래제목+가수명)", notes = "제목이나 가수명으로 노래 검색", response=List.class)
 	@GetMapping("/song/{name}")
 	public ResponseEntity<List<SingerDto>> getSongName(@PathVariable String name){
 		HttpStatus status=HttpStatus.ACCEPTED;
@@ -123,5 +124,28 @@ public class SearchController {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
+	}
+	
+	/*
+	 * 커뮤니티 검색결과 (조회순) - 제목으로 
+	 * 
+	 * @param 제목
+	 * @return List<CommunityDto>
+	 * */
+	@ApiOperation(value="커뮤니티검색(제목으로)", notes = "@param 제목 </br> @return CommunityDto", response=List.class)
+	@GetMapping("/community/{c_title}")
+	public ResponseEntity<List<CommunityDto>> getCommunityContents(@PathVariable String c_title){
+		HttpStatus status=HttpStatus.ACCEPTED;
+		List<CommunityDto> list=null;
+		try {
+			c_title= "%"+c_title+"%";
+			list=searchService.searchCommunity(c_title);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<List<CommunityDto>>(list, status);
 	}
 }
