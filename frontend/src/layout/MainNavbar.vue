@@ -168,9 +168,21 @@
               <md-list-item v-if="!isLogin" @click="showModal = true">
                 <i class="material-icons navicons">login</i>
                 <p class="navfont">로그인</p>
-                <div v-if="showModal">
-                  <login-modal></login-modal>
-                </div>
+                <modal v-if="showModal" @close="CloseModal">
+                  <!-- <template slot="header">
+                    <h4 class="modal-title">로그인</h4>
+                  </template> -->
+
+                  <template slot="body">
+                    <Login />
+                  </template>
+
+                  <!-- <template slot="footer">
+                    <md-button class="md-simple" @click="showModal = false"
+                      >Close</md-button
+                    >
+                  </template> -->
+                </modal>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -242,13 +254,17 @@ function resizeThrottler(actualResizeHandler) {
 import MobileMenu from '@/layout/MobileMenu';
 import { mapState } from 'vuex';
 //import Modal from '../components/Modal';
-import LoginModal from './LoginModal';
+import { Modal } from '@/components';
+// import LoginModal from './LoginModal';
+import Login from '../components/user/Login.vue';
 
 export default {
   components: {
     MobileMenu,
     //  Modal: Modal,
-    LoginModal,
+    // LoginModal,
+    Login,
+    Modal,
   },
 
   props: {
@@ -277,6 +293,8 @@ export default {
       extraNavClasses: '',
       toggledClass: false,
       showModal: false,
+      tab: null,
+      items: ['Login', 'Register'],
     };
   },
   // computed: {
@@ -293,6 +311,25 @@ export default {
     // },
   },
   methods: {
+    CloseModal() {
+      this.showModal = false;
+    },
+
+    logout() {
+      this.$store
+        .dispatch('LOGOUT')
+        .then(() => {
+          if (this.$route.path !== '/') this.$router.replace('/');
+          console.log('네브바로그아웃');
+          this.showModal = false;
+        })
+        .catch((error) => {
+          console.log('로그아웃 문제!');
+          if (error.name != 'NavigationDuplicated') {
+            throw error;
+          }
+        });
+    },
     bodyClick() {
       let bodyClick = document.getElementById('bodyClick');
 
@@ -337,25 +374,16 @@ export default {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     },
-
-    logout() {
-      this.$store
-        .dispatch('LOGOUT')
-        .then(() => {
-          if (this.$route.path !== '/') this.$router.replace('/');
-          console.log('네브바로그아웃');
-          this.showModal = false;
-        })
-        .catch(() => {
-          console.log('로그아웃 문제!');
-        });
+    beforeDestroy() {
+      document.removeEventListener('scroll', this.scrollListener);
     },
   },
+
   mounted() {
     document.addEventListener('scroll', this.scrollListener);
   },
-  beforeDestroy() {
-    document.removeEventListener('scroll', this.scrollListener);
-  },
+  // beforeDestroy() {
+  //   document.removeEventListener('scroll', this.scrollListener);
+  // },
 };
 </script>

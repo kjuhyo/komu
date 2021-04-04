@@ -1,15 +1,15 @@
 <!--<template v-slot:default="dialog">-->
 <template>
-  <div id="login">
-    <div class="loginBar">
-      <GoogleLogin
-        :params="params"
-        :renderParams="renderParams"
-        :onSuccess="googleCallback"
-        :onFailure="onFailure"
-      ></GoogleLogin>
-    </div>
+  <!-- <div id="login"> -->
+  <div class="loginBar">
+    <GoogleLogin
+      :params="params"
+      :renderParams="renderParams"
+      :onSuccess="googleCallback"
+      :onFailure="onFailure"
+    ></GoogleLogin>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -61,14 +61,17 @@ export default {
 
 <style>
 #login {
-  height: 300px;
+  height: 100px;
+  margin: auto;
+  text-align: center;
 }
 
 .loginBar {
+  margin: auto;
   cursor: pointer;
   width: 300px;
   height: 49px;
-  margin: 25px;
+  /* margin: 25px; */
   align-content: center;
 }
 </style>

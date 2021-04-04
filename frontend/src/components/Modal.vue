@@ -22,12 +22,12 @@
 
 <script>
 export default {
-  name: "modal",
+  name: 'modal',
   methods: {
     closeModal: function() {
-      this.$emit("close");
-    }
-  }
+      this.$emit('close');
+    },
+  },
 };
 </script>
 
@@ -40,6 +40,10 @@ export default {
  * You can easily play with the modal transition by editing
  * these styles.
  */
+
+.modal-mask {
+  background-color: none;
+}
 
 .modal-enter {
   opacity: 0;
