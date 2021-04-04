@@ -45,20 +45,8 @@
           </div> -->
           <div class="profile-tabs">
             <tabs
-              :tab-name="[
-                'My Article',
-                'My Song',
-                'My Singer',
-                'Statistics',
-                'My Words',
-              ]"
-              :tab-icon="[
-                'article',
-                'music_note',
-                'person',
-                'insert_chart_outlined',
-                'favorite',
-              ]"
+              :tab-name="['My Article', 'My Song', 'My Singer', 'My Words']"
+              :tab-icon="['article', 'music_note', 'person', 'favorite']"
               plain
               nav-pills-icons
               color-button="primary"
@@ -113,13 +101,8 @@
                 <Singer />
               </template>
 
-              <!-- 통계 -->
-              <template slot="tab-pane-4">
-                통계
-              </template>
-
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-5"> <MyWord /></template>
+              <template slot="tab-pane-4"> <MyWord /></template>
             </tabs>
           </div>
         </div>

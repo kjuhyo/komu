@@ -8,46 +8,29 @@
       <div class="section profile-content">
         <div class="container">
           <div class="md-layout">
-            <div class="md-layout-item md-size-50 mx-auto">
-            </div>
+            <div class="md-layout-item md-size-50 mx-auto"></div>
           </div>
           <div class="community-title text-center">
-            <h1>Community</h1>
+            <h1 class="commu-title">Community</h1>
           </div>
-          <div>
+          <div class="comm-searchbar">
             <SearchBar />
           </div>
           <div class="tab-write">
-            <div>
-              <span>최신순 | 인기순</span>
+            <div class="comm_sorting_container">
+              <span class="comm_sorting">인기순</span>
+              <span> | </span>
+              <span class="comm_sorting">최신순</span>
             </div>
             <div>
-              <a href="#">글 작성</a>
+              <router-link class="comm_write_btn" to="/communitywrite"
+                >글 작성</router-link
+              >
             </div>
           </div>
           <div class="community-tabs">
-            <div class="md-layout">
-            </div>
+            <div class="md-layout"></div>
             <Article />
-            <!-- <tabs
-              :tab-name="[
-                'My Article',
-                'My Song',
-              ]"
-              :tab-icon="[
-                'article',
-                'music_note',
-              ]"
-              plain
-              nav-pills-icons
-              color-button="primary"
-            >
-              <template slot="tab-pane-1">
-                <div class="md-layout">
-                </div>
-                <Article />
-              </template>
-            </tabs> -->
           </div>
           <div class="paging">
             <Pagination />
@@ -61,21 +44,20 @@
 <script>
 import '../assets/css/profile.css';
 // import { Tabs } from '@/components';
-import {Pagination} from '@/components'
+import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
-import SearchBar from '../components/SearchBar.vue'
+import SearchBar from '../components/SearchBar.vue';
 
 export default {
   components: {
     // Tabs,
     Article,
     Pagination,
-    SearchBar
+    SearchBar,
   },
   bodyClass: 'profile-page',
   data() {
-    return {
-    };
+    return {};
   },
   props: {
     header: {
@@ -94,34 +76,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .section {
-    padding: 0;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rakkas');
 
-  .community-tabs::v-deep {
-    .md-card-tabs .md-list {
-      justify-content: center;
-    }
+.section {
+  padding: 0;
+}
 
-    [class*='tab-pane-'] {
-      margin-top: 3.213rem;
-      padding-bottom: 50px;
+.container {
+  padding-bottom: 2rem;
+}
 
-      img {
-        margin-bottom: 2.142rem;
-      }
-    }
-  }
-  .community-title {
-    margin-bottom: 20px;
-  }
-  .tab-write {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .paging {
-    display: flex;
+.comm_sorting_container {
+  padding-left: 10px;
+}
+.comm_write_btn {
+  font-family: 'Nanum Gothic', sans-serif;
+  padding-right: 10px;
+}
+
+.commu-title {
+  padding-top: 2.5rem;
+  // font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Rakkas';
+  color: #9c27b0;
+  text-shadow: 4px 4px 0px #bdbdbd;
+  font-size: 4em;
+}
+.community-tabs::v-deep {
+  .md-card-tabs .md-list {
     justify-content: center;
   }
+
+  [class*='tab-pane-'] {
+    margin-top: 3.213rem;
+    padding-bottom: 50px;
+
+    img {
+      margin-bottom: 2.142rem;
+    }
+  }
+}
+.community-title {
+  margin-bottom: 20px;
+}
+.tab-write {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.paging {
+  display: flex;
+  justify-content: center;
+}
+
+.comm-searchbar {
+  height: 90px;
+}
 </style>

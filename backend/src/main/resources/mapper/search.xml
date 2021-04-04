@@ -12,7 +12,7 @@
 	
 	<select id="getSongByTitle" parameterType="string" resultType="SongDto">
 		select * from song 
-		where song_name like #{song_name};
+		where song_name like #{song_name} || singer_name like #{singer_name};
 	</select>
 	
 	<select id="getSongBySingerName" parameterType="string" resultType="SongDto">
@@ -47,5 +47,11 @@
 				from community 
 				where cid=#{cid}
 		)
-	</select>	
+	</select>
+	
+	<select id="searchCommunity" parameterType="string" resultType="CommunityDto">
+		select * 
+		from community
+		where c_title like #{c_title} order by c_view desc
+	</select>
 </mapper>

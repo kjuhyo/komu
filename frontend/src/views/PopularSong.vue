@@ -11,7 +11,7 @@
           <div class="title">
             <div class="summary_thumb">
              <h2 class="title_area">
-                  <span class="title">최신 노래</span>
+                  <span class="title">인기 노래</span>
                   <br>
                 </h2>
             </div>
@@ -29,37 +29,37 @@
             <div class="md-toolbar-row">
               <div class="md-toolbar-section-start">
                 <md-list>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('all')">
+                  <md-list-item href="javascript:void(1)" @click="popular('all')">
                     <p>전체</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('댄스')">
+                  <md-list-item href="javascript:void(1)" @click="popular('댄스')">
                     <p>댄스</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('발라드')">
+                  <md-list-item href="javascript:void(1)" @click="popular('발라드')">
                     <p>발라드</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('록/메탈')">
+                  <md-list-item href="javascript:void(1)" @click="popular('록/메탈')">
                     <p>록/메탈</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('R&B')">
+                  <md-list-item href="javascript:void(1)" @click="popular('R&B')">
                     <p>R&B</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('랩/힙합')">
+                  <md-list-item href="javascript:void(1)" @click="popular('랩/힙합')">
                     <p>랩/힙합</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('성인가요')">
+                  <md-list-item href="javascript:void(1)" @click="popular('성인가요')">
                     <p>트로트</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('국내')">
+                  <md-list-item href="javascript:void(1)" @click="popular('국내')">
                     <p>국내영화/드라마</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('애니메이션')">
+                  <md-list-item href="javascript:void(1)" @click="popular('애니메이션')">
                     <p>애니메이션</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('인디')">
+                  <md-list-item href="javascript:void(1)" @click="popular('인디')">
                     <p>인디음악</p>
                   </md-list-item>
-                  <md-list-item href="javascript:void(1)" @click="getlist_genre('포크')">
+                  <md-list-item href="javascript:void(1)" @click="popular('포크')">
                     <p>포크/블루스</p>
                   </md-list-item>
                 </md-list>
@@ -127,7 +127,7 @@
 <script>
 import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
-import { getlist_new, getlist_genre } from '@/api/song.js';
+import { getlist_pop, getListPopularGenre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import { getSongName } from '@/api/search.js';
@@ -149,11 +149,10 @@ export default {
             song_like_cnt:'', //총 좋아요 갯수
             genre:'',
             issue_date:'',
-            page:2,
+            page:1,
         },
         pickgenre:'',
         page:1,
-        sort:1,
       }
   },
   bodyClass: 'profile-page',
@@ -165,16 +164,17 @@ export default {
   },
   created(){
     this.initUser(),
-      getlist_new( //최신순 //장르전체
-        this.songList.page,
-        (response) => {
-          this.songList=response.data.songList;
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
-      
+    getlist_pop(
+            this.page,
+            (response) => {
+                console.log("인기순");
+            // console.log(response.data);
+                this.songList=response.data.songList;
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
   },
   computed: {
     ...mapState(['isLogin','loggedInUserData']),
@@ -188,33 +188,6 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    getlist_genre:function(genre){ 
-      //console.log("함수실행");
-      if(genre=='all') {
-        getlist_new( //최신순 //장르전체
-        this.page,
-        (response) => {
-          this.songList=response.data.songList;
-        },
-        (error) => {
-          console.log(error);
-        }
-      )
-      }
-      else{
-        this.pickgenre=genre;
-        getlist_genre( //최신순  //장르별
-          this.pickgenre,
-          this.page,
-          (response) => {
-            this.songList=response.data.songList;
-          },
-          (error) => {
-            console.log(error);
-        }
-        )
-      }
-    },
     getSearchList:function(searchcontent){
       this.searchInput = searchcontent.target.value;
       getSongName(
@@ -225,10 +198,41 @@ export default {
           //this.songList=response.data.songList;
         },
         (error) => {
-          console.log(error);
+        console.log(error);
         }
       )
     },
+    popular:function(genre){ 
+    if(genre=='all') { //인기순 //전체
+        getlist_pop(
+            this.page,
+            (response) => {
+                console.log("인기순");
+            // console.log(response.data);
+                this.songList=response.data.songList;
+            },
+            (error) => {
+                console.log(error);
+            }
+        )
+    }
+    else{
+      this.pickgenre=genre;
+      getListPopularGenre( //인기순 //장르별
+        this.pickgenre,
+        this.page,
+        (response) => {
+          console.log("인기순");
+         // console.log(response.data);
+          this.songList=response.data.songList;
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    }
+    },
+    
   }
 }
 </script>

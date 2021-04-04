@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.kpop.dao.SearchDao;
 import com.ssafy.kpop.dto.ComPostDto;
+import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
 
@@ -51,6 +52,12 @@ public class SearchServiceImpl implements SearchService{
 			post.setNickname(nick);
 		}
 		return result;
+	}
+
+	@Override
+	public List<CommunityDto> searchCommunity(String c_title) {
+		// TODO Auto-generated method stub
+		return searchdao.searchCommunity(c_title);
 	}
 
 

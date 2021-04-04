@@ -9,11 +9,16 @@ import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
 import SingerDetail from "./views/SingerDetail.vue";
+import Singer from "./views/Singer.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
 import KomuWiki from "./views/KomuWiki.vue";
 import NotFound from "./views/NotFound.vue";
 import Song from "./views/Song.vue";
 import SongDetail from "./views/SongDetail.vue";
+import GenreRecommend from "./views/GenreRecommend.vue";
+import Write from "./views/Write.vue";
+import LyricsRecommend from "./views/LyricsRecommend.vue";
+import PopularSong from "./views/PopularSong.vue";
 
 Vue.use(Router);
 
@@ -65,8 +70,8 @@ export default new Router({
       }
     },
     {
-      path: "/communityDetail",
-      name: "communityDetail",
+      path: "/communitydetail",
+      name: "communitydetail",
       components: { default: CommunityDetail, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
@@ -77,6 +82,15 @@ export default new Router({
       path: "/singerdetail",
       name: "singerdetail",
       components: { default: SingerDetail, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/singer",
+      name: "singer",
+      components: { default: Singer, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
@@ -120,6 +134,42 @@ export default new Router({
       }
     },
     {
+      path: "/genrerecommend",
+      name: "genrerecommend",
+      components: { default: GenreRecommend, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/lyricsrecommend",
+      name: "lyricsrecommend",
+      components: { default: LyricsRecommend, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/communitywrite",
+      name: "communitywrite",
+      components: { default: Write, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/popularsong",
+      name: "PopularSong",
+      components: { default: PopularSong, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
       path:'/404',
       name:"notfound",
       components: { default: NotFound, header: MainNavbar, footer: MainFooter},
@@ -134,7 +184,6 @@ export default new Router({
     },
    
     
-
   ],
   scrollBehavior: to => {
     if (to.hash) {

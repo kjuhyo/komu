@@ -160,5 +160,22 @@ public class SongServiceImpl implements SongService {
 		map.put("listSize", listSize);
 		return sdao.genre_list(map);
 	}
+	
+	@Override
+	public int get_totalcnt() {
+		// TODO Auto-generated method stub
+		return sdao.get_totalcnt();
+	}
+
+	@Override
+	public List<SongListDto> popularGenre(String genre, int startList, int listSize) {
+		// TODO Auto-generated method stub
+		Map<String, Object> map = new HashMap<>();
+		map.put("genre", genre);
+		map.put("startList", startList);
+		map.put("listSize", listSize);
+		return sdao.popularGenre(map);
+	}
+
 
 }
