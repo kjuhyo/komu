@@ -160,6 +160,12 @@ public class SongServiceImpl implements SongService {
 		map.put("listSize", listSize);
 		return sdao.genre_list(map);
 	}
+	@Override
+	public int insert_like(int song_id) {
+		// TODO Auto-generated method stub
+		return sdao.insert_like(song_id);
+	}
+
 	
 	@Override
 	public int get_totalcnt() {
@@ -176,6 +182,5 @@ public class SongServiceImpl implements SongService {
 		map.put("listSize", listSize);
 		return sdao.popularGenre(map);
 	}
-
 
 }

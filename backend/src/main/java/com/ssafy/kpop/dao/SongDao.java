@@ -48,4 +48,5 @@ public interface SongDao {
 	
 	List<SongListDto> popularGenre(Map<String, Object> map);
 
+	int insert_like(int song_id);
 }

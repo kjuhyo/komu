@@ -203,14 +203,19 @@ public class SongController {
 				if (result == 1) {
 					int song_id = songlike.getSong_id();
 					Song_like_countDto songcount = songservice.now_count(song_id);
-					int ress = songcount.getSong_like_cnt() + 1;
-					int cnt_result = songservice.set_like(song_id, ress); // +1해줘
+					int cnt_result =0;
+					if(songcount==null) { //한번도 좋아요 누른적이 없어서 기존 데이터가 없어! 생성해주쟈!
+						cnt_result = songservice.insert_like(song_id);
+					}else { //누군가가 좋아요를 누른적이 있꾸나? 1을 올려쥬쟈! 
+						int ress = songcount.getSong_like_cnt() + 1;
+						cnt_result = songservice.set_like(song_id, ress); // +1해줘						
+					}
 					if (cnt_result == 1) {
 						logger.info("=====> 노래 좋아요 카운트 성공");
 						resultMap.put("LIKE", result);
-						resultMap.put("message", "노래 좋아요를 누르셨습니다.");
+						resultMap.put("message", "SUCCESS");
 					} else {
-						resultMap.put("message", "노래 좋아요에 실패하였습니다.");
+						resultMap.put("message", "FAIL");
 					}
 					status = HttpStatus.ACCEPTED;
 				}
@@ -227,9 +232,9 @@ public class SongController {
 					if (dis_result == 1) {
 						logger.info("=====> 노래 좋아요 취소 카운트 성공");
 						resultMap.put("LIKE", 0);
-						resultMap.put("message", "단어를 좋아요를 취소하셨습니다.");
+						resultMap.put("message", "SUCCESS");
 					} else {
-						resultMap.put("message", "단어를 좋아요를 취소에 실패하셨습니다.");
+						resultMap.put("message", "FAIL");
 					}
 					status = HttpStatus.ACCEPTED;
 				}

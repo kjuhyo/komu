@@ -46,6 +46,8 @@ public interface SongService {
 	
 	List<SongListDto> genre_list(String genre, int startList, int listSize);
 
+	int insert_like(int song_id);
+
 	int get_totalcnt();
 
 	List<SongListDto> popularGenre(String genre, int startList, int listSize);
