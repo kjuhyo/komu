@@ -17,7 +17,7 @@
             </div>
           </div>
           <div class="song_list">
-            <div v-if="isMobile">
+  <div v-if="isMobile">
     <form class="m-search-container">
       <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
       <div @click="findname"
