@@ -53,107 +53,123 @@
                 </form>
               </div>
             </div>
+            <div></div>
+            <nav class="song_menubar">
+              <a class="purple" @click="popular('all')">전체</a>
+              <a class="purple" @click="popular('댄스')">댄스</a>
+              <a class="purple" @click="popular('발라드')">발라드</a>
+              <a class="purple" @click="popular('록/메탈')">록/메탈</a>
+              <a class="purple" @click="popular('R&B')">R&B</a>
+              <a class="purple" @click="popular('랩/힙합')">랩/힙합</a>
+              <a class="purple" @click="popular('성인가요')">성인가요</a>
+              <a class="purple" @click="popular('국내')">국내</a>
+              <a class="purple" @click="popular('애니메이션')">애니메이션</a>
+              <a class="purple" @click="popular('인디')">인디</a>
+              <a class="purple" @click="popular('포크')">포크</a>
+            </nav>
+
             <div class="track_section">
               <div>
-                <div class="wrapper">
-                  <!-- 메뉴바 -->
-                  <div id="menu" v-if="menubar">
-                    <div class="md-layout">
-                      <div class="md-layout-item md-size-150 md-small-size-200">
-                        <md-toolbar class="song-menu md-primary">
-                          <div class="md-toolbar-row">
-                            <div class="md-toolbar-section-start">
-                              <md-list>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('all')"
-                                >
-                                  <p>전체</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('댄스')"
-                                >
-                                  <p>댄스</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('발라드')"
-                                >
-                                  <p>발라드</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('록/메탈')"
-                                >
-                                  <p>록/메탈</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('R&B')"
-                                >
-                                  <p>R&B</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('랩/힙합')"
-                                >
-                                  <p>랩/힙합</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('성인가요')"
-                                >
-                                  <p>트로트</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('국내')"
-                                >
-                                  <p>국내영화/드라마</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('애니메이션')"
-                                >
-                                  <p>애니메이션</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('인디')"
-                                >
-                                  <p>인디음악</p>
-                                </md-list-item>
-                                <md-list-item
-                                  href="javascript:void(1)"
-                                  @click="popular('포크')"
-                                >
-                                  <p>포크/블루스</p>
-                                </md-list-item>
-                              </md-list>
-                            </div>
-                            <div class="md-toolbar-section-end">
-                              <md-button
-                                class="md-just-icon md-simple md-white md-toolbar-toggle"
+                <!-- <div class="wrapper"> -->
+                <!-- 메뉴바 -->
+                <!-- <div id="menu" v-if="menubar">
+                  <div class="md-layout">
+                    <div class="md-layout-item md-size-150 md-small-size-200">
+                      <md-toolbar class="song-menu md-primary">
+                        <div class="md-toolbar-row">
+                          <div class="md-toolbar-section-start">
+                            <md-list>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('all')"
                               >
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                              </md-button>
-
-                              <div class="md-collapse"></div>
-                            </div>
+                                <p>전체</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('댄스')"
+                              >
+                                <p>댄스</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('발라드')"
+                              >
+                                <p>발라드</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('록/메탈')"
+                              >
+                                <p>록/메탈</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('R&B')"
+                              >
+                                <p>R&B</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('랩/힙합')"
+                              >
+                                <p>랩/힙합</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('성인가요')"
+                              >
+                                <p>트로트</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('국내')"
+                              >
+                                <p>국내영화/드라마</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('애니메이션')"
+                              >
+                                <p>애니메이션</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('인디')"
+                              >
+                                <p>인디음악</p>
+                              </md-list-item>
+                              <md-list-item
+                                href="javascript:void(1)"
+                                @click="popular('포크')"
+                              >
+                                <p>포크/블루스</p>
+                              </md-list-item>
+                            </md-list>
                           </div>
-                        </md-toolbar>
-                      </div>
+                          <div class="md-toolbar-section-end">
+                            <md-button
+                              class="md-just-icon md-simple md-white md-toolbar-toggle"
+                            >
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                              <span class="icon-bar"></span>
+                            </md-button>
+
+                            <div class="md-collapse"></div>
+                          </div>
+                        </div>
+                      </md-toolbar>
                     </div>
                   </div>
-                  <!-- end menu -->
+                  </div> -->
 
-                  <div v-if="!menubar" @click="popular('all')">
+                <!-- end menu -->
+
+                <!-- <div v-if="!menubar" @click="popular('all')">
                     <button id="returnbutton">장르별 목록으로 돌아가기</button>
                   </div>
-                </div>
+                </div> -->
                 <table>
                   <colgroup>
                     <col :style="{ width: '15%' }" />
@@ -203,6 +219,8 @@ import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import { getPopularSongName } from '@/api/search.js';
 import '../assets/css/searchbar.scss';
+import '../assets/css/article.css';
+import '../assets/css/songcategory.scss';
 
 export default {
   components: {
