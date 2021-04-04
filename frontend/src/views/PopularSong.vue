@@ -36,11 +36,10 @@
               </div>
 
               <div v-else>
-                <form class="search-container">
+                <form class="search-container" @submit.prevent="findname">
                   <input
                     type="text"
                     id="search-bar"
-                    @keyup.enter="findname"
                     placeholder="노래 제목이나 가수명을 검색해주세요"
                     v-model="searchtext"
                   />
@@ -335,6 +334,11 @@ export default {
   mounted() {
     this.onResize();
     window.addEventListener('resize', this.onResize);
+    // window.addEventListener('keyup', function(event) {
+    //   if (event.keyCode === 13) {
+    //     app.findname();
+    //   }
+    // });
   },
 };
 </script>
