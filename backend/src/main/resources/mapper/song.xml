@@ -87,6 +87,10 @@
 		select * from song_like_count where song_id=#{song_id}
 	</select>
 	
+	<insert id="insert_like" parameterType="int">
+		insert into song_like_count values(#{song_id}, 1)
+	</insert>
+	
 	<update id="set_like" parameterType="map">
 		update song_like_count set song_like_cnt=#{song_like_cnt} where song_id=#{song_id}
 	</update>
