@@ -36,7 +36,13 @@
               </div>
               <div class="video-item">
                 <div v-for="(item,index) in this.wordList" :key="index">
-                    {{item.namu_title}}
+                  <router-link :to="{
+                    name:'komuwikidetail',
+                    query:{
+                        id:item.namu_title,
+                    },
+                }">
+                    {{item.namu_title}}</router-link>
                 </div>
               </div>
             </div>
