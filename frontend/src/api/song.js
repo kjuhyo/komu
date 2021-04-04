@@ -52,10 +52,21 @@ function getListPopularGenre(genre, page, success, fail){
         .catch(fail);
 }
 
+/*
+*  페이지번호 받아서 장르별 노래 리스트 가져오기(인기순)
+*/
+function do_like(songlike, success, fail){
+    instance
+        .post(`/song/like` , songlike)
+        .then(success)
+        .catch(fail);
+}
+
 export{
     get_song,
     getlist_new,
     getlist_pop,
     getlist_genre,
     getListPopularGenre,
+    do_like,
 };
