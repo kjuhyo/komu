@@ -90,12 +90,39 @@
                 <p>Download</p>
               </md-list-item> -->
 
-              <md-list-item>
-                <router-link class="navbarrouting" to="/song"
-                  ><i class="material-icons">queue_music</i>
-                  <p class="navfont">노래리스트</p>
-                </router-link>
-              </md-list-item>
+              <li class="md-list-item">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        <i class="material-icons">queue_music</i>
+                        <p>노래리스트</p>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-with-icons">
+                        <li>
+                          <router-link class="navbarrouting" to="/popularsong">
+                            <i class="material-icons">queue_music</i>
+                            <p>인기 노래</p>
+                          </router-link>
+                        </li>
+                        <li>
+                          <router-link class="navbarrouting" to="/song">
+                            <i class="material-icons">queue_music</i>
+                            <p>최신 노래</p>
+                          </router-link>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
 
               <md-list-item>
                 <router-link class="navbarrouting" to="/komuwiki">
