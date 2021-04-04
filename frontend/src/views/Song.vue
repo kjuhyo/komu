@@ -18,8 +18,8 @@
           </div>
           <div class="song_list">
   <div v-if="isMobile">
-    <form class="m-search-container">
-      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+    <form class="m-search-container" @submit.prevent="findname">
+      <input type="text" id="search-bar" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
       <div @click="findname"
         ><img
           class="search-icon"
@@ -29,8 +29,8 @@
   </div>
 
   <div v-else>
-    <form class="search-container">
-      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+    <form class="search-container" @submit.prevent="findname">
+      <input type="text" id="search-bar" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
       <div @click="findname"
         ><img
           class="search-icon"
@@ -248,10 +248,8 @@ export default {
       getNewSongName( //검색결과 //최신순
         this.searchtext,
         (response) => {
-          //console.log("검색");
           //console.log(response.data);
           this.songList=response.data;
-          //this.songList=response.data.songList;
         },
         (error) => {
           console.log(error);
