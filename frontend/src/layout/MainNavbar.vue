@@ -169,19 +169,19 @@
                 <i class="material-icons navicons">login</i>
                 <p class="navfont">로그인</p>
                 <modal v-if="showModal" @close="CloseModal">
-                  <template slot="header">
+                  <!-- <template slot="header">
                     <h4 class="modal-title">로그인</h4>
-                  </template>
+                  </template> -->
 
                   <template slot="body">
                     <Login />
                   </template>
 
-                  <template slot="footer">
-                    <md-button class="md-simple" @click.prevent="CloseModal"
+                  <!-- <template slot="footer">
+                    <md-button class="md-simple" @click="showModal = false"
                       >Close</md-button
                     >
-                  </template>
+                  </template> -->
                 </modal>
               </md-list-item>
 
