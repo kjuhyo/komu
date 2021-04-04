@@ -11,17 +11,15 @@
             <div class="md-layout-item md-size-50 mx-auto"></div>
           </div>
           <div class="community-title text-center">
-            <h1>코뮤위키</h1>
+            <h1 class="main-komu-title">KOMUWiki</h1>
           </div>
-          <div>
+          <div class="komu-searchbar">
             <SearchBar />
           </div>
           <div class="community-tabs">
             <div class="md-layout"></div>
 
-            <Article 
-            :list = "list"
-            />
+            <Article :list="list" />
           </div>
           <div class="paging">
             <Pagination />
@@ -34,7 +32,7 @@
 
 <script>
 import '../assets/css/profile.css';
-import {getboard, getlist} from '@/api/komu.js';
+import { getboard, getlist } from '@/api/komu.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
@@ -50,30 +48,29 @@ export default {
   bodyClass: 'profile-page',
   data() {
     return {
-      page:1,
-      uid:"uuu",
-      namu_title:"7",
-       pagination:{
-        listSize:0,
-        rangeSize:0,
-        page:0,
-        range:0,
-        listCnt:0,
-        startPage:0,
-        startList:0,
-        endPage:0,
-        prev:false,
-        next:false,
+      page: 1,
+      uid: 'uuu',
+      namu_title: '7',
+      pagination: {
+        listSize: 0,
+        rangeSize: 0,
+        page: 0,
+        range: 0,
+        listCnt: 0,
+        startPage: 0,
+        startList: 0,
+        endPage: 0,
+        prev: false,
+        next: false,
       },
-      list:{
-        namu_id:0,
-        uid:"",
-        namu_title:"",
-        namu_content:"",
-        namu_date:"",
-        namu_img:"",
+      list: {
+        namu_id: 0,
+        uid: '',
+        namu_title: '',
+        namu_content: '',
+        namu_date: '',
+        namu_img: '',
       },
-
     };
   },
   props: {
@@ -90,7 +87,7 @@ export default {
     },
   },
   methods: {
-    getboard:function(){
+    getboard: function() {
       getboard(
         this.namu_title,
         this.uid,
@@ -101,29 +98,48 @@ export default {
         (error) => {
           console.log(error);
         }
-        )
-    }
+      );
+    },
   },
   created() {
     getlist(
       this.page,
-      (response)=>{
+      (response) => {
         console.log(response.data);
         this.pagination = response.data.pagination;
-        this.list= response.data.list;
+        this.list = response.data.list;
       },
-      (error)=>{
+      (error) => {
         console.log(error);
       }
-    )
-
+    );
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rakkas');
+
+.main-komu-title {
+  padding-top: 2.5rem;
+  // font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Rakkas';
+  color: #9c27b0;
+  text-shadow: 4px 4px 0px #bdbdbd;
+  font-size: 4em;
+}
 .section {
   padding: 0;
+}
+
+.container {
+  padding-bottom: 2rem;
+  // margin: auto;
+}
+
+.komu-searchbar {
+  height: 90px;
 }
 
 .community-tabs::v-deep {
