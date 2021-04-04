@@ -49,18 +49,22 @@
                       </md-button>
                       <ul class="dropdown-menu dropdown-with-icons">
                         <li>
-                          <a href="#/">
+                          <router-link
+                            class="navbarrouting"
+                            to="/genrerecommend"
+                          >
                             <i class="material-icons">layers</i>
                             <p>장르별 추천</p>
-                          </a>
+                          </router-link>
                         </li>
                         <li>
-                          <a
-                            href="https://demos.creative-tim.com/vue-material-kit/documentation/"
+                          <router-link
+                            class="navbarrouting"
+                            to="/lyricsrecommend"
                           >
                             <i class="material-icons">content_paste</i>
                             <p>가사별 추천</p>
-                          </a>
+                          </router-link>
                         </li>
                       </ul>
                     </drop-down>
@@ -86,13 +90,39 @@
                 <p>Download</p>
               </md-list-item> -->
 
-              <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-              >
-                <i class="material-icons">queue_music</i>
-                <p>노래리스트</p>
-              </md-list-item>
+              <li class="md-list-item">
+                <a
+                  href="javascript:void(0)"
+                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
+                >
+                  <div class="md-list-item-content">
+                    <drop-down direction="down">
+                      <md-button
+                        slot="title"
+                        class="md-button md-button-link md-white md-simple dropdown-toggle"
+                        data-toggle="dropdown"
+                      >
+                        <i class="material-icons">queue_music</i>
+                        <p>노래리스트</p>
+                      </md-button>
+                      <ul class="dropdown-menu dropdown-with-icons">
+                        <li>
+                          <router-link class="navbarrouting" to="/popularsong">
+                            <i class="material-icons">queue_music</i>
+                            <p>인기 노래</p>
+                          </router-link>
+                        </li>
+                        <li>
+                          <router-link class="navbarrouting" to="/song">
+                            <i class="material-icons">queue_music</i>
+                            <p>최신 노래</p>
+                          </router-link>
+                        </li>
+                      </ul>
+                    </drop-down>
+                  </div>
+                </a>
+              </li>
 
               <md-list-item>
                 <router-link class="navbarrouting" to="/komuwiki">
@@ -124,10 +154,10 @@
                           </router-link>
                         </li>
                         <li>
-                          <a href="#/login">
+                          <router-link class="navbarrouting" to="/singer">
                             <i class="material-icons">group</i>
                             <p>가수별 커뮤니티</p>
-                          </a>
+                          </router-link>
                         </li>
                       </ul>
                     </drop-down>
@@ -138,9 +168,21 @@
               <md-list-item v-if="!isLogin" @click="showModal = true">
                 <i class="material-icons navicons">login</i>
                 <p class="navfont">로그인</p>
-                <div v-if="showModal">
-                  <login-modal></login-modal>
-                </div>
+                <modal v-if="showModal" @close="CloseModal">
+                  <!-- <template slot="header">
+                    <h4 class="modal-title">로그인</h4>
+                  </template> -->
+
+                  <template slot="body">
+                    <Login />
+                  </template>
+
+                  <!-- <template slot="footer">
+                    <md-button class="md-simple" @click="showModal = false"
+                      >Close</md-button
+                    >
+                  </template> -->
+                </modal>
               </md-list-item>
 
               <li class="md-list-item" v-else>
@@ -212,13 +254,17 @@ function resizeThrottler(actualResizeHandler) {
 import MobileMenu from '@/layout/MobileMenu';
 import { mapState } from 'vuex';
 //import Modal from '../components/Modal';
-import LoginModal from './LoginModal';
+import { Modal } from '@/components';
+// import LoginModal from './LoginModal';
+import Login from '../components/user/Login.vue';
 
 export default {
   components: {
     MobileMenu,
     //  Modal: Modal,
-    LoginModal,
+    // LoginModal,
+    Login,
+    Modal,
   },
 
   props: {
@@ -247,6 +293,8 @@ export default {
       extraNavClasses: '',
       toggledClass: false,
       showModal: false,
+      tab: null,
+      items: ['Login', 'Register'],
     };
   },
   // computed: {
@@ -263,6 +311,25 @@ export default {
     // },
   },
   methods: {
+    CloseModal() {
+      this.showModal = false;
+    },
+
+    logout() {
+      this.$store
+        .dispatch('LOGOUT')
+        .then(() => {
+          if (this.$route.path !== '/') this.$router.replace('/');
+          console.log('네브바로그아웃');
+          this.showModal = false;
+        })
+        .catch((error) => {
+          console.log('로그아웃 문제!');
+          if (error.name != 'NavigationDuplicated') {
+            throw error;
+          }
+        });
+    },
     bodyClick() {
       let bodyClick = document.getElementById('bodyClick');
 
@@ -307,25 +374,16 @@ export default {
         element_id.scrollIntoView({ block: 'end', behavior: 'smooth' });
       }
     },
-
-    logout() {
-      this.$store
-        .dispatch('LOGOUT')
-        .then(() => {
-          if (this.$route.path !== '/') this.$router.replace('/');
-          console.log('네브바로그아웃');
-          this.showModal = false;
-        })
-        .catch(() => {
-          console.log('로그아웃 문제!');
-        });
+    beforeDestroy() {
+      document.removeEventListener('scroll', this.scrollListener);
     },
   },
+
   mounted() {
     document.addEventListener('scroll', this.scrollListener);
   },
-  beforeDestroy() {
-    document.removeEventListener('scroll', this.scrollListener);
-  },
+  // beforeDestroy() {
+  //   document.removeEventListener('scroll', this.scrollListener);
+  // },
 };
 </script>

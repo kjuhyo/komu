@@ -1,6 +1,7 @@
 package com.ssafy.kpop.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
@@ -47,7 +48,9 @@ public interface SongService {
 
 	int insert_like(int song_id);
 
-	
+	int get_totalcnt();
+
+	List<SongListDto> popularGenre(String genre, int startList, int listSize);
 	
 	
 

@@ -44,6 +44,9 @@ public interface SongDao {
 	
 	int get_listCnt(String genre);
 	List<SongListDto> genre_list(Map<String, Object> map);
+	int get_totalcnt();
+	
+	List<SongListDto> popularGenre(Map<String, Object> map);
 
 	int insert_like(int song_id);
 }

@@ -52,7 +52,7 @@
 		from song as s left join song_like_count as
 		slc
 		on s.id = slc.song_id
-		order by slc.song_like_cnt desc, s.issue_date
+		order by slc.song_like_cnt 
 		desc limit #{startList}, #{listSize};
 	</select>
 
@@ -118,6 +118,22 @@
 		on s.id = slc.song_id
 		where s.genre like concat('%',#{genre},'%')
 		order by s.issue_date desc limit #{startList}, #{listSize};
+	</select>
+	
+	<select id="get_totalcnt" resultType="int">
+		select count(*) from song;
+	</select>
+	
+	<select id="popularGenre" parameterType="map" resultType="SongListDto">
+	  select s.id, s.song_name, s.singer_name, s.singer_img,
+      s.album_name,
+      s.album_cover,s.genre, s.issue_date,
+      ifnull(slc.song_like_cnt,0)
+      from song as s left join song_like_count as
+      slc
+      on s.id = slc.song_id where s.genre like concat('%', #{genre}, '%')
+      order by slc.song_like_cnt
+      desc limit #{startList}, #{listSize};
 	</select>
 
 

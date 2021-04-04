@@ -15,23 +15,37 @@
               <div>
                 <h3><strong>{{this.song_name}}</strong></h3>
                 <h5>{{this.singer_name}}</h5>
-                <div v-if="isLogin">{{this.LIKE}}</div>
+                <div v-if="isLogin">
+                  {{this.LIKE}}
+                </div>
                 <div class="like">
                     <h5>좋아요 {{this.song_like_count}}</h5>
                 </div>
+                <md-button class="md-primary md-just-icon md-round"
+            ><md-icon>favorite</md-icon></md-button
+          >
               </div>
           </div>
 
           <div class="video-list">
             <div class="video-items">
               <div class="video-item">
-                <a href="https://www.youtube.com/watch?v=XsX3ATc3FbA">
+                <a :href="`https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`" target="_blank">
                   <img :src="this.album_cover" alt="album_cover">
                 </a>
               </div>
               <div class="video-item">
+                <router-link class="navbarrouting" to="/komuwikiwrite">
+                <p>단어 등록</p>
+                </router-link>
                 <div v-for="(item,index) in this.wordList" :key="index">
-                    {{item.namu_title}}
+                  <router-link :to="{
+                    name:'komuwikidetail',
+                    query:{
+                        id:item.namu_title,
+                    },
+                }">
+                    {{item.namu_title}}</router-link>
                 </div>
               </div>
             </div>
