@@ -35,6 +35,9 @@
                 </a>
               </div>
               <div class="video-item">
+                <router-link class="navbarrouting" to="/komuwikiwrite">
+                <p>단어 등록</p>
+                </router-link>
                 <div v-for="(item,index) in this.wordList" :key="index">
                   <router-link :to="{
                     name:'komuwikidetail',
