@@ -13,16 +13,27 @@ function getSingerName(name, success, fail){
 }
 
 /*
-*  노래제목이나 가수명으로 노래 검색
+*  노래제목이나 가수명으로 노래 검색 (인기순)
 */
-function getSongName(name, success, fail){
+function getPopularSongName(name, success, fail){
     instance
         .get(`/search/song/${name}`)
         .then(success)
         .catch(fail);
 }
 
+/*
+*  노래제목이나 가수명으로 노래 검색 (최신순)
+*/
+function getNewSongName(name, success, fail){
+    instance
+        .get(`/search/song/new/${name}`)
+        .then(success)
+        .catch(fail);
+}
+
 export{
     getSingerName,
-    getSongName,
+    getPopularSongName,
+    getNewSongName
 };
