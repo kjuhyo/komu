@@ -15,15 +15,25 @@
               <div>
                 <h3><strong>{{this.song_name}}</strong></h3>
                 <h5>{{this.singer_name}}</h5>
+
                 <div v-if="isLogin">
-                  {{this.LIKE}}
+                  <b-icon v-if="LIKE==0"
+                  class="wiki_option_icon"
+                  icon="heart"
+                  font-scale="2"
+                  @click="Like"
+                ></b-icon>
+                <b-icon v-if="LIKE==1"
+                  class="wiki_option_icon"
+                  icon="heart-fill"
+                  font-scale="2"
+                  @click="Like"
+                ></b-icon>
                 </div>
+                
                 <div class="like">
                     <h5>좋아요 {{this.song_like_count}}</h5>
                 </div>
-                <md-button class="md-primary md-just-icon md-round"
-            ><md-icon>favorite</md-icon></md-button
-          >
               </div>
           </div>
 
@@ -34,20 +44,16 @@
                   <img :src="this.album_cover" alt="album_cover">
                 </a>
               </div>
-              <div class="video-item">
+              <div class="video-item" v-if="isLogin">
                 <router-link class="navbarrouting" to="/komuwikiwrite">
                 <p>단어 등록</p>
                 </router-link>
-                <div v-for="(item,index) in this.wordList" :key="index">
-                  <router-link :to="{
-                    name:'komuwikidetail',
-                    query:{
-                        id:item.namu_title,
-                    },
-                }">
-                    {{item.namu_title}}</router-link>
-                </div>
               </div>
+               <div v-for="(item,index) in this.wordList" :key="index">
+                  <router-link :to="`/komuwikidetail/${item.namu_title}`">
+                    {{item.namu_title}}
+                  </router-link>
+                </div>
             </div>
           </div>
           
@@ -61,7 +67,7 @@
 </template>
 
 <script>
-import { get_song } from '@/api/song.js';
+import { get_song, do_like } from '@/api/song.js';
 //import axios from "axios";
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
@@ -82,28 +88,19 @@ export default {
             namu_title:'',
         },
         LIKE:'', //내가 좋아요 눌렀는지
+        songlike:{
+          song_id:'',
+          uid:'',
+        }
       }
   },
   created(){
       this.initUser(),
-      /*axios
-        .get(`http://localhost:9999/komu/song/info`, {
-            params: {
-                id: this.id,
-                uid: this.uid
-            }
-        })
-        .then(response =>{
-            this.lyric= response.data.song.lyric;
-        })
-        .catch(()=>{
-            console.log("가사읽어오기실패")
-        })
-       
-      */
-     get_song(
+      get_song(
         this.id,
         this.uid,
+        //console.log('uid'),
+        //console.log(this.uid),
         (response) => {
           //console.log(response.data);
           this.singer_name=response.data.song.singer_name;
@@ -136,7 +133,23 @@ export default {
   methods: {
     initUser() {
       this.uid = getuidCookie();
-    }
+    },
+  
+    Like:function(){
+      this.songlike.song_id=this.id;
+      this.songlike.uid=this.uid;
+      do_like(
+        this.songlike,
+        (response)=>{
+          this.LIKE = response.data.LIKE;
+          //console.log(response.data.LIKE);
+          //console.log(response.data.message);
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+    }  
   }
 }
 </script>
