@@ -13,24 +13,25 @@
           <div class="komuwiki_container">
             <div class="komuwiki_header">
               <div class="komuwiki_title">
-                {{namuwiki.namu_title}}
+                {{ namuwiki.namu_title }}
               </div>
               <div class="komuwiki_option_area">
-              
-                <b-icon v-if="LIKE==0"
+                <b-icon
+                  v-if="LIKE == 0"
                   class="wiki_option_icon"
                   icon="heart"
                   font-scale="2"
                   @click="Like"
                 ></b-icon>
-                <b-icon v-if="LIKE==1"
+                <b-icon
+                  v-if="LIKE == 1"
                   class="wiki_option_icon"
                   icon="heart-fill"
                   font-scale="2"
                   @click="Like"
                 ></b-icon>
-               <button v-if="namuwiki.uid==loginid">수정</button>
-               <button v-if="namuwiki.uid==loginid">삭제</button>
+                <button v-if="namuwiki.uid == loginid">수정</button>
+                <button v-if="namuwiki.uid == loginid">삭제</button>
                 <b-icon
                   class="wiki_option_icon"
                   icon="pencil"
@@ -44,25 +45,23 @@
             <div class="komuwiki_body">
               <!-- 이미지 -->
               <div class="m_komuwiki_body_img" v-if="isMobile">
-              <img class="k_body_img" :src="namuwiki.namu_img"/>
+                <img class="k_body_img" :src="namuwiki.namu_img" />
 
                 <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
               </div>
 
               <div class="komuwiki_body_img" v-else>
-                <img class="k_body_img" :src="namuwiki.namu_img"/>
+                <img class="k_body_img" :src="namuwiki.namu_img" />
                 <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
               </div>
 
               <!-- 내용 -->
 
               <div class="m_komuwiki_body_content" v-if="isMobile">
-                {{namuwiki.namu_content}}
-   
+                {{ namuwiki.namu_content }}
               </div>
               <div class="komuwiki_body_content" v-else>
-                {{namuwiki.namu_content}}
-                
+                {{ namuwiki.namu_content }}
               </div>
             </div>
             <hr />
@@ -75,52 +74,51 @@
 
 <script>
 import '../assets/css/komuwikidetail.scss';
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-import {getboard, letlike} from '@/api/komu.js';
-
+import { getboard, letlike } from '@/api/komu.js';
 
 export default {
   components: {},
   created() {
-   this.name=this.$route.params.name;
-   console.log(this.name);
-   this.initUser();
-   getboard(
-     this.name,
-     this.loginid,
-     (response)=>{
-       this.LIKE=response.data.LIKE;
-       this.namuwiki = response.data.namuwiki;
-       this.message = response.data.message;
-       console.log(this.message);
-       console.log(this.namuwiki);
-       console.log(this.LIKE);
-     },
-     (error)=>{
-       consolo.log(error);
-     }
-   )
+    this.name = this.$route.params.name;
+    console.log(this.name);
+    this.initUser();
+    getboard(
+      this.name,
+      this.loginid,
+      (response) => {
+        this.LIKE = response.data.LIKE;
+        this.namuwiki = response.data.namuwiki;
+        this.message = response.data.message;
+        console.log(this.message);
+        console.log(this.namuwiki);
+        console.log(this.LIKE);
+      },
+      (error) => {
+        consolo.log(error);
+      }
+    );
   },
   data() {
     return {
       isMobile: false,
-      name:"",
-      loginid:"",
-      LIKE:"",
-      message:"",
-      namuwiki:{
-        namu_id:0,
-        uid:"",
-        namu_title:"",
-        namu_content:"",
-        namu_date:"",
-        namu_img:"",
-        },
-      wordlike:{
-        uid:"",
-        namu_id:0,
-      }
+      name: '',
+      loginid: '',
+      LIKE: '',
+      message: '',
+      namuwiki: {
+        namu_id: 0,
+        uid: '',
+        namu_title: '',
+        namu_content: '',
+        namu_date: '',
+        namu_img: '',
+      },
+      wordlike: {
+        uid: '',
+        namu_id: 0,
+      },
     };
   },
   bodyClass: 'profile-page',
@@ -129,8 +127,13 @@ export default {
       type: String,
       default: require('@/assets/img/city-profile.jpg'),
     },
+    img: {
+      type: String,
+      default: require('@/assets/img/faces/christian.jpg'),
+    },
   },
   computed: {
+    ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -147,28 +150,24 @@ export default {
     },
     initUser() {
       // this.loginid = getuidCookie();
-      this.loginid="namu";
+      this.loginid = 'namu';
     },
-    Like:function(){
-      this.wordlike.uid=this.loginid;
-      this.wordlike.namu_id=this.namuwiki.namu_id;
+    Like: function() {
+      this.wordlike.uid = this.loginid;
+      this.wordlike.namu_id = this.namuwiki.namu_id;
       letlike(
         this.wordlike,
-        (response)=>{
+        (response) => {
           this.LIKE = response.data.LIKE;
           console.log(response.data.LIKE);
           console.log(response.data.message);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-
-
-
-
-    }
+      );
+    },
   },
-  computed:{ ...mapState(['isLogin','loggedInUserData']) },
+  // computed: { ...mapState(['isLogin', 'loggedInUserData']) },
 };
 </script>
