@@ -42,7 +42,7 @@
               
             <div>
               <div class="wrapper">
-    <div id="menu">
+    <div id="menu" v-if="menubar">
       <div class="md-layout">
         <div class="md-layout-item md-size-150 md-small-size-200">
           <md-toolbar class="md-primary">
@@ -101,6 +101,9 @@
       </div>
     </div>
     <!-- end menu -->
+    <div v-if="!menubar" @click="getlist_genre('all') ">
+      <button id="returnbutton">장르별 목록으로 돌아가기</button>
+    </div>
   </div>
             <table>
                 <colgroup>
@@ -175,6 +178,7 @@ export default {
         page:1,
         isMobile: false,
         searchtext: "",
+        menubar:true,
       }
   },
   bodyClass: 'profile-page',
@@ -211,6 +215,8 @@ export default {
     },
     getlist_genre:function(genre){ 
       //console.log("함수실행");
+      this.searchtext="";
+      this.menubar=true;
       if(genre=='all') {
         getlist_new( //최신순 //장르전체
         this.page,
@@ -238,11 +244,13 @@ export default {
     },
     findname:function(){
       //this.searchInput = searchcontent.target.value;
-      getNewSongName(
+      this.menubar=false;
+      getNewSongName( //검색결과 //최신순
         this.searchtext,
         (response) => {
-          console.log("검색");
-          console.log(response.data);
+          //console.log("검색");
+          //console.log(response.data);
+          this.songList=response.data;
           //this.songList=response.data.songList;
         },
         (error) => {
@@ -292,5 +300,9 @@ export default {
   display: flex;
   justify-content: center;
 }
+ .returnbutton{
+   display: flex;
+  justify-content: right;
+ }
 
 </style>
