@@ -97,7 +97,7 @@ export default new Router({
       }
     },
     {
-      path: "/komuwikidetail",
+      path: "/komuwikidetail/:name",
       name: "komuwikidetail",
       components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
       props: {
