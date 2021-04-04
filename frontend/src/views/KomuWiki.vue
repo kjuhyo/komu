@@ -13,8 +13,14 @@
           <div class="community-title text-center">
             <h1 class="main-komu-title">KOMUWiki</h1>
           </div>
+          
           <div class="komu-searchbar">
             <SearchBar />
+            <div>
+              <router-link class="comm_write_btn" to="/komuwikiwrite"
+                >글 작성</router-link
+              >
+            </div>
           </div>
           <div class="community-tabs">
             <div class="md-layout"></div>

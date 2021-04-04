@@ -30,8 +30,6 @@
                   font-scale="2"
                   @click="Like"
                 ></b-icon>
-                <button v-if="namuwiki.uid == loginid">수정</button>
-                <button v-if="namuwiki.uid == loginid">삭제</button>
                 <b-icon
                   class="wiki_option_icon"
                   icon="pencil"
