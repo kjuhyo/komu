@@ -24,5 +24,7 @@ public interface NamuService {
 	WordlikeDto find_like(WordlikeDto wordlike);
 	int let_like(WordlikeDto wordlike);
 	int let_dislike(WordlikeDto wordlike);
+	
+	int insert_nopic(NamuwikiDto namu); //사진없이 단어 등록 
 
 }

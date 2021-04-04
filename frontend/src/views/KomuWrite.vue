@@ -14,12 +14,11 @@
             <!-- 글 제목 -->
             <div class="write_title">
               <span class="title_css">제목 </span>
-              <input class="content_title" />
+              <input class="content_title" v-model="title"/>
             </div>
             <br />
             <!-- 텍스트에디터 -->
             <text-editor
-              v-model="namu_content"
               @input="(data) => GetEditorContent(data)"
             ></text-editor>
 
@@ -48,10 +47,19 @@
               <!-- :disabled="form.file == null" -->
               <div class="align-center">
                 <b-button
+                v-if="previewImageData != null"
                   type="submit"
                   class="community-submit"
                   aria-disabled="true"
                   @click="UploadCertification"
+                  >업로드</b-button
+                >
+                <b-button
+                v-if="previewImageData == null"
+                  type="submit"
+                  class="community-submit"
+                  aria-disabled="true"
+                  @click="Upload"
                   >업로드</b-button
                 >
               </div>
@@ -66,6 +74,9 @@
 <script>
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
+import { insert,insert_nopic } from '@/api/komu.js';
+import { getuidCookie } from '@/util/cookie.js';
+
 
 export default {
   components: { TextEditor },
@@ -77,10 +88,17 @@ export default {
         //   desc: ''
         content: '',
       },
+      namu:{
+        uid:"",
+        namu_title:"",
+        namu_content:"",
+      },
+      loginid:"",
       show: true,
       previewImageData: null,
       isMobile: false,
-      namu_content: '',
+      content: '',
+      title:'',
     };
   },
 
@@ -90,6 +108,9 @@ export default {
       type: String,
       default: require('@/assets/img/city-profile.jpg'),
     },
+  },
+  created() {
+    this.initUser();
   },
   computed: {
     headerStyle() {
@@ -108,7 +129,7 @@ export default {
     },
 
     GetEditorContent: function(data) {
-      this.namu_content = data;
+      this.content = data;
     },
 
     onSubmit(evt) {
@@ -136,6 +157,54 @@ export default {
       } else {
         this.previewImageData = null;
       }
+    },
+    setDto:function(){
+      this.namu.uid=this.loginid;
+      this.namu.namu_title=this.title;
+      this.namu.namu_content = this.content;
+    },
+    UploadCertification:function(){
+      this.setDto();
+      const formData = new FormData();
+      formData.append(
+        "namu", 
+        new Blob([JSON.stringify(this.namu)],{type:"application/json"})
+      );
+      formData.append("file", this.form.file);
+      insert(
+        formData,
+        (response)=>{
+          console.log(response.data.message);
+          console.log("SUCCESS");
+          this.$router.push("/komuwiki");          
+          alert(response.data.message);
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+    
+    },
+    Upload:function(){
+      this.setDto();
+      insert_nopic(
+        this.namu,
+        (response)=>{
+          console.log(response.data.message);
+          console.log("SUCCESS");
+          this.$router.push("/komuwiki");          
+          alert(response.data.message);
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+
+
+    },
+    initUser() {
+      // this.loginid = getuidCookie();
+      this.loginid = 'namu';
     },
   },
 };

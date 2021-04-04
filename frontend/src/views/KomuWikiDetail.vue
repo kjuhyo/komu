@@ -30,11 +30,13 @@
                   font-scale="2"
                   @click="Like"
                 ></b-icon>
+                <router-link :to="`/komuwikiupdate/${namuwiki.namu_title}`">
                 <b-icon
                   class="wiki_option_icon"
                   icon="pencil"
                   font-scale="2"
-                ></b-icon>
+                >
+          </b-icon></router-link>
               </div>
             </div>
 
@@ -94,7 +96,7 @@ export default {
         console.log(this.LIKE);
       },
       (error) => {
-        consolo.log(error);
+        console.log(error);
       }
     );
   },

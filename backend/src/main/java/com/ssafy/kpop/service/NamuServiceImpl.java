@@ -111,5 +111,11 @@ public class NamuServiceImpl implements NamuService{
 		// TODO Auto-generated method stub
 		return ndao.let_dislike(wordlike);
 	}
+	
+	@Override
+	public int insert_nopic(NamuwikiDto namu) {
+		// TODO Auto-generated method stub
+		return ndao.insert_nopic(namu);
+	}
 
 }
