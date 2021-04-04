@@ -97,7 +97,7 @@ export default new Router({
       }
     },
     {
-      path: "/komuwikidetail",
+      path: "/komuwikidetail/:name",
       name: "komuwikidetail",
       components: { default: KomuWikiDetail, header: MainNavbar, footer: MainFooter},
       props: {
@@ -164,6 +164,15 @@ export default new Router({
       path: "/popularsong",
       name: "PopularSong",
       components: { default: PopularSong, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/komuwikiwrite",
+      name: "komuwikiwrite",
+      components: { default: Write, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }

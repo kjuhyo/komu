@@ -17,12 +17,32 @@
             </div>
           </div>
           <div class="song_list">
-            <SearchBar/>
+  <div v-if="isMobile">
+    <form class="m-search-container">
+      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+      <div @click="findname"
+        ><img
+          class="search-icon"
+          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+      /></div>
+    </form>
+  </div>
+
+  <div v-else>
+    <form class="search-container">
+      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+      <div @click="findname"
+        ><img
+          class="search-icon"
+          src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+      /></div>
+    </form>
+  </div>
             <div class="track_section">
               
             <div>
               <div class="wrapper">
-    <div id="menu">
+    <div id="menu" v-if="menubar">
       <div class="md-layout">
         <div class="md-layout-item md-size-150 md-small-size-200">
           <md-toolbar class="md-primary">
@@ -81,6 +101,9 @@
       </div>
     </div>
     <!-- end menu -->
+    <div v-if="!menubar" @click="getlist_genre('all') ">
+      <button id="returnbutton">장르별 목록으로 돌아가기</button>
+    </div>
   </div>
             <table>
                 <colgroup>
@@ -125,16 +148,16 @@
 </template>
 
 <script>
-import SearchBar from '../components/SearchBar.vue';
+//import SearchBar from '../components/SearchBar.vue';
 import { Pagination } from '@/components';
 import { getlist_new, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-import { getSongName } from '@/api/search.js';
+import { getNewSongName } from '@/api/search.js';
 
 export default {
   components: {
-    SearchBar,
+   // SearchBar,
     Pagination,
     //Small,
   },
@@ -153,7 +176,9 @@ export default {
         },
         pickgenre:'',
         page:1,
-        sort:1,
+        isMobile: false,
+        searchtext: "",
+        menubar:true,
       }
   },
   bodyClass: 'profile-page',
@@ -190,6 +215,8 @@ export default {
     },
     getlist_genre:function(genre){ 
       //console.log("함수실행");
+      this.searchtext="";
+      this.menubar=true;
       if(genre=='all') {
         getlist_new( //최신순 //장르전체
         this.page,
@@ -215,13 +242,15 @@ export default {
         )
       }
     },
-    getSearchList:function(searchcontent){
-      this.searchInput = searchcontent.target.value;
-      getSongName(
-        searchcontent,
+    findname:function(){
+      //this.searchInput = searchcontent.target.value;
+      this.menubar=false;
+      getNewSongName( //검색결과 //최신순
+        this.searchtext,
         (response) => {
-          console.log("검색");
-          console.log(response.data);
+          //console.log("검색");
+          //console.log(response.data);
+          this.songList=response.data;
           //this.songList=response.data.songList;
         },
         (error) => {
@@ -229,7 +258,14 @@ export default {
         }
       )
     },
-  }
+    onResize: function() {
+      this.isMobile = window.innerWidth <= 480;
+    },
+  },
+  mounted() {
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  },
 }
 </script>
 
@@ -264,5 +300,9 @@ export default {
   display: flex;
   justify-content: center;
 }
+ .returnbutton{
+   display: flex;
+  justify-content: right;
+ }
 
 </style>

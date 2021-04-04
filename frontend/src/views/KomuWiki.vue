@@ -18,7 +18,10 @@
           </div>
           <div class="community-tabs">
             <div class="md-layout"></div>
-            <Article />
+
+            <Article 
+            :list = "list"
+            />
           </div>
           <div class="paging">
             <Pagination />
@@ -31,6 +34,7 @@
 
 <script>
 import '../assets/css/profile.css';
+import {getboard, getlist} from '@/api/komu.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
@@ -45,7 +49,32 @@ export default {
   },
   bodyClass: 'profile-page',
   data() {
-    return {};
+    return {
+      page:1,
+      uid:"uuu",
+      namu_title:"7",
+       pagination:{
+        listSize:0,
+        rangeSize:0,
+        page:0,
+        range:0,
+        listCnt:0,
+        startPage:0,
+        startList:0,
+        endPage:0,
+        prev:false,
+        next:false,
+      },
+      list:{
+        namu_id:0,
+        uid:"",
+        namu_title:"",
+        namu_content:"",
+        namu_date:"",
+        namu_img:"",
+      },
+
+    };
   },
   props: {
     header: {
@@ -59,6 +88,35 @@ export default {
         backgroundImage: `url(${this.header})`,
       };
     },
+  },
+  methods: {
+    getboard:function(){
+      getboard(
+        this.namu_title,
+        this.uid,
+        (response) => {
+          // this.songList=response.data.songList;
+          console.log(response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+        )
+    }
+  },
+  created() {
+    getlist(
+      this.page,
+      (response)=>{
+        console.log(response.data);
+        this.pagination = response.data.pagination;
+        this.list= response.data.list;
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
+
   },
 };
 </script>

@@ -13,6 +13,7 @@ import com.ssafy.kpop.dto.ComPostDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.dto.SongListDto;
 
 @Service
 public class SearchServiceImpl implements SearchService{
@@ -26,13 +27,13 @@ public class SearchServiceImpl implements SearchService{
 	}
 
 	@Override
-	public List<SingerDto> getSongByTitle(String song_name) {
-		return searchdao.getSongByTitle(song_name);
+	public List<SongListDto> getSongLikeSort(String song_name) {
+		return searchdao.getSongLikeSort(song_name);
 	}
 
 	@Override
-	public List<SongDto> getSongBySingerName(String singer_name) {
-		return searchdao.getSongBySingerName(singer_name);
+	public List<SongListDto> getSongNewSort(String singer_name) {
+		return searchdao.getSongNewSort(singer_name);
 	}
 
 	@Override
