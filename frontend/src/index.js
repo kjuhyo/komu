@@ -169,6 +169,15 @@ export default new Router({
         footer: { backgroundColor: "black" }
       }
     },
+    {  
+      path: "/komuwikiwrite",
+      name: "komuwikiwrite",
+      components: { default: Write, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
     {
       path:'/404',
       name:"notfound",
