@@ -108,8 +108,7 @@ export default {
         }
       );
     },
-  },
-  setsearchdata:function(data){
+    setsearchdata:function(data){
     this.searchdata = data;
     console.log(this.searchdata);
     console.log("여기는 상위컴포넌트");
@@ -128,6 +127,8 @@ export default {
     )
 
   },
+  },
+  
   created() {
     getlist(
       this.page,
