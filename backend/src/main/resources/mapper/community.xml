@@ -6,7 +6,7 @@
 
 	<insert id="insert" parameterType="CommunityDto">
 		insert into community(uid,c_title, c_content, c_date, c_img)
-		values(#{uid}, #{uid}, #{c_content}, now(), #{c_img})
+		values(#{uid}, #{c_title}, #{c_content}, now(), #{c_img})
 	</insert>
 	
 	<select id="get_old" parameterType="int" resultType="CommunityDto">
@@ -66,7 +66,12 @@
 	<select id="all_post" parameterType="Pagination" resultType="CommunityDto">
 		select * from community where is_delete=0 order by c_date desc limit #{startList}, #{listSize}
 	</select>
-	 
+	
+	
+	<insert id="insert_nopic" parameterType="CommunityDto">
+		insert into community(uid,c_title, c_content, c_date)
+		values(#{uid}, c_title, #{c_content}, now())
+	</insert>
 
 
 

@@ -41,7 +41,8 @@ def read_data(user_id):
 
 # song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
 
-path = 'C:\\Users\\multicampus\\Desktop\\new2\\s04p23c104\\python\\Algorithm\\'
+path = 'C:\\_prayforky\\s04p23c104\\python\\Algorithm\\'
+
 song = pd.read_csv(path + 'kpop.csv', low_memory=False)
 
 song_df = song[['id', 'song_name', 'genre']]
@@ -76,8 +77,8 @@ def get_recommend_song_list(df, song_id, top=30):
         song_id_list.append(int(temp_list[i]))
     return json.dumps(song_id_list)
 
-# user_id = sys.argv[1]
-user_id = 'prteUBReKZX2'
+user_id = sys.argv[1]
+# user_id = 'prteUBReKZX2'
 # song_id = int(song_id)
 # song_id = 3625504
 user_songs = []
