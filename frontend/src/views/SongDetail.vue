@@ -8,57 +8,142 @@
       <div class="section profile-content">
         <div class="container">
           <div class="md-layout">
-            <div class="md-layout-item md-size-50 mx-auto">
-            </div>
+            <div class="md-layout-item md-size-50 mx-auto"></div>
           </div>
           <div class="songTitle_summary_section">
-              <div>
-                <h3><strong>{{this.song_name}}</strong></h3>
-                <h5>{{this.singer_name}}</h5>
+            <!-- 노래/앨범이미지 카드-->
+            <div class="songdetail-card">
+              <img
+                class="songdetail-card_image"
+                :src="this.album_cover"
+                alt="album_cover"
+              />
 
-                <div v-if="isLogin">
-                  <b-icon v-if="LIKE==0"
-                  class="wiki_option_icon"
-                  icon="heart"
-                  font-scale="2"
-                  @click="Like"
-                ></b-icon>
-                <b-icon v-if="LIKE==1"
-                  class="wiki_option_icon"
-                  icon="heart-fill"
-                  font-scale="2"
-                  @click="Like"
-                ></b-icon>
+              <div class="songdetail-card_info">
+                <div class="songdetail-card_info_artist">
+                  {{ this.song_name }}
                 </div>
-                
-                <div class="like">
-                    <h5>좋아요 {{this.song_like_count}}</h5>
+                <div class="songdetail-card_info_album">
+                  {{ this.singer_name }}
                 </div>
               </div>
-          </div>
+              <a
+                :href="
+                  `https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`
+                "
+                target="_blank"
+              >
+                <div class="songdetail-card_play"></div>
+              </a>
+            </div>
+            <!-- 노래/앨범이미지 카드 end -->
 
-          <div class="video-list">
-            <div class="video-items">
-              <div class="video-item">
-                <a :href="`https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`" target="_blank">
-                  <img :src="this.album_cover" alt="album_cover">
-                </a>
-              </div>
-              <div class="video-item" v-if="isLogin">
-                <router-link class="navbarrouting" to="/komuwikiwrite">
-                <p>단어 등록</p>
-                </router-link>
-              </div>
-               <div v-for="(item,index) in this.wordList" :key="index">
-                  <router-link :to="`/komuwikidetail/${item.namu_title}`">
-                    {{item.namu_title}}
-                  </router-link>
-                </div>
+            <!-- 노래정보 -->
+            <div class="songdetail-header-info">
+              <tr>
+                <th class="sd-h-title" scope="row">노래제목</th>
+                <td class="sd-h-info">{{ this.song_name }}</td>
+              </tr>
+              <tr>
+                <th class="sd-h-title" scope="row">가수</th>
+                <td class="sd-h-info">{{ this.singer_name }}</td>
+              </tr>
+              <tr>
+                <th class="sd-h-title" scope="row">앨범제목</th>
+                <td class="sd-h-info">{{ this.album_name }}</td>
+              </tr>
+              <tr>
+                <th class="sd-h-title" scope="row">장르</th>
+                <td class="sd-h-info">{{ this.genre }}</td>
+              </tr>
+              <tr>
+                <th class="sd-h-title" scope="row">발매일</th>
+                <td class="sd-h-info">{{ this.issue_date }}</td>
+              </tr>
+              <tr>
+                <th class="sd-h-title" scope="row">좋아요수</th>
+                <td class="sd-h-info">{{ this.song_like_count }}</td>
+              </tr>
+            </div>
+
+            <!-- 좋아요 버튼 -->
+            <div class="songdetail-like" v-if="isLogin">
+              <b-icon
+                v-if="LIKE == 0"
+                class="wiki_option_icon"
+                icon="heart"
+                font-scale="2"
+                @click="Like"
+              ></b-icon>
+              <b-icon
+                v-if="LIKE == 1"
+                class="wiki_option_icon"
+                icon="heart-fill"
+                font-scale="2"
+                @click="Like"
+              ></b-icon>
             </div>
           </div>
-          
-          <div class="lyrics">
-              {{this.lyric}}
+
+          <!-- 탭바 -->
+          <div class="songdetail-tabs">
+            <tabs
+              :tab-name="['Lyrics', 'Words']"
+              :tab-icon="['article', 'music_note']"
+              plain
+              nav-pills-icons
+              color-button="primary"
+            >
+              <!-- 가사 -->
+              <template slot="tab-pane-1">
+                <div class="md-layout">
+                  <div class="songdetail-lyric">
+                    {{ this.lyric }}
+                  </div>
+                </div>
+              </template>
+
+              <!-- 단어 -->
+              <template slot="tab-pane-2">
+                <div class="md-layout">
+                  <div class="songdetail-word-container">
+                    <!-- 곡에 있는 단어 리스트 -->
+                    <div class="cards-container">
+                      <div
+                        class="no-card-question"
+                        v-if="this.wordList.length == 0"
+                      >
+                        등록된 단어가 없습니다. 단어를 등록해주세요!
+                      </div>
+                      <div v-else class="card card-css songdetail-card-css">
+                        <div
+                          v-for="(item, index) in this.wordList"
+                          :key="index"
+                          class="card-question"
+                        >
+                          <router-link
+                            :to="`/komuwikidetail/${item.namu_title}`"
+                          >
+                            {{ item.namu_title }}
+                          </router-link>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 단어등록 -->
+                    <div class="songdetail-writekomu" v-if="isLogin">
+                      <router-link
+                        class="songdetail-writekomu-btn"
+                        to="/komuwikiwrite"
+                      >
+                        <p class="wirte-komu-font">단어 등록</p>
+                      </router-link>
+                    </div>
+                    <!-- 단어등록끝 -->
+                  </div>
+                </div>
+              </template>
+            </tabs>
           </div>
         </div>
       </div>
@@ -68,48 +153,60 @@
 
 <script>
 import { get_song, do_like } from '@/api/song.js';
+import { Tabs } from '@/components';
 //import axios from "axios";
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
+import '../assets/css/songdetail.scss';
+import '../assets/css/myword.scss';
 
 export default {
-  bodyClass: 'profile-page',
-  data(){
-      return {
-        uid: '',
-        id: this.$route.query.id, //노래 id
-        lyric:'',
-        album_cover:'',
-        singer_name:'',
-        song_name:'',
-        song_like_count:'', //총 좋아요 갯수
-        wordList:{
-            song_id:'',
-            namu_title:'',
-        },
-        LIKE:'', //내가 좋아요 눌렀는지
-        songlike:{
-          song_id:'',
-          uid:'',
-        }
-      }
+  components: {
+    Tabs,
   },
-  created(){
-      this.initUser(),
+  bodyClass: 'profile-page',
+  data() {
+    return {
+      uid: '',
+      id: this.$route.query.id, //노래 id
+      lyric: '',
+      album_cover: '',
+      singer_name: '',
+      song_name: '',
+      album_name: '',
+      genre: '',
+      issue_date: '',
+      song_like_count: '', //총 좋아요 갯수
+      wordList: {
+        song_id: '',
+        namu_title: '',
+      },
+      LIKE: '', //내가 좋아요 눌렀는지
+      songlike: {
+        song_id: '',
+        uid: '',
+      },
+    };
+  },
+  created() {
+    this.initUser(),
       get_song(
         this.id,
         this.uid,
         //console.log('uid'),
         //console.log(this.uid),
         (response) => {
-          //console.log(response.data);
-          this.singer_name=response.data.song.singer_name;
-          this.song_name=response.data.song.song_name;
-          this.lyric= response.data.song.lyric;
-          this.album_cover=response.data.song.album_cover;
-          this.song_like_count=response.data.song_like_count;
-          this.wordList=response.data.wordList;
-          this.LIKE=response.data.LIKE;
+          console.log(response.data);
+          this.singer_name = response.data.song.singer_name;
+          this.song_name = response.data.song.song_name;
+          this.lyric = response.data.song.lyric;
+          this.album_cover = response.data.song.album_cover;
+          this.album_name = response.data.song.album_name;
+          this.genre = response.data.song.genre;
+          this.issue_date = response.data.song.issue_date;
+          this.song_like_count = response.data.song_like_count;
+          this.wordList = response.data.wordList;
+          this.LIKE = response.data.LIKE;
         },
         (error) => {
           console.log(error);
@@ -123,7 +220,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(['isLogin','loggedInUserData']),
+    ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -134,44 +231,75 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-  
-    Like:function(){
-      this.songlike.song_id=this.id;
-      this.songlike.uid=this.uid;
+
+    Like: function() {
+      this.songlike.song_id = this.id;
+      this.songlike.uid = this.uid;
       do_like(
         this.songlike,
-        (response)=>{
+        (response) => {
           this.LIKE = response.data.LIKE;
           //console.log(response.data.LIKE);
           //console.log(response.data.message);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-    }  
-  }
-}
+      );
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .songTitle_summary_section {
-    display: flex;
-    justify-content: left;
-    margin-bottom: 20px;
-    margin-left: 2%;
+.songTitle_summary_section {
+  display: flex;
+  // justify-content: left;
+  // margin-bottom: 20px;
+  margin-left: 2%;
+}
+
+.songdetail-tabs::v-deep {
+  .md-card-tabs .md-list {
+    justify-content: center;
   }
- 
-  .item {
-    font-size: 20px;
+
+  [class*='tab-pane-'] {
+    margin-top: 3.413rem;
+    padding-bottom: 5px;
   }
-  .video-list {
-    margin-bottom: 20px;
+
+  .md-card-tabs .tab-content {
+    padding: 0px;
   }
-  .video-items {
-    display: flex;
+}
+
+.tab-pane-2 {
+  .md-layout {
+    display: inline;
   }
-  .video-item {
-    margin-left: 10px;
-  }
+}
+
+.a:link {
+  text-decoration: none;
+  color: black !important;
+}
+
+.a {
+  color: black !important;
+}
+.a:visited {
+  text-decoration: none;
+  color: black !important;
+}
+
+.a:active {
+  text-decoration: none;
+  color: black !important;
+}
+
+.a:hover {
+  text-decoration: none;
+  color: black !important;
+}
 </style>

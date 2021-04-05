@@ -28,9 +28,42 @@
 }
 
 .card-question {
+  text-decoration: none;
   text-align: center;
   font-family: 'Nanum Gothic', sans-serif !important;
   flex: 1;
   width: 100%;
   font-size: 1.2em;
+}
+
+.no-card-question {
+  text-decoration: none;
+  text-align: center;
+  font-family: 'Nanum Gothic', sans-serif !important;
+  flex: 1;
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.a:link {
+  text-decoration: none;
+  color: black !important;
+}
+
+.card-question {
+  color: black !important;
+}
+.card-question:visited {
+  text-decoration: none;
+  color: black !important;
+}
+
+.card-question:active {
+  text-decoration: none;
+  color: black !important;
+}
+
+.card-question:hover {
+  text-decoration: none;
+  color: black !important;
 }
