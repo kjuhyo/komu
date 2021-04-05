@@ -5,6 +5,34 @@ import pandas as pd
 import numpy as np
 import csv
 import re
+import json
+import sys
+import pymysql
+
+
+def read_data(user_id):
+    # connection 정보
+    conn = pymysql.connect(
+        host = 'j4c104.p.ssafy.io',
+        user = 'root',
+        password = 'root',
+        db = 'komu',
+        charset = 'utf8'
+    )
+    curs = conn.cursor()
+    sql = f"select namu_id from wordlike where uid=\'{user_id}\';"
+    curs.execute(sql)
+    rows = curs.fetchone()
+    namu_id_list = []
+    for i in range(len(rows)):
+        namu_id_list.append(rows[i])
+    
+    for i in range(len(namu_id_list)):
+        sql = f"select namu_title from namuwiki where namu_id={namu_id_list[i]}"
+        curs.execute(sql)
+        rows = curs.fetchone()
+        user_words.append(rows[0])
+    conn.close()
 
 
 # 한글, 숫자, 영어 빼고 전부 제거
@@ -80,17 +108,17 @@ def lyric_REC(song_name, cosine_matrix):
     
     # 읽어들인 데이터에서 가사 부분만 제거, 노래 제목과 스코어만 보이게 함
     del result_df['pre_lyric']
-    print(result_df)
+    # print(result_df)
 
     lyric_rec_list = []
     for i in range(len(result_df)):
-        lyric_rec_list.append((result_df.iloc[i]['id'], result_df.iloc[i]['song_name']))
+        lyric_rec_list.append(int(result_df.iloc[i]['id']))
     # 가장 유사한 10개의 노래의 id와 제목이 있는 리스트 리턴
-    return lyric_rec_list
+    return json.dumps(lyric_rec_list)
 
 
 # 전처리 된 csv 파일 불러오기
-path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
+path = 'C:\\Users\\multicampus\\Desktop\\new\\s04p23c104\\python\\Algorithm\\'
 data = pd.read_csv(path + 'preLyric.csv', low_memory=False)
 
 # data의 전처리된 가사가 null값이거나 '없다'인 경우를 제거해준다.
@@ -98,7 +126,10 @@ data = data[data['pre_lyric'].notnull()].reset_index(drop=True)
 data = data[data['pre_lyric'] != '없다'].reset_index(drop=True)
 
 # user의 좋아하는 단어 data에 등록
-user_words = ['그리움', '사랑', '이별']
+user_id = sys.argv[1]
+user_words = []
+read_data(user_id)
+
 user_lyric = ' '.join(user_words)
 data=data.append({'id' : 999999, 'song_name' : 'user_words', 'pre_lyric' : user_lyric} , ignore_index=True)
 
@@ -117,4 +148,6 @@ cosine_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
 # 인덱스 테이블 생성
 indices = pd.Series(data.index, index=data['song_name']).drop_duplicates()
 
+# user_id = input()
+# print(user_id)
 print(lyric_REC('user_words', cosine_matrix))
