@@ -18,8 +18,8 @@
           </div>
           <div class="song_list">
   <div v-if="isMobile">
-    <form class="m-search-container">
-      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+    <form class="m-search-container" @submit.prevent="findname">
+      <input type="text" id="search-bar" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
       <div @click="findname"
         ><img
           class="search-icon"
@@ -29,8 +29,8 @@
   </div>
 
   <div v-else>
-    <form class="search-container">
-      <input type="text" id="search-bar" @keyup.enter="findname" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
+    <form class="search-container" @submit.prevent="findname">
+      <input type="text" id="search-bar" placeholder="노래 제목이나 가수명을 검색해주세요" v-model="searchtext"/>
       <div @click="findname"
         ><img
           class="search-icon"
@@ -115,14 +115,14 @@
                   <col :style="{ width: '5%' }" />
                 </colgroup>
 
-                <tr v-for="(item) in this.songList" :key="item.id">
+                <tr v-for="(item) in this.songList" :key="item.id" :per-page="paginations.listSize">
                  <td><img :src= "item.album_cover" alt="앨범사진"></td>
                  <td> <router-link :to="{
                     name:'songdetail',
                     query:{
                         id:item.id,
                     },
-                }">{{
+                  }">{{
                       item.song_name
                     }}</router-link>
                 
@@ -135,9 +135,55 @@
 
               </table>
               </div>
-              <div class="paging">
-                <Pagination />
-              </div>
+              
+               <!-- <Pagination /> -->
+               <div class="Page" align="center">
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+            <li class="page-item">
+              <input
+                type="button"
+                class="page-link"
+                @click="prevPage"
+                style="width:40px;text-align:center; color:black;"
+                value="<"
+              />
+            </li>
+
+            <li
+              class="page-item"
+              v-for="(list, idx) in this.listmaker"
+              v-bind:key="idx"
+            >
+              <input
+                type="button"
+                class="page-link"
+                @click="movePage"
+                v-bind:value="idx + 1"
+                style="width:40px;text-align:center; color:black;"
+              />
+              <input
+                type="text"
+                placeholder="listData"
+                v-bind:value="idx + 1"
+                @change="updateList"
+                disabled
+                style="display:none; color:black;"
+              />
+            </li>
+            <li class="page-item">
+              <input
+                type="button"
+                class="page-link"
+                @click="nextPage"
+                style="width:40px;text-align:center; color:black;"
+                value=">"
+              />
+            </li>
+          </ul>
+        </nav>
+      </div>
+             
             </div>
           </div>
 
@@ -149,7 +195,7 @@
 
 <script>
 //import SearchBar from '../components/SearchBar.vue';
-import { Pagination } from '@/components';
+//import { Pagination } from '@/components';
 import { getlist_new, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
@@ -158,7 +204,7 @@ import { getNewSongName } from '@/api/search.js';
 export default {
   components: {
    // SearchBar,
-    Pagination,
+   // Pagination,
     //Small,
   },
     data(){
@@ -172,13 +218,23 @@ export default {
             song_like_cnt:'', //총 좋아요 갯수
             genre:'',
             issue_date:'',
-            page:2,
+            page:1,
         },
-        pickgenre:'',
-        page:1,
+        pickgenre:'all',
+        //page:1,
         isMobile: false,
         searchtext: "",
         menubar:true,
+        
+        listmaker: 0,
+        prevnext: 0,
+        paginations: {
+          listSize: "",
+          startPage: "",
+          listCnt: ""
+        },
+        currentPage: 1,
+        perPage: "",
       }
   },
   bodyClass: 'profile-page',
@@ -192,8 +248,13 @@ export default {
     this.initUser(),
       getlist_new( //최신순 //장르전체
         this.songList.page,
+        
         (response) => {
+          this.paginations = response.data.pagination;
           this.songList=response.data.songList;
+          this.listmaker = parseInt(
+            this.paginations.listCnt / this.paginations.listSize + 1
+          );
         },
         (error) => {
           console.log(error);
@@ -219,20 +280,22 @@ export default {
       this.menubar=true;
       if(genre=='all') {
         getlist_new( //최신순 //장르전체
-        this.page,
+        //this.page,
+        this.currentPage,
         (response) => {
           this.songList=response.data.songList;
         },
         (error) => {
           console.log(error);
         }
-      )
+        )
       }
       else{
         this.pickgenre=genre;
         getlist_genre( //최신순  //장르별
           this.pickgenre,
-          this.page,
+          //this.page,
+          this.currentPage,
           (response) => {
             this.songList=response.data.songList;
           },
@@ -248,10 +311,8 @@ export default {
       getNewSongName( //검색결과 //최신순
         this.searchtext,
         (response) => {
-          //console.log("검색");
           //console.log(response.data);
           this.songList=response.data;
-          //this.songList=response.data.songList;
         },
         (error) => {
           console.log(error);
@@ -261,6 +322,92 @@ export default {
     onResize: function() {
       this.isMobile = window.innerWidth <= 480;
     },
+    movePage(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+      this.prevnext = updatedText;
+
+       getlist_new( //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList=response.data.songList;
+
+          this.list=parseInt(
+            this.paginations.listCnt / this.paginations.listSize
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+        )
+    },
+    prevPage() {
+      if (this.prevnext > 1) {
+        this.prevnext -= 1;
+        this.currentPage = this.prevnext;
+
+        getlist_new( //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList=response.data.songList;
+
+          this.list=parseInt(
+            this.paginations.listCnt / this.paginations.listSize
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+        )
+      }
+    },
+    nextPage() {
+      if (this.prevnext <= this.list) {
+        this.prevnext++;
+        this.currentPage = this.prevnext;
+        alert(this.prevnext);
+        
+        getlist_new( //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList=response.data.songList;
+
+          this.songList=parseInt(
+            this.paginations.listCnt / this.paginations.listSize
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+        )
+      }
+    },
+    updateList: function(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+    },
+    MovePage: function(page) {
+      console.log("안녕안녕");
+      console.log(this.currentPage);
+
+      this.currentPage = page;
+      console.log(page);
+
+      getlist_new( //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList=response.data.songList;
+
+        },
+        (error) => {
+          console.log(error);
+        }
+        )
+    }
   },
   mounted() {
     this.onResize();
