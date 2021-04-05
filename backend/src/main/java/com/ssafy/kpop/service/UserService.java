@@ -11,4 +11,5 @@ public interface UserService {
 	public UserDto findById(String uid);
 	public LoginCallBackDto save(HashMap<String, Object> user) throws Exception;
 	public void updateUser(UserDto user);
+	public String findNickName(String uid);
 }
