@@ -1,15 +1,48 @@
-from google.colab import drive
+# from google.colab import drive
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from ast import literal_eval
 import pandas as pd
 import numpy as np
 import warnings
-warnings.filterwarnings('ignore')
+import sys
+import json
+import pymysql
 
-drive.mount('/content/gdrive')
 
-song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
+def read_data(user_id):
+    # connection 정보
+    conn = pymysql.connect(
+        host = 'j4c104.p.ssafy.io',
+        user = 'root',
+        password = 'root',
+        db = 'komu',
+        charset = 'utf8'
+    )
+    curs = conn.cursor()
+    sql = f"select song_id from songlike where uid=\'{user_id}\';"
+    curs.execute(sql)
+    rows = curs.fetchone()
+    song_list = []
+    for i in range(len(rows)):
+        song_list.append(rows[i])
+    
+    for i in range(len(song_list)):
+        sql = f"select id from song where id={song_list[i]}"
+        curs.execute(sql)
+        rows = curs.fetchone()
+        user_songs.append(rows[0])
+    conn.close()
+
+
+# warnings.filterwarnings('ignore')
+
+# drive.mount('/content/gdrive')
+
+# song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
+
+path = 'C:\\Users\\multicampus\\Desktop\\new2\\s04p23c104\\python\\Algorithm\\'
+song = pd.read_csv(path + 'kpop.csv', low_memory=False)
 
 song_df = song[['id', 'song_name', 'genre']]
 # song_df.head(5)
@@ -29,15 +62,26 @@ genre_c_sim = cosine_similarity(
 # genre_c_sim.shape
 
 
-def get_recommend_song_list(df, song_name, top=30):
+def get_recommend_song_list(df, song_id, top=30):
     # 특정 노래와 비슷한 노래를 추천해야하기 때문에 특정노래 정보를 뽑아냄
-    target_song_index = df[df['song_name'] == song_name].index.values
+    target_song_index = df[df['id'] == song_id].index.values
     # 코사인 유사도 중 비슷한 코사인 유사도를 가진 정보를 뽑아냄
     sim_index = genre_c_sim[target_song_index, :top].reshape(-1)
 
     # dataframe으로 만들어 반환
     result = df.iloc[sim_index][:10]
-    return result
+    temp_list = list(np.array(result['id'].tolist()))
+    song_id_list = []
+    for i in range(len(temp_list)):
+        song_id_list.append(int(temp_list[i]))
+    return json.dumps(song_id_list)
 
-
-get_recommend_song_list(song_df, song_name='너랑 나')
+# user_id = sys.argv[1]
+user_id = 'prteUBReKZX2'
+# song_id = int(song_id)
+# song_id = 3625504
+user_songs = []
+read_data(user_id)
+# print(user_songs)
+song_id = user_songs[0]
+print(get_recommend_song_list(song_df, song_id=song_id))
