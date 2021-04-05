@@ -28,4 +28,5 @@ public interface CommunityDao {
 	int set_like(Map<String, Object> map);
 	int total_post();
 	List<CommunityDto> all_post(Pagination pagination);
+	int insert_nopic(CommunityDto community);
 }

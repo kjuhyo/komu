@@ -107,6 +107,39 @@ public class CommunityController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 게시물 등록하기
+	@ApiOperation(value = "Community Insert(NO FILE) ", notes = "커뮤니티 단어만 등록! 사진없이!")
+	@PostMapping("/insert/np")
+	public ResponseEntity<Map<String, Object>> insert_nopic(@RequestBody CommunityDto community) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+
+			logger.info("=====> 커뮤니티 글 등록 시작! 사진없이!");
+
+			int result = cservice.insert_nopic(community);
+
+
+			if (result == 1) {
+				logger.info("=====> 나무위키 글 등록 성공");
+				resultMap.put("message", "단어 등록에 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				logger.info("=====> 나무위키 글 등록 실패");
+				resultMap.put("message", "단어 등록에 실패하였습니다.");
+				status = HttpStatus.NOT_FOUND;
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("글 등록 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
 	// 게시물 수정하기
 	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글 수정")
 	@PutMapping("/update")
@@ -340,7 +373,7 @@ public class CommunityController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
-	//커뮤니티 글 페이징 처리
+	// 커뮤니티 글 페이징 처리
 	@ApiOperation(value = "Community List", notes = "커뮤니티 글 페이지")
 	@GetMapping("/list/{page}")
 	public ResponseEntity<Map<String, Object>> get_list(@PathVariable int page) {
@@ -351,7 +384,7 @@ public class CommunityController {
 		int listCnt = 0;
 
 		try {
-			listCnt = cservice.total_post(); 
+			listCnt = cservice.total_post();
 			logger.info("=====> 해당 가수 전체 노래 정보가져오기");
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
