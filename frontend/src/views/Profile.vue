@@ -45,8 +45,8 @@
           </div> -->
           <div class="profile-tabs">
             <tabs
-              :tab-name="['My Article', 'My Song', 'My Singer', 'My Words']"
-              :tab-icon="['article', 'music_note', 'person', 'favorite']"
+              :tab-name="['My Article', 'My Song', 'My Words']"
+              :tab-icon="['article', 'music_note', 'favorite']"
               plain
               nav-pills-icons
               color-button="primary"
@@ -85,24 +85,8 @@
                 <Song />
               </template>
 
-              <!-- 좋아요한 가수 -->
-              <template slot="tab-pane-3">
-                <!-- <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane3[0].image" class="rounded" />
-                    <img :src="tabPane3[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane3[2].image" class="rounded" />
-                    <img :src="tabPane3[3].image" class="rounded" />
-                    <img :src="tabPane3[4].image" class="rounded" />
-                  </div>
-                </div> -->
-                <Singer />
-              </template>
-
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-4"> <MyWord /></template>
+              <template slot="tab-pane-3"> <MyWord /></template>
             </tabs>
           </div>
         </div>
@@ -117,7 +101,6 @@ import '../assets/css/profile.css';
 import { Tabs } from '@/components';
 import Article from '../components/Article.vue';
 import Song from '../components/Song.vue';
-import Singer from '../components/Singer.vue';
 import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
@@ -126,7 +109,6 @@ export default {
     Tabs,
     Article,
     Song,
-    Singer,
     MyWord,
   },
   bodyClass: 'profile-page',
