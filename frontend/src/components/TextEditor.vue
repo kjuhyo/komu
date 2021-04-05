@@ -150,7 +150,7 @@
         </b-button-group>
       </div>
     </editor-menu-bar>
-    <editor-content :blur="send()" :editor="editor" />
+    <editor-content :blur="send()" :editor="editor"/>
   </div>
 </template>
 
