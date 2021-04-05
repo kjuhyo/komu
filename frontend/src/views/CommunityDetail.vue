@@ -141,21 +141,24 @@
             </ul>
 
             <!-- 댓글 작성 -->
-            <div class="comment-writer">
-              <div class="comment-inbox">
-                <span class="comment-inbox-name">닉네임</span>
+            <div class="comdetail-comment-writer">
+              <div class="comdetail-comment-inbox">
+                <span class="comdetail-comment-inbox-name">닉네임</span>
                 <textarea
-                  placeholder="댓글을 남겨보세요."
-                  class="comment-inbox-text"
+                  placeholder="댓글을 작성해주세요."
+                  class="comdetail-comment-inbox-text"
                   rows="1"
                 ></textarea>
-              </div>
-              <div class="comment-attach">
-                <div class="register-box">
-                  <a href="#" role="button">등록</a>
+
+                <!-- 댓글등록버튼 -->
+                <div class="comdetail-comment-attach">
+                  <div class="comdetail-register-box">
+                    등록
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- 댓글 작성 end -->
           </div>
         </div>
       </div>
