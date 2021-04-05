@@ -92,17 +92,13 @@ public class RecommendController {
 		    InputStreamReader r = new InputStreamReader(process.getInputStream());
 		    BufferedReader br = new BufferedReader(r);
 		    
-			String path = System.getProperty("user.dir");
-			System.out.println("path : "+path);
-			path=path.replace("\\", "\\\\");
-			System.out.println("path : "+path);
-			path=path.replace("backend", "python\\\\Algorithm\\\\genre.py");
-			System.out.println("path : "+path);
+//			String path = System.getProperty("user.dir");
+//			System.out.println("path : "+path);
+//			path=path.replace("\\", "\\\\");
+//			System.out.println("path : "+path);
+//			path=path.replace("backend", "python\\\\Algorithm\\\\genre.py");
+//			System.out.println("path : "+path);
 			
-			
-			
-
-		    	
 		    // json 형태의 string으로 받음
 		    String songList = br.readLine();
 		    System.out.println(songList);
