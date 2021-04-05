@@ -24,7 +24,6 @@
 
 .community-detail-title-text {
   font-family: 'Nanum Gothic', sans-serif;
-
   font-size: 40px;
   font-weight: bold;
 }
@@ -125,24 +124,27 @@ ul {
 .comment-box {
   padding-left: 46px;
 }
-.comment-writer {
-  margin: 12px 0 29px;
+
+// 댓글작성
+.comdetail-comment-writer {
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: 12px 40px 50px;
   padding: 16px 10px 10px 18px;
-  border: 2px solid gray;
+  border: 1px solid gray;
   box-sizing: border-box;
   border-radius: 6px;
 }
-.comment-inbox {
+.comdetail-comment-inbox {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
-.comment-inbox-name {
+.comdetail-comment-inbox-name {
   display: block;
   margin-bottom: 10px;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 15px;
 }
-.comment-inbox-text {
+.comdetail-comment-inbox-text {
   overflow-x: hidden;
   overflow-y: auto;
   display: block;
@@ -158,11 +160,20 @@ ul {
   color: var(--skinTextColor);
   outline: 0;
 }
-.comment-attach {
+.comdetail-comment-attach {
   position: relative;
-  top: -15px;
+  top: -36px;
+  right: 10px;
 }
-.register-box {
+.comdetail-register-box {
+  //   background-color: #ce93d8;
+  //   border-radius: 5px;
+  //   width: 70px;
+  //   height: 40px;
   float: right;
+  //   color: white;
   color: gray;
+  font-weight: 200;
+  text-align: center;
+  //   justify-content: center;
 }
