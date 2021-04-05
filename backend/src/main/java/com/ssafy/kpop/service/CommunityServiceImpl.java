@@ -110,4 +110,10 @@ public class CommunityServiceImpl implements CommunityService{
 		return cdao.all_post(pagination);
 	}
 	
+	@Override
+	public int insert_nopic(CommunityDto community) {
+		// TODO Auto-generated method stub
+		return cdao.insert_nopic(community);
+	}
+	
 }

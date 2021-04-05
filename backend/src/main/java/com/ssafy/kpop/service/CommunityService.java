@@ -26,4 +26,6 @@ public interface CommunityService {
 	int set_like(int cid, int c_like_cnt);
 	int total_post();
 	List<CommunityDto> all_post(Pagination pagination);
+	
+	int insert_nopic(CommunityDto community);
 }
