@@ -13,4 +13,5 @@ public interface UserDao {
 	public UserDto findById(String uid);
 	public void save(UserDto user);
 	public void updateUser(UserDto user);
+	public String findNickName(String uid);
 }

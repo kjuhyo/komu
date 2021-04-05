@@ -82,6 +82,11 @@ public class UserServiceImpl implements UserService{
 		return;
 	}
 
+	@Override
+	public String findNickName(String uid) {
+		return userdao.findNickName(uid);
+	}
+
 	
 	
 	

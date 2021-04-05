@@ -27,4 +27,9 @@
 		where uid=#{uid}
 	</update>
 	
+	<select id="findNickName" parameterType="string" resultType="String">
+		select nickname
+		from user
+		where uid = #{uid} 
+	</select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.ssafy.kpop.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.LoginCallBackDto;
+import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.UserDto;
 import com.ssafy.kpop.service.JwtServiceImpl;
 import com.ssafy.kpop.service.UserService;
@@ -233,5 +235,27 @@ public class UserController {
 		default:
 			return null;
 		}
+	}
+	
+	/*
+	 * uid로 닉네임검색 
+	 * 
+	 * @param uid
+	 * @return String nickname
+	 * */
+	@ApiOperation(value="uid로 닉네임검색", notes = "@param uid </br> @return String nickname")
+	@GetMapping("/nickname/{uid}")
+	public ResponseEntity<String> getSingerName(@PathVariable String uid){
+		HttpStatus status=HttpStatus.ACCEPTED;
+		String result="";
+		try {
+			result=userService.findNickName(uid);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<String>(result, status);
 	}
 }
