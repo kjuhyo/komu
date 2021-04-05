@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/community")
 public class CommunityController {
 
-	public static final Logger logger = LoggerFactory.getLogger(CommentController.class);
+	public static final Logger logger = LoggerFactory.getLogger(CommunityController.class);
 
 	@Autowired
 	CommunityService cservice;
@@ -59,8 +59,7 @@ public class CommunityController {
 	// 게시물 등록하기
 	@ApiOperation(value = "Community Post Insert", notes = "커뮤니티 글 등록")
 	@PostMapping("/insert")
-	public ResponseEntity<Map<String, Object>> insert_post(@RequestPart MultipartFile file,
-			@RequestPart CommunityDto community) {
+	public ResponseEntity<Map<String, Object>> insert_post(@RequestPart MultipartFile file, @RequestPart CommunityDto community) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -117,6 +116,7 @@ public class CommunityController {
 		try {
 
 			logger.info("=====> 커뮤니티 글 등록 시작! 사진없이!");
+			System.out.println(community);
 
 			int result = cservice.insert_nopic(community);
 
