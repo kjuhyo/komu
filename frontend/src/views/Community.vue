@@ -14,7 +14,7 @@
             <h1 class="commu-title">Community</h1>
           </div>
           <div class="comm-searchbar">
-            <SearchBar />
+            <SearchBar @eventdata="setsearchdata" />
           </div>
           <div class="tab-write">
             <div class="comm_sorting_container">
@@ -30,7 +30,7 @@
           </div>
           <div class="community-tabs">
             <div class="md-layout"></div>
-            <Article />
+            <CommunityArticle :list="list" />
           </div>
           <div class="paging">
             <Pagination />
@@ -43,21 +43,50 @@
 
 <script>
 import '../assets/css/profile.css';
+import { getboard, getlist, search_list } from '@/api/community.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
-import Article from '../components/Article.vue';
+import CommunityArticle from '../components/CommunityArticle.vue';
 import SearchBar from '../components/SearchBar.vue';
 
 export default {
   components: {
     // Tabs,
-    Article,
+    CommunityArticle,
     Pagination,
     SearchBar,
   },
   bodyClass: 'profile-page',
   data() {
-    return {};
+    return {
+      page: 1,
+      searchpage:1,
+      uid: 'uuu',
+      // namu_title: '7',
+      searchdata:"",
+      pagination: {
+        listSize: 0,
+        rangeSize: 0,
+        page: 0,
+        range: 0,
+        listCnt: 0,
+        startPage: 0,
+        startList: 0,
+        endPage: 0,
+        prev: false,
+        next: false,
+      },
+      list: {
+        c_content: '',
+        c_date: '',
+        c_img: '',
+        c_like_cnt: 0,
+        c_title: '',
+        c_view: 0,
+        cid: 0,
+        uid: '',
+      }
+    }
   },
   props: {
     header: {
@@ -71,6 +100,36 @@ export default {
         backgroundImage: `url(${this.header})`,
       };
     },
+  },
+  created() {
+    getlist(
+      this.page,
+      (response) => {
+        console.log(response.data);
+        this.pagination = response.data.pagination;
+        this.list = response.data.commList;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
+  methods: {
+    setsearchdata(data) {
+      this.searchdata = data;
+      console.log(this.searchdata);
+      console.log("여기는 상위컴포넌트");
+      search_list(
+        this.searchdata,
+        (response)=>{
+          console.log(response.data);
+          this.list = response.data.list;
+        },
+        (error)=>{
+          console.log(error);
+        }
+      )
+    }
   },
 };
 </script>

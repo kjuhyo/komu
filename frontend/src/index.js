@@ -72,7 +72,7 @@ export default new Router({
       }
     },
     {
-      path: "/communitydetail",
+      path: "/communitydetail/:name",
       name: "communitydetail",
       components: { default: CommunityDetail, header: MainNavbar, footer: MainFooter},
       props: {
