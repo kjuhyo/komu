@@ -204,7 +204,7 @@ export default {
     },
     initUser() {
       // this.loginid = getuidCookie();
-      this.loginid = 'namu';
+      this.loginid = '65D7CRpy4vBA';
     },
   },
 };
