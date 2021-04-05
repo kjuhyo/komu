@@ -13,15 +13,21 @@
           <div class="community-title text-center">
             <h1 class="main-komu-title">KOMUWiki</h1>
           </div>
-          
+
+          <!-- 검색바 -->
           <div class="komu-searchbar">
             <SearchBar />
+          </div>
+
+          <!-- 글작성버튼 -->
+          <div class="tab-write">
             <div>
-              <router-link class="comm_write_btn" to="/komuwikiwrite"
+              <router-link class="komu_write_btn" to="/komuwikiwrite"
                 >글 작성</router-link
               >
             </div>
           </div>
+
           <div class="community-tabs">
             <div class="md-layout"></div>
 
@@ -139,6 +145,15 @@ export default {
   padding: 0;
 }
 
+.komu_write_btn {
+  font-family: 'Nanum Gothic', sans-serif;
+  padding-right: 10px;
+  text-align: right;
+  position: absolute;
+  right: 10px;
+  // top: 0px;
+}
+
 .container {
   padding-bottom: 2rem;
   // margin: auto;
@@ -149,6 +164,7 @@ export default {
 }
 
 .community-tabs::v-deep {
+  padding-top: 20px;
   .md-card-tabs .md-list {
     justify-content: center;
   }
