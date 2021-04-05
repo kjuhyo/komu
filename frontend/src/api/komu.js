@@ -40,9 +40,15 @@ function insert_nopic(komu, success,fail){
     .catch(fail);
 }
 
-function update_nopic(komu, success, fail){
+function update_nopic(uid,namu_content, namu_title, success, fail){
     instance
-    .put(`/namu/update`, komu)
+    .put(`/namu/update`, uid, namu_content,namu_title)
+    .then(success)
+    .catch(fail);
+}
+function search_list(page, word, success,fail){
+    instance
+    .get(`namu/search/${page}?word=${word}`)
     .then(success)
     .catch(fail);
 }
@@ -54,5 +60,6 @@ export{
     insert,
     insert_nopic,
     update_nopic,
+    search_list,
 
 };

@@ -16,7 +16,8 @@
 
           <!-- 검색바 -->
           <div class="komu-searchbar">
-            <SearchBar />
+            <SearchBar @eventdata="setsearchdata" />
+
           </div>
 
           <!-- 글작성버튼 -->
@@ -44,7 +45,7 @@
 
 <script>
 import '../assets/css/profile.css';
-import { getboard, getlist } from '@/api/komu.js';
+import { getboard, getlist,search_list } from '@/api/komu.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
@@ -61,8 +62,10 @@ export default {
   data() {
     return {
       page: 1,
+      searchpage:1,
       uid: 'uuu',
       namu_title: '7',
+      searchdata:"",
       pagination: {
         listSize: 0,
         rangeSize: 0,
@@ -112,7 +115,27 @@ export default {
         }
       );
     },
+    setsearchdata:function(data){
+    this.searchdata = data;
+    console.log(this.searchdata);
+    console.log("여기는 상위컴포넌트");
+    search_list(
+      this.searchpage,
+      this.searchdata,
+      (response)=>{
+        console.log(response.data);
+        this.pagination = response.data.pagination;
+        this.list = response.data.list;
+      },
+      (error)=>{
+        console.log(error);
+      }
+
+    )
+
   },
+  },
+  
   created() {
     getlist(
       this.page,
