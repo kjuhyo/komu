@@ -131,7 +131,14 @@
                 </router-link>
               </md-list-item>
 
-              <li class="md-list-item">
+              <md-list-item>
+                <router-link class="navbarrouting" to="/community">
+                  <i class="material-icons">keyboard</i>
+                  <p class="navfont">커뮤니티</p>
+                </router-link>
+              </md-list-item>
+
+              <!-- <li class="md-list-item">
                 <a
                   href="javascript:void(0)"
                   class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -163,7 +170,7 @@
                     </drop-down>
                   </div>
                 </a>
-              </li>
+              </li> -->
 
               <md-list-item v-if="!isLogin" @click="showModal = true">
                 <i class="material-icons navicons">login</i>
