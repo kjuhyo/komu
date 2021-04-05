@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ssafy.kpop.dao.CommunityDao">
 
-	<insert id="insert" parameterType="CommunityDto">
+	<insert id="insert_post" parameterType="CommunityDto">
 		insert into community(uid,c_title, c_content, c_date, c_img)
 		values(#{uid}, #{c_title}, #{c_content}, now(), #{c_img})
 	</insert>
@@ -70,7 +70,7 @@
 	
 	<insert id="insert_nopic" parameterType="CommunityDto">
 		insert into community(uid,c_title, c_content, c_date)
-		values(#{uid}, c_title, #{c_content}, now())
+		values(#{uid}, #{c_title}, #{c_content}, now())
 	</insert>
 
 

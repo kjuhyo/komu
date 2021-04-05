@@ -86,7 +86,7 @@ export default {
         //   desc: ''
         content: '',
       },
-      article:{
+      community:{
         uid: "",
         c_title: "",
         c_content: "",
@@ -161,16 +161,18 @@ export default {
       }
     },
     setDto:function(){
-      this.article.uid = this.loginid;
-      this.article.c_title = this.title;
-      this.article.c_content = this.content;
+      this.community.uid = this.loginid;
+      this.community.c_title = this.title;
+      this.community.c_content = this.content;
+      console.log(this.community);
     },
     UploadCertification:function(){
       this.setDto();
+      console.log(this.form.file);
       const formData = new FormData();
       formData.append(
-        "article", 
-        new Blob([JSON.stringify(this.article)],{type:"application/json"})
+        "community", 
+        new Blob([JSON.stringify(this.community)],{type:"application/json"})
       );
       formData.append("file", this.form.file);
       insert(
@@ -190,7 +192,7 @@ export default {
     Upload:function(){
       this.setDto();
       insert_nopic(
-        this.article,
+        this.community,
         (response)=>{
           console.log(response.data.message);
           console.log("SUCCESS");
