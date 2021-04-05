@@ -22,9 +22,37 @@ function letlike(wordlike, success,fail){
     .catch(fail);
 }
 
+function insert(FormData, success,fail){
+    instance
+    .post(`/namu/insert`, FormData,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+    .then(success)
+    .catch(fail);
+}
+
+function insert_nopic(komu, success,fail){
+    instance
+    .post(`/namu/insert/np`, komu)
+    .then(success)
+    .catch(fail);
+}
+
+function update_nopic(komu, success, fail){
+    instance
+    .put(`/namu/update`, komu)
+    .then(success)
+    .catch(fail);
+}
 
 export{
     getboard,
     getlist,
     letlike,
+    insert,
+    insert_nopic,
+    update_nopic,
+
 };

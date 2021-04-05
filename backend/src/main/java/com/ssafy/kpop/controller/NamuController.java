@@ -109,6 +109,44 @@ public class NamuController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 게시물 등록하기
+	@ApiOperation(value = "Namu Insert(NO FILE) ", notes = "나무위키 단어만 등록! 사진없이!")
+	@PostMapping("/insert/np")
+	public ResponseEntity<Map<String, Object>> insert_nopic(@RequestBody NamuwikiDto namu) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		try {
+			logger.info("=====> 나무위키 단어 중복 시작");
+			NamuwikiDto check = namuservice.check_namu(namu.getNamu_title());
+
+			if (check != null) {
+				logger.info("=====> 나무위키 단어 중복 !!");
+				resultMap.put("message", "이미 등록되어 있는 단어입니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				logger.info("=====> 나무위키 글 등록 시작! 사진없이~");
+				int result = namuservice.insert_nopic(namu);
+
+				if (result == 1) {
+					logger.info("=====> 나무위키 글 등록 성공");
+					resultMap.put("message", "단어 등록에 성공하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					logger.info("=====> 나무위키 글 등록 실패");
+					resultMap.put("message", "단어 등록에 실패하였습니다.");
+					status = HttpStatus.NOT_FOUND;
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("글 등록 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
 	// 게시물 수정하기
 	@ApiOperation(value = "Namu Update", notes = "나무위키 등록 단어 수정")
 	@PutMapping("/update")

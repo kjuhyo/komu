@@ -4,14 +4,19 @@
 	
 <mapper namespace="com.ssafy.kpop.dao.NamuDao">
 	<insert id="insert" parameterType="NamuwikiDto">
-		insert into namuwiki(uid, song_id, singer_id, namu_title, namu_content, namu_date, namu_img)
-		values(#{uid}, #{song_id}, #{singer_id}, #{namu_title}, #{namu_content}, now(), #{namu_img})
+		insert into namuwiki(uid, namu_title, namu_content, namu_date, namu_img)
+		values(#{uid}, #{namu_title}, #{namu_content}, now(), #{namu_img})
+	</insert>
+	
+	<insert id="insert_nopic" parameterType="NamuwikiDto">
+		insert into namuwiki(uid, namu_title, namu_content, namu_date)
+		values(#{uid}, #{namu_title}, #{namu_content}, now())
 	</insert>
 	
 	<update id="update" parameterType="NamuwikiDto">
 		update namuwiki 
-		set song_id=#{song_id}, singer_id=#{singer_id}, namu_title=#{namu_title}, namu_content=#{namu_content}, namu_date=now(), namu_img=#{namu_img}
-		where uid=#{uid}
+		set uid=#{uid}, namu_content=#{namu_content}, namu_date=now()
+		where namu_title=#{namu_title}
 	</update>
 	
 	<update id="delete" parameterType="NamuwikiDto">
@@ -31,7 +36,7 @@
 	</select>
 	
 	<select id="get_list" parameterType="Pagination" resultType="NamuwikiDto">
-		select * from namuwiki order by namu_date limit #{startList}, #{listSize}
+		select * from namuwiki order by namu_date desc limit #{startList}, #{listSize}
 	</select>
 	
 	<select id="search_total" parameterType="String" resultType="int">

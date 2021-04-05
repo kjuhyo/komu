@@ -27,4 +27,5 @@ public interface NamuDao {
 	WordlikeDto find_like(WordlikeDto wordlike);
 	int let_like(WordlikeDto wordlike);
 	int let_dislike(WordlikeDto wordlike);
+	int insert_nopic(NamuwikiDto namu);
 }

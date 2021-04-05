@@ -18,6 +18,7 @@ import SongDetail from "./views/SongDetail.vue";
 import GenreRecommend from "./views/GenreRecommend.vue";
 import Write from "./views/Write.vue";
 import KomuWrite from "./views/KomuWrite.vue";
+import KomuUpdate from "./views/KomuUpdate.vue";
 import LyricsRecommend from "./views/LyricsRecommend.vue";
 import PopularSong from "./views/PopularSong.vue";
 
@@ -174,6 +175,15 @@ export default new Router({
       path: "/komuwikiwrite",
       name: "komuwikiwrite",
       components: { default: KomuWrite, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/komuwikiupdate/:name",
+      name: "komuwikiupdate",
+      components: { default: KomuUpdate, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
