@@ -16,6 +16,7 @@
                 {{ namuwiki.namu_title }}
               </div>
               <div class="komuwiki_option_area">
+                <div v-if="isLogin">
                 <b-icon
                   v-if="LIKE == 0"
                   class="wiki_option_icon"
@@ -30,6 +31,7 @@
                   font-scale="2"
                   @click="Like"
                 ></b-icon>
+                </div>
                 <router-link :to="`/komuwikiupdate/${namuwiki.namu_title}`">
                 <b-icon
                   class="wiki_option_icon"
@@ -149,8 +151,8 @@ export default {
       this.isMobile = window.innerWidth <= 480;
     },
     initUser() {
-      // this.loginid = getuidCookie();
-      this.loginid = 'namu';
+      this.loginid = getuidCookie();
+      //this.loginid = 'namu';
     },
     Like: function() {
       this.wordlike.uid = this.loginid;
