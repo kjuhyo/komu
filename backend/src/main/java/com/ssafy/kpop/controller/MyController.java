@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
+import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.service.MyService;
 
 import io.swagger.annotations.Api;
@@ -69,9 +70,9 @@ public class MyController {
 	 * */
 	@ApiOperation(value="내가 좋아요한 가수 불러오기", notes = "@param uid </br> @return SingerDto", response=List.class)
 	@GetMapping("/singer/{uid}")
-	public ResponseEntity<List<SingerDto>> mySingerList(@PathVariable String uid) {
+	public ResponseEntity<List<SongDto>> mySingerList(@PathVariable String uid) {
 		HttpStatus status=HttpStatus.ACCEPTED;
-		List<SingerDto> l=null;
+		List<SongDto> l=null;
 		
 		try {
 			l=myService.showMySinger(uid);
@@ -81,7 +82,7 @@ public class MyController {
 			status=HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		
-		return new ResponseEntity<List<SingerDto>>(l, status);
+		return new ResponseEntity<List<SongDto>>(l, status);
 	}
 	
 	/*

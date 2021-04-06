@@ -41,7 +41,7 @@ def read_data(user_id):
 
 # song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
 
-path = 'C:\\_prayforky\\s04p23c104\\python\\Algorithm\\'
+path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
 
 song = pd.read_csv(path + 'kpop.csv', low_memory=False)
 

@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
+import com.ssafy.kpop.service.MyService;
 import com.ssafy.kpop.service.SongService;
 
 import io.swagger.annotations.Api;
@@ -35,6 +37,9 @@ public class RecommendController {
 
 	@Autowired
 	SongService songservice;
+	
+	@Autowired
+	MyService myService;
 
 	// 가사별 추천 페이지
 	@ApiOperation(value = "Lyric Recommend Page", notes = "좋아하는 단어별 추천 페이지")
@@ -48,38 +53,47 @@ public class RecommendController {
 			logger.info("=====> 가사 추천 노래 가져오기");
 
 			String program = "python";
-			String url = "C:\\Users\\multicampus\\Desktop\\new\\s04p23c104\\python\\Algorithm\\TF-IDF.py";
+			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\TF-IDF.py";
 //		String uid = "prteUBReKZX2";
 
 			List<String> args = new ArrayList<>();
 			args.add(program);
 			args.add(url);
 			args.add(uid);
-
-			ProcessBuilder builder = new ProcessBuilder(args);
-			Process process = builder.start();
-			InputStreamReader r = new InputStreamReader(process.getInputStream());
-			BufferedReader br = new BufferedReader(r);
-
-			// json 형태의 string으로 받음
-			String songList = br.readLine();
-
-			System.out.println(songList);
-			songList = songList.substring(1, songList.length() - 1); // 앞뒤 짤랐다!!
-			String[] slist = songList.split(", ");// 분해했다!
-			int[] ilist = new int[slist.length];
-			List<SongDto> dtoList = new ArrayList<>();
-
-			for (int i = 0; i < ilist.length; i++) {
-				ilist[i] = Integer.parseInt(slist[i]); // int로 바꿔고
-				SongDto temp = songservice.get_song(ilist[i]);
-				dtoList.add(temp);
+			
+			List<NamuwikiDto> l = myService.showMyword(uid);
+			if(l.size()!=0) {
+				System.out.println("하이~");
+				System.out.println(l.size());
+				resultMap.put("l", l);
+				
+				ProcessBuilder builder = new ProcessBuilder(args);
+				Process process = builder.start();
+				InputStreamReader r = new InputStreamReader(process.getInputStream());
+				BufferedReader br = new BufferedReader(r);
+				
+				// json 형태의 string으로 받음
+				String songList = br.readLine();
+				
+				System.out.println(songList);
+				songList = songList.substring(1, songList.length() - 1); // 앞뒤 짤랐다!!
+				String[] slist = songList.split(", ");// 분해했다!
+				int[] ilist = new int[slist.length];
+				List<SongDto> dtoList = new ArrayList<>();
+				
+				for (int i = 0; i < ilist.length; i++) {
+					ilist[i] = Integer.parseInt(slist[i]); // int로 바꿔고
+					SongDto temp = songservice.get_song(ilist[i]);
+					dtoList.add(temp);
+				}
+				
+				resultMap.put("dtoList", dtoList);
+				resultMap.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
+			}else {
+				resultMap.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
 			}
-
-			resultMap.put("dtoList", dtoList);
-			resultMap.put("message", "SUCCESS");
-			status = HttpStatus.ACCEPTED;
-
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("실행 실패 : {}", e);
@@ -103,7 +117,7 @@ public class RecommendController {
 			logger.info("=====> 장르 추천 노래 가져오기");
 
 			String program = "python";
-			String url = "C:\\_prayforky\\s04p23c104\\python\\Algorithm\\genre.py";
+			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\genre.py";
 //			String uid = "prteUBReKZX2";
 
 			List<String> args = new ArrayList<>();
@@ -111,10 +125,47 @@ public class RecommendController {
 			args.add(url);
 			args.add(uid);
 
-			ProcessBuilder builder = new ProcessBuilder(args);
-			Process process = builder.start();
-			InputStreamReader r = new InputStreamReader(process.getInputStream());
-			BufferedReader br = new BufferedReader(r);
+			List<SongDto> l = myService.showMySinger(uid);
+			if(l.size()!=0) {
+				System.out.println("하이~");
+				System.out.println(l.size());
+				resultMap.put("l", l);
+				
+				ProcessBuilder builder = new ProcessBuilder(args);
+				Process process = builder.start();
+				InputStreamReader r = new InputStreamReader(process.getInputStream());
+				BufferedReader br = new BufferedReader(r);
+				
+				// json 형태의 string으로 받음
+				String songList = br.readLine();
+				
+				System.out.println(songList);
+				songList = songList.substring(1, songList.length() - 1); // 앞뒤 짤랐다!!
+				String[] slist = songList.split(", ");// 분해했다!
+				int[] ilist = new int[slist.length];
+				List<SongDto> dtoList = new ArrayList<>();
+				
+				for (int i = 0; i < ilist.length; i++) {
+					ilist[i] = Integer.parseInt(slist[i]); // int로 바꿔고
+					SongDto temp = songservice.get_song(ilist[i]);
+					dtoList.add(temp);
+				}
+				
+				resultMap.put("dtoList", dtoList);
+				resultMap.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
+			}else {
+				resultMap.put("message", "SUCCESS");
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 
 //			String path = System.getProperty("user.dir");
 //			System.out.println("path : "+path);
@@ -124,31 +175,31 @@ public class RecommendController {
 //			System.out.println("path : "+path);
 
 			// json 형태의 string으로 받음
-			String songList = br.readLine();
-			System.out.println(songList);
-			songList = songList.substring(1, songList.length() - 1); // 앞뒤 짤랐다!!
-			String[] slist = songList.split(", ");// 분해했다!
-			int[] ilist = new int[slist.length];
-			List<SongDto> dtoList = new ArrayList<>();
-
-			for (int i = 0; i < ilist.length; i++) {
-				ilist[i] = Integer.parseInt(slist[i]); // int로 바꿔고
-				SongDto temp = songservice.get_song(ilist[i]);
-				dtoList.add(temp);
-			}
-
-			resultMap.put("dtoList", dtoList);
-			resultMap.put("message", "SUCCESS");
-			status = HttpStatus.ACCEPTED;
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			logger.error("실행 실패 : {}", e);
-			resultMap.put("message", e.getMessage());
-			status = HttpStatus.INTERNAL_SERVER_ERROR;
-		}
-
-		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//			String songList = br.readLine();
+//			System.out.println(songList);
+//			songList = songList.substring(1, songList.length() - 1); // 앞뒤 짤랐다!!
+//			String[] slist = songList.split(", ");// 분해했다!
+//			int[] ilist = new int[slist.length];
+//			List<SongDto> dtoList = new ArrayList<>();
+//
+//			for (int i = 0; i < ilist.length; i++) {
+//				ilist[i] = Integer.parseInt(slist[i]); // int로 바꿔고
+//				SongDto temp = songservice.get_song(ilist[i]);
+//				dtoList.add(temp);
+//			}
+//
+//			resultMap.put("dtoList", dtoList);
+//			resultMap.put("message", "SUCCESS");
+//			status = HttpStatus.ACCEPTED;
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			logger.error("실행 실패 : {}", e);
+//			resultMap.put("message", e.getMessage());
+//			status = HttpStatus.INTERNAL_SERVER_ERROR;
+//		}
+//
+//		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
 }
