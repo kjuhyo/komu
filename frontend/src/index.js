@@ -21,6 +21,7 @@ import KomuWrite from "./views/KomuWrite.vue";
 //import KomuUpdate from "./views/KomuUpdate.vue";
 import LyricsRecommend from "./views/LyricsRecommend.vue";
 import PopularSong from "./views/PopularSong.vue";
+import MainPage from "./views/MainPage.vue";
 
 Vue.use(Router);
 
@@ -31,6 +32,15 @@ export default new Router({
       path: "/index",
       name: "index",
       components: { default: Index, header: MainNavbar, footer: MainFooter },
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {
+      path: "/",
+      name: "mainpage",
+      components: { default: MainPage, header: MainNavbar, footer: MainFooter },
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
