@@ -279,7 +279,7 @@ export default {
       if (this.prevnext <= this.listm) {
         this.prevnext++;
         this.currentPage = this.prevnext;
-        alert(this.prevnext);
+        // alert(this.prevnext);
 
         getlist(
           this.currentPage,
