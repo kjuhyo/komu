@@ -15,9 +15,9 @@ function myPostList(uid, success, fail){
 /*
 *  내가 좋아요한 가수
 */
-function mySingerList(page, success, fail){
+function mySongList(uid, success, fail){
     instance
-        .get(`/song/newestlist/${page}`)
+        .get(`my/singer/${uid}`)
         .then(success)
         .catch(fail);
 }
@@ -25,9 +25,9 @@ function mySingerList(page, success, fail){
 /*
 *  내가 좋아요한 단어
 */
-function myWordList(page, success, fail){
+function myWordList(uid, success, fail){
     instance
-        .get(`/song/default/${page}`)
+        .get(`my/word/${uid}`)
         .then(success)
         .catch(fail);
 }
@@ -36,6 +36,6 @@ function myWordList(page, success, fail){
 
 export{
     myPostList,
-    mySingerList,
+    mySongList,
     myWordList,
 };
