@@ -9,6 +9,7 @@
       </tr>
     </thead>
     <tbody>
+      <h4 v-if="this.commuList.length == 0">작성한 글이 없어요!</h4>
       <tr v-for="(commu,idx) in commuList" :key="idx">
         <td data-label="No">{{commu.cid}}</td>
         <td data-label="Contents">

@@ -1,8 +1,12 @@
 <template>
   <div class="cards-container">
+    <h4 v-if="this.wordList.length == 0">좋아요한 단어가 없어요!</h4>
     <div v-for="(word, idx) in wordList" :key="idx" class="card card-css">
       <div v-if="word != null" class="card-question">
-        {{word.namu_title}}
+         <router-link
+          :to="`/komuwikidetail/${word.namu_title}`">
+          {{word.namu_title}}
+         </router-link>
       </div>
     </div>
   </div>

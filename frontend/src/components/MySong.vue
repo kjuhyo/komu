@@ -1,6 +1,7 @@
 <template>
   <div>
     <ul class="cards">
+      <h4 v-if="this.songList.length == 0">좋아요한 노래가 없어요!</h4>  
       <li v-for="(song,idx) in songList" :key="idx" class="cards__item">
         <div v-if="song != null" class="song-card">
           <router-link
