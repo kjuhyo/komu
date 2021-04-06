@@ -131,14 +131,25 @@
                     </div>
 
                     <!-- 단어등록 -->
-                    <div class="songdetail-writekomu" v-if="isLogin">
+                    <!--<div class="songdetail-writekomu" v-if="isLogin">
                       <router-link
                         class="songdetail-writekomu-btn"
                         to="/komuwikiwrite"
                       >
                         <p class="wirte-komu-font">단어 등록</p>
                       </router-link>
+                    </div>-->
+                    <!-- 단어등록끝 --> 
+
+                    <!-- 단어등록 -->
+                    <div class="songdetail-writekomu" v-if="isLogin">
+                        <p class="wirte-komu-font" @click="wordbar=true">단어 등록</p>
+                  
                     </div>
+                    <div v-if="wordbar=true">
+                        <input type="text" id="word_bar" v-model="word_bar" placeholder="등록할 단어를 입력하세요">
+                        <div @click="insertWord">등록</div>
+                      </div>
                     <!-- 단어등록끝 -->
                   </div>
                 </div>
@@ -152,7 +163,7 @@
 </template>
 
 <script>
-import { get_song, do_like } from '@/api/song.js';
+import { get_song, do_like, search_word } from '@/api/song.js';
 import { Tabs } from '@/components';
 //import axios from "axios";
 import { mapState } from 'vuex';
@@ -186,6 +197,12 @@ export default {
         song_id: '',
         uid: '',
       },
+      wordbar:false,
+      word_bar:'',
+      sw:{
+        song_id:'',
+        namu_title:'',
+      }
     };
   },
   created() {
@@ -196,7 +213,8 @@ export default {
         //console.log('uid'),
         //console.log(this.uid),
         (response) => {
-          console.log(response.data);
+          console.log('응답');
+          this.id=response.data.song.id;
           this.singer_name = response.data.song.singer_name;
           this.song_name = response.data.song.song_name;
           this.lyric = response.data.song.lyric;
@@ -231,7 +249,6 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-
     Like: function() {
       this.songlike.song_id = this.id;
       this.songlike.uid = this.uid;
@@ -247,6 +264,34 @@ export default {
         }
       );
     },
+    insertWord:function(){
+      this.sw.song_id=this.id;
+      this.sw.namu_title=this.word_bar;
+      search_word(
+       this.sw,
+       this.uid,
+       //console.log(this.uid),
+       (response) => {
+          //console.log('search_word')
+          //console.log(this.search_word)
+          if(response.data.message==='goKomuwiki'){
+            alert("코뮤위키에 없는 단어입니다. 코뮤위키에서 단어를 등록해주세요!");
+            this.$router.push("/komuwikiwrite");
+          }
+          else if(response.data.message==='existInKomu'){
+            alert("코뮤위키에서 단어의 의미를 파악해보세요!");
+            this.$router.push("/komuwikidetail/"+this.sw.namu_title);
+            
+          }
+          else if(response.data.message==='existInList'){
+            alert("단어 목록에 이미 있는 단어에요!");
+          }
+        },
+        (error) => {
+          console.log(error.data);
+        }
+     )
+    }
   },
 };
 </script>
