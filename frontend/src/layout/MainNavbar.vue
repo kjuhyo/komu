@@ -27,11 +27,8 @@
 
         <div class="md-collapse">
           <div class="md-collapse-wrapper">
-            <mobile-menu nav-mobile-section-start="false">
-              <!-- Here you can add your items from the section-start of your toolbar -->
-            </mobile-menu>
+            <mobile-menu nav-mobile-section-start="false"> </mobile-menu>
             <md-list>
-              <!-- <li class="md-list-item" v-if="!showDownload"> -->
               <li class="md-list-item">
                 <a
                   href="javascript:void(0)"
@@ -71,24 +68,6 @@
                   </div>
                 </a>
               </li>
-
-              <!-- <md-list-item
-                href="https://demos.creative-tim.com/vue-material-kit/documentation/"
-                target="_blank"
-                v-if="showDownload"
-              >
-                <i class="material-icons">content_paste</i>
-                <p>Documentation</p>
-              </md-list-item>
-
-              <md-list-item
-                href="javascript:void(0)"
-                @click="scrollToElement()"
-                v-if="showDownload"
-              >
-                <i class="material-icons">cloud_download</i>
-                <p>Download</p>
-              </md-list-item> -->
 
               <li class="md-list-item">
                 <a
@@ -138,57 +117,13 @@
                 </router-link>
               </md-list-item>
 
-              <!-- <li class="md-list-item">
-                <a
-                  href="javascript:void(0)"
-                  class="md-list-item-router md-list-item-container md-button-clean dropdown"
-                >
-                  <div class="md-list-item-content">
-                    <drop-down direction="down">
-                      <md-button
-                        slot="title"
-                        class="md-button md-button-link md-white md-simple dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        <i class="material-icons">keyboard</i>
-                        <p>커뮤니티</p>
-                      </md-button>
-                      <ul class="dropdown-menu dropdown-with-icons">
-                        <li>
-                          <router-link class="navbarrouting" to="/community">
-                            <i class="material-icons">chat_bubble_outline</i>
-                            <p>전체 커뮤니티</p>
-                          </router-link>
-                        </li>
-                        <li>
-                          <router-link class="navbarrouting" to="/singer">
-                            <i class="material-icons">group</i>
-                            <p>가수별 커뮤니티</p>
-                          </router-link>
-                        </li>
-                      </ul>
-                    </drop-down>
-                  </div>
-                </a>
-              </li> -->
-
               <md-list-item v-if="!isLogin" @click="showModal = true">
                 <i class="material-icons navicons">login</i>
                 <p class="navfont">로그인</p>
                 <modal v-if="showModal" @close="CloseModal">
-                  <!-- <template slot="header">
-                    <h4 class="modal-title">로그인</h4>
-                  </template> -->
-
                   <template slot="body">
                     <Login />
                   </template>
-
-                  <!-- <template slot="footer">
-                    <md-button class="md-simple" @click="showModal = false"
-                      >Close</md-button
-                    >
-                  </template> -->
                 </modal>
               </md-list-item>
 
@@ -225,17 +160,6 @@
                   </div>
                 </a>
               </li>
-
-              <!-- <md-list-item
-                href="https://www.instagram.com/CreativeTimOfficial"
-                target="_blank"
-              >
-                <i class="fab fa-instagram"></i>
-                <p class="hidden-lg">Instagram</p>
-                <md-tooltip md-direction="bottom"
-                  >Follow us on Instagram</md-tooltip
-                >
-              </md-list-item> -->
             </md-list>
           </div>
         </div>
@@ -304,18 +228,8 @@ export default {
       items: ['Login', 'Register'],
     };
   },
-  // computed: {
-  //   showDownload() {
-  //     const excludedRoutes = ['login', 'landing', 'profile'];
-  //     return excludedRoutes.every((r) => r !== this.$route.name);
-  //   },
-  // },
   computed: {
     ...mapState(['isLogin', 'loggedInUserData', 'userInfo']),
-    //showLogout() {
-    //  const excludedRoutes = ['index'];
-    // return excludedRoutes.every((r) => r !== this.$route.name);
-    // },
   },
   methods: {
     CloseModal() {
