@@ -63,14 +63,14 @@ public class MyController {
 	
 	
 	/*
-	 * 내가 좋아요한 가수 불러오기 
+	 * 내가 좋아요한 노래 불러오기 
 	 * 
 	 * @param uid
 	 * @return List<SingerDto>
 	 * */
-	@ApiOperation(value="내가 좋아요한 가수 불러오기", notes = "@param uid </br> @return SingerDto", response=List.class)
+	@ApiOperation(value="내가 좋아요한 노래 불러오기", notes = "@param uid </br> @return SongDto", response=List.class)
 	@GetMapping("/singer/{uid}")
-	public ResponseEntity<List<SongDto>> mySingerList(@PathVariable String uid) {
+	public ResponseEntity<List<SongDto>> mySongList(@PathVariable String uid) {
 		HttpStatus status=HttpStatus.ACCEPTED;
 		List<SongDto> l=null;
 		

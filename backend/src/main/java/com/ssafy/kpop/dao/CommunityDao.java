@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.util.Pagination;
 
 @Mapper
@@ -29,4 +30,5 @@ public interface CommunityDao {
 	int total_post();
 	List<CommunityDto> all_post(Pagination pagination);
 	int insert_nopic(CommunityDto community);
+	List<CommunityNickDto> communityInfo(Pagination pagination);
 }

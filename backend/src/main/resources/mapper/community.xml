@@ -73,8 +73,13 @@
 		values(#{uid}, #{c_title}, #{c_content}, now())
 	</insert>
 
-
-
+	<!-- 최신순 커뮤니티 정보 가져오기 -->
+	<select id="communityInfo" parameterType="Pagination" resultType="CommunityNickDto">
+		select c.cid, c.uid, c.c_title, c.c_content, c.c_date, c.is_delete, c.c_view, c.c_like_cnt, c.c_img, u.nickname, u.profile
+		from community c left join user u 
+		on c.uid = u.uid
+		order by c.c_date desc limit #{startList}, #{listSize};
+	</select>
 
 
 
