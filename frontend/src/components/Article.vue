@@ -16,7 +16,7 @@
           {{komu.namu_title}}
           </router-link>
           </td>
-        <td data-label="Writer">{{komu.nickname}}</td>
+        <td data-label="Writer">{{komu.uid}}</td>
         <td data-label="Date">{{komu.namu_date}}</td>
       </tr>
       </tbody>

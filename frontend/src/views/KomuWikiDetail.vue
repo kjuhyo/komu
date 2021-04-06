@@ -32,7 +32,7 @@
                   @click="Like"
                 ></b-icon>
                 </div>
-                <router-link :to="`/komuwikiupdate/${namuwiki.namu_title}`">
+                <router-link :to="`/komuwikiupdate/${namuwiki.namu_id}`">
                 <b-icon
                   class="wiki_option_icon"
                   icon="pencil"

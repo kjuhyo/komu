@@ -75,7 +75,7 @@
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { insert,insert_nopic } from '@/api/komu.js';
-import {profileByUid} from '@/api/user.js';
+import {profileByUid,getSingerName} from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
 
 
@@ -94,11 +94,7 @@ export default {
         namu_title:"",
         namu_content:"",
       },
-      user:{
-        uid:"",
-        nickname:"",
-        profile:"",
-      },
+      nick:"",
       loginid:"",
       show: true,
       previewImageData: null,
@@ -117,6 +113,17 @@ export default {
   },
   created() {
     this.initUser();
+     getSingerName(
+        this.loginid,
+        (response)=>{
+          console.log("SUCCESS");
+          console.log(response.data);
+          console.log("여기는 크리에이트");
+          this.nick = response.data;
+        },(error)=>{
+          console.log(error.data);
+        }
+      )
   },
   computed: {
     headerStyle() {
@@ -164,26 +171,12 @@ export default {
         this.previewImageData = null;
       }
     },
-    setNick:function(){
-            this.namu.uid=this.user.nickname;
-console.log(this.namu.uid);
-this.namu.namu_title=this.title;
-      this.namu.namu_content = this.content;
-    },
     setDto:function(){
-      profileByUid(
-        this.loginid,
-        (response)=>{
-          console.log("SUCCESS");
-          console.log(response.data);
-          this.user = response.data.info;
-          console.log(this.user);
-        },(error)=>{
-          console.log(error.data);
-        }
-      ),
-            this.setNick();
-
+      console.log("nick");
+      this.namu.uid=this.nick;
+      this.namu.namu_title=this.title;
+      this.namu.namu_content = this.content;
+     
     },
     UploadCertification:function(){
       this.setDto();
@@ -209,7 +202,6 @@ this.namu.namu_title=this.title;
     },
     Upload:function(){
       this.setDto();
-
       insert_nopic(
         this.namu,
         (response)=>{
