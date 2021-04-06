@@ -8,6 +8,7 @@ import re
 import json
 import sys
 import pymysql
+import os
 
 
 def read_data(user_id):
@@ -118,8 +119,10 @@ def lyric_REC(song_name, cosine_matrix):
 
 
 # 전처리 된 csv 파일 불러오기
-path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
-data = pd.read_csv(path + 'preLyric.csv', low_memory=False)
+# path = '.\\'
+path = os.path.dirname(os.path.realpath(__file__))
+# data = dir + '/member.txt'
+data = pd.read_csv(path + '/preLyric.csv', low_memory=False)
 
 # data의 전처리된 가사가 null값이거나 '없다'인 경우를 제거해준다.
 data = data[data['pre_lyric'].notnull()].reset_index(drop=True)

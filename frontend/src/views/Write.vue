@@ -207,8 +207,8 @@ export default {
 
     },
     initUser() {
-      // this.loginid = getuidCookie();
-      this.loginid = '65D7CRpy4vBA';
+      this.loginid = getuidCookie();
+      // this.loginid = '65D7CRpy4vBA';
     },
   },
 };

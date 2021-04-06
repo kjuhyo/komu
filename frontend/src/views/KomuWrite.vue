@@ -75,6 +75,7 @@
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { insert,insert_nopic } from '@/api/komu.js';
+import {profileByUid} from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
 
 
@@ -92,6 +93,11 @@ export default {
         uid:"",
         namu_title:"",
         namu_content:"",
+      },
+      user:{
+        uid:"",
+        nickname:"",
+        profile:"",
       },
       loginid:"",
       show: true,
@@ -158,10 +164,26 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto:function(){
-      this.namu.uid=this.loginid;
-      this.namu.namu_title=this.title;
+    setNick:function(){
+            this.namu.uid=this.user.nickname;
+console.log(this.namu.uid);
+this.namu.namu_title=this.title;
       this.namu.namu_content = this.content;
+    },
+    setDto:function(){
+      profileByUid(
+        this.loginid,
+        (response)=>{
+          console.log("SUCCESS");
+          console.log(response.data);
+          this.user = response.data.info;
+          console.log(this.user);
+        },(error)=>{
+          console.log(error.data);
+        }
+      ),
+            this.setNick();
+
     },
     UploadCertification:function(){
       this.setDto();
@@ -176,8 +198,8 @@ export default {
         (response)=>{
           console.log(response.data.message);
           console.log("SUCCESS");
-          this.$router.push("/komuwiki");          
           alert(response.data.message);
+          this.$router.push("/komuwiki");          
         },
         (error)=>{
           console.log(error.data);
@@ -187,13 +209,14 @@ export default {
     },
     Upload:function(){
       this.setDto();
+
       insert_nopic(
         this.namu,
         (response)=>{
           console.log(response.data.message);
           console.log("SUCCESS");
-          this.$router.push("/komuwiki");          
           alert(response.data.message);
+          this.$router.push("/komuwiki");          
         },
         (error)=>{
           console.log(error.data);
@@ -203,8 +226,8 @@ export default {
 
     },
     initUser() {
-      // this.loginid = getuidCookie();
-      this.loginid = '65D7CRpy4vBA';
+      this.loginid = getuidCookie();
+      // this.loginid = '65D7CRpy4vBA';
     },
   },
 };

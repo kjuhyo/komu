@@ -8,6 +8,7 @@ import warnings
 import sys
 import json
 import pymysql
+import os
 
 
 def read_data(user_id):
@@ -41,9 +42,11 @@ def read_data(user_id):
 
 # song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
 
-path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
-
-song = pd.read_csv(path + 'kpop.csv', low_memory=False)
+# path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
+path = os.path.dirname(os.path.realpath(__file__))
+# data = dir + '/member.txt'
+# data = pd.read_csv(path + '/preLyric.csv', low_memory=False)
+song = pd.read_csv(path + '/kpop.csv', low_memory=False)
 
 song_df = song[['id', 'song_name', 'genre']]
 # song_df.head(5)

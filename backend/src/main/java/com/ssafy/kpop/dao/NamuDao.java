@@ -15,7 +15,7 @@ public interface NamuDao {
 	int update(NamuwikiDto namu);
 	int delete(NamuwikiDto namu);
 	int checkAuth(Map<String , Object> map);
-	NamuwikiDto call_namu(String namu_title);
+	NamuwikiDto call_namu(int namu_id);
 	int get_total();
 	List<NamuwikiDto> get_list(Pagination pagination);
 	int search_total(String word);
