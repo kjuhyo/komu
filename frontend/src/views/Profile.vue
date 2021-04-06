@@ -47,7 +47,7 @@
               <!-- 좋아요한 노래 -->
               <template slot="tab-pane-2">
                 <div class="md-layout"></div>
-                <MySong />
+                <MySong :songList="songList"/>
               </template>
 
               <!-- 예쁜단어 -->
@@ -69,7 +69,7 @@ import MySong from '../components/MySong.vue';
 import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
-import {myPostList} from '@/api/my.js';
+import {myPostList, mySongList} from '@/api/my.js';
 export default {
   components: {
     Tabs,
@@ -100,7 +100,19 @@ export default {
         (error) => {
           console.log(error)
         }
+      ),
+      mySongList(
+        this.uid,
+        (response) =>{
+          console.log('무하하')
+          console.log(response.data);
+          this.songList=response.data;
+        },
+        (error) => {
+          console.log(error)
+        }
       )
+     
   },
   methods: {
     initUser() {
@@ -125,6 +137,17 @@ export default {
         c_like_cnt:'',
         c_img:'',
       },
+      songList:{
+        id:'',
+        song_name:'',
+        singer_name:'',
+        singer_img:'',
+        album_name:'',
+        album_cover:'',
+        genre:'',
+        issue_date:'',
+        lyric:'',
+      }
     };
   },
   props: {

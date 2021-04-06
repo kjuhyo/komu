@@ -13,7 +13,7 @@ function myPostList(uid, success, fail){
 }
 
 /*
-*  내가 좋아요한 가수
+*  내가 좋아요한 노래
 */
 function mySongList(uid, success, fail){
     instance
