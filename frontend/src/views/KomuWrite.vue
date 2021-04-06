@@ -117,8 +117,6 @@ export default {
         this.loginid,
         (response)=>{
           console.log("SUCCESS");
-          console.log(response.data);
-          console.log("여기는 크리에이트");
           this.nick = response.data;
         },(error)=>{
           console.log(error.data);
