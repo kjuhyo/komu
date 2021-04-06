@@ -4,7 +4,7 @@ const instance = createInstance();
 
 function getboard(cid, uid, success, fail){
     instance
-        .get(`/community/${cid}?loginid=${uid}`)
+        .get(`/community/${cid}?uid=${uid}`)
         .then(success)
         .catch(fail);
 }
