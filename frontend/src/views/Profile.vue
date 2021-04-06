@@ -51,7 +51,7 @@
               </template>
 
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-3"> <MyWord /></template>
+              <template slot="tab-pane-3"> <MyWord :wordList="wordList"/></template>
             </tabs>
           </div>
         </div>
@@ -69,7 +69,7 @@ import MySong from '../components/MySong.vue';
 import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
-import {myPostList, mySongList} from '@/api/my.js';
+import {myPostList, mySongList, myWordList} from '@/api/my.js';
 export default {
   components: {
     Tabs,
@@ -93,7 +93,7 @@ export default {
       myPostList(
         this.uid,
         (response) =>{
-          console.log('촤하하')
+          console.log('푸하하')
           console.log(response.data);
           this.commuList=response.data;
         },
@@ -107,6 +107,17 @@ export default {
           console.log('무하하')
           console.log(response.data);
           this.songList=response.data;
+        },
+        (error) => {
+          console.log(error)
+        }
+      ),
+      myWordList(
+        this.uid,
+        (response) =>{
+          console.log('우하하')
+          console.log(response.data);
+          this.wordList=response.data;
         },
         (error) => {
           console.log(error)
@@ -147,6 +158,14 @@ export default {
         genre:'',
         issue_date:'',
         lyric:'',
+      },
+      wordList:{
+        namu_id: '',
+        uid: '',
+        namu_title: '',
+        namu_content: '',
+        namu_date: '',
+        namu_img: '',
       }
     };
   },
