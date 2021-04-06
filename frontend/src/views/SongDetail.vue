@@ -115,12 +115,13 @@
                       >
                         등록된 단어가 없습니다. 단어를 등록해주세요!
                       </div>
-                      <div v-else class="card card-css songdetail-card-css">
-                        <div
-                          v-for="(item, index) in this.wordList"
-                          :key="index"
-                          class="card-question"
-                        >
+                      <div
+                        v-else
+                        class="card card-css songdetail-card-css"
+                        v-for="(item, index) in this.wordList"
+                        :key="index"
+                      >
+                        <div class="card-question">
                           <router-link
                             :to="`/komuwikidetail/${item.namu_title}`"
                           >
@@ -139,17 +140,34 @@
                         <p class="wirte-komu-font">단어 등록</p>
                       </router-link>
                     </div>-->
-                    <!-- 단어등록끝 --> 
+                    <!-- 단어등록끝 -->
 
                     <!-- 단어등록 -->
-                    <div class="songdetail-writekomu" v-if="isLogin">
-                        <p class="wirte-komu-font" @click="wordbar=true">단어 등록</p>
-                  
-                    </div>
-                    <div v-if="wordbar=true">
-                        <input type="text" id="word_bar" v-model="word_bar" placeholder="등록할 단어를 입력하세요">
-                        <div @click="insertWord">등록</div>
+
+                    <div class="songdetail_reg_word" v-if="isLogin">
+                      <div v-if="wordbar" class="songdetail-writekomu">
+                        <p class="wirte-komu-font" @click="wordbar = false">
+                          단어 등록
+                        </p>
                       </div>
+                      <!-- 단어등록눌렀을때 -->
+                      <div v-else>
+                        <div class="songdetail_reg_word">
+                          <input
+                            type="text"
+                            id="word_bar"
+                            class="songdetail-wordbar"
+                            v-model="word_bar"
+                            placeholder="등록할 단어를 입력하세요"
+                          />
+                          <div class="songdetail-writekomu">
+                            <p class="wirte-komu-font" @click="insertWord">
+                              단어 등록
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <!-- 단어등록끝 -->
                   </div>
                 </div>
@@ -197,12 +215,12 @@ export default {
         song_id: '',
         uid: '',
       },
-      wordbar:false,
-      word_bar:'',
-      sw:{
-        song_id:'',
-        namu_title:'',
-      }
+      wordbar: true,
+      word_bar: '',
+      sw: {
+        song_id: '',
+        namu_title: '',
+      },
     };
   },
   created() {
@@ -214,7 +232,7 @@ export default {
         //console.log(this.uid),
         (response) => {
           console.log('응답');
-          this.id=response.data.song.id;
+          this.id = response.data.song.id;
           this.singer_name = response.data.song.singer_name;
           this.song_name = response.data.song.song_name;
           this.lyric = response.data.song.lyric;
@@ -264,34 +282,34 @@ export default {
         }
       );
     },
-    insertWord:function(){
-      this.sw.song_id=this.id;
-      this.sw.namu_title=this.word_bar;
+    insertWord: function() {
+      this.sw.song_id = this.id;
+      this.sw.namu_title = this.word_bar;
       search_word(
-       this.sw,
-       this.uid,
-       //console.log(this.uid),
-       (response) => {
+        this.sw,
+        this.uid,
+        //console.log(this.uid),
+        (response) => {
           //console.log('search_word')
           //console.log(this.search_word)
-          if(response.data.message==='goKomuwiki'){
-            alert("코뮤위키에 없는 단어입니다. 코뮤위키에서 단어를 등록해주세요!");
-            this.$router.push("/komuwikiwrite");
-          }
-          else if(response.data.message==='existInKomu'){
-            alert("코뮤위키에서 단어의 의미를 파악해보세요!");
-            this.$router.push("/komuwikidetail/"+this.sw.namu_title);
-            
-          }
-          else if(response.data.message==='existInList'){
-            alert("단어 목록에 이미 있는 단어에요!");
+          if (response.data.message === 'goKomuwiki') {
+            alert(
+              '코뮤위키에 없는 단어입니다. 코뮤위키에서 단어를 등록해주세요!'
+            );
+            this.$router.push('/komuwikiwrite');
+          } else if (response.data.message === 'existInKomu') {
+            alert('코뮤위키에서 단어의 의미를 파악해보세요!');
+            this.$router.push('/komuwikidetail/' + this.sw.namu_title);
+          } else if (response.data.message === 'existInList') {
+            alert('단어 목록에 이미 있는 단어에요!');
           }
         },
         (error) => {
           console.log(error.data);
         }
-     )
-    }
+      );
+      this.wordbar = true;
+    },
   },
 };
 </script>
