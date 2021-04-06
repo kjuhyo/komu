@@ -32,8 +32,17 @@ function getNewSongName(name, success, fail){
         .catch(fail);
 }
 
+// 커뮤니티 검색
+function getCommunityContents(c_title, success, fail) {
+    instance
+        .get(`/search/community/${c_title}`)
+        .then(success)
+        .catch(fail);
+}
+
 export{
     getSingerName,
     getPopularSongName,
-    getNewSongName
+    getNewSongName,
+    getCommunityContents,
 };

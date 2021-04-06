@@ -13,9 +13,45 @@
           <div class="community-title text-center">
             <h1 class="commu-title">Community</h1>
           </div>
+
+          <!-- 검색바 -->
           <div class="comm-searchbar">
-            <SearchBar @eventdata="setsearchdata" />
+            <div v-if="isMobile">
+              <form class="m-search-container">
+                <input
+                  type="text"
+                  id="search-bar"
+                  @keyup.enter="findname"
+                  placeholder="노래 제목이나 가수명을 검색해주세요"
+                  v-model="searchtext"
+                />
+                <div @click="findname">
+                  <img
+                    class="search-icon"
+                    src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div v-else>
+              <form class="search-container" @submit.prevent="findname">
+                <input
+                  type="text"
+                  id="search-bar"
+                  placeholder="노래 제목이나 가수명을 검색해주세요"
+                  v-model="searchtext"
+                />
+                <div @click="findname">
+                  <img
+                    class="search-icon"
+                    src="http://www.endlessicons.com/wp-content/uploads/2012/12/search-icon.png"
+                  />
+                </div>
+              </form>
+            </div>
           </div>
+
           <div class="tab-write">
             <div class="comm_sorting_container">
               <span class="comm_sorting">인기순</span>
@@ -43,27 +79,28 @@
 
 <script>
 import '../assets/css/profile.css';
+import { getCommunityContents } from '@/api/search.js';
 import { getboard, getlist, search_list } from '@/api/community.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
 import CommunityArticle from '../components/CommunityArticle.vue';
-import SearchBar from '../components/SearchBar.vue';
 
 export default {
   components: {
     // Tabs,
     CommunityArticle,
     Pagination,
-    SearchBar,
+    // SearchBar,
   },
   bodyClass: 'profile-page',
   data() {
     return {
       page: 1,
-      searchpage:1,
+      searchtext: '',
+      searchpage: 1,
       uid: 'uuu',
       // namu_title: '7',
-      searchdata:"",
+      searchdata: '',
       pagination: {
         listSize: 0,
         rangeSize: 0,
@@ -85,8 +122,8 @@ export default {
         c_view: 0,
         cid: 0,
         uid: '',
-      }
-    }
+      },
+    };
   },
   props: {
     header: {
@@ -115,21 +152,36 @@ export default {
     );
   },
   methods: {
-    setsearchdata(data) {
-      this.searchdata = data;
-      console.log(this.searchdata);
-      console.log("여기는 상위컴포넌트");
-      search_list(
-        this.searchdata,
-        (response)=>{
+    // setsearchdata(data) {
+    //   this.searchdata = data;
+    //   console.log(this.searchdata);
+    //   console.log('여기는 상위컴포넌트');
+    //   search_list(
+    //     this.searchdata,
+    //     (response) => {
+    //       console.log(response.data);
+    //       this.list = response.data.list;
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    // },
+
+    findname: function() {
+      console.log('잘들어왔쪙');
+      getCommunityContents(
+        //검색결과 //최신순
+        this.searchtext,
+        (response) => {
           console.log(response.data);
-          this.list = response.data.list;
+          this.list = response.data;
         },
-        (error)=>{
+        (error) => {
           console.log(error);
         }
-      )
-    }
+      );
+    },
   },
 };
 </script>
