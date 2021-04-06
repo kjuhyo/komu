@@ -46,9 +46,9 @@ public class NamuServiceImpl implements NamuService{
 	}
 	
 	@Override
-	public NamuwikiDto call_namu(String namu_title) {
+	public NamuwikiDto call_namu(int namu_id) {
 		// TODO Auto-generated method stub
-		return ndao.call_namu(namu_title);
+		return ndao.call_namu(namu_id);
 	}
 	
 	@Override

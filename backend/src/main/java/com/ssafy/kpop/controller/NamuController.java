@@ -208,14 +208,14 @@ public class NamuController {
 
 	// 게시물 확인하기
 	@ApiOperation(value = "Namu single word", notes = "나무 단어 하나 보기")
-	@GetMapping("/word/{namu_title}")
-	public ResponseEntity<Map<String, Object>> getboard(@PathVariable String namu_title, @RequestParam String loginid) {
+	@GetMapping("/word/{namu_id}")
+	public ResponseEntity<Map<String, Object>> getboard(@PathVariable int namu_id, @RequestParam String loginid) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
 		try {
 			logger.info("=====> 단어 부르기");
-			NamuwikiDto dto = namuservice.call_namu(namu_title);
+			NamuwikiDto dto = namuservice.call_namu(namu_id);
 
 			if (dto != null) {
 				int like = namuservice.ami_like(loginid, dto.getNamu_id());
