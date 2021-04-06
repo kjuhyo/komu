@@ -9,6 +9,7 @@ import com.ssafy.kpop.dao.MyDao;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
+import com.ssafy.kpop.dto.SongDto;
 
 @Service
 public class MyServiceImpl implements MyService{
@@ -22,7 +23,7 @@ public class MyServiceImpl implements MyService{
 	}
 
 	@Override
-	public List<SingerDto> showMySinger(String uid) {
+	public List<SongDto> showMySinger(String uid) {
 		return myDao.showMySinger(uid);
 	}
 

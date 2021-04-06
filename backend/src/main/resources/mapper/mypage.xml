@@ -9,12 +9,12 @@
 		where uid = #{uid} and is_delete = 0	
 	</select>
 	
-	<select id="showMySinger" parameterType="String" resultType="SingerDto">
+	<select id="showMySinger" parameterType="String" resultType="SongDto">
 		select * 
-		from singer 
-		where singer_id in (
-			select singer_id 
-			from singerlike 
+		from song 
+		where id in (
+			select song_id 
+			from songlike 
 			where uid=#{uid}
 		)
 	</select>
