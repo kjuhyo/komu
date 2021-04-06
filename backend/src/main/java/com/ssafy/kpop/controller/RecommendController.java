@@ -53,12 +53,16 @@ public class RecommendController {
 			logger.info("=====> 가사 추천 노래 가져오기");
 
 			String program = "python";
-			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\TF-IDF.py";
+//			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\TF-IDF.py";
 //		String uid = "prteUBReKZX2";
+			
+			String path = System.getProperty("user.dir");
+			path=path.replace("\\", "\\\\");
+			path=path.replace("backend", "python\\\\Algorithm\\\\TF-IDF.py");
 
 			List<String> args = new ArrayList<>();
 			args.add(program);
-			args.add(url);
+			args.add(path);
 			args.add(uid);
 			
 			List<NamuwikiDto> l = myService.showMyword(uid);
@@ -117,12 +121,16 @@ public class RecommendController {
 			logger.info("=====> 장르 추천 노래 가져오기");
 
 			String program = "python";
-			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\genre.py";
-//			String uid = "prteUBReKZX2";
+//			String url = "C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\genre.py";
+			
+			String path = System.getProperty("user.dir");
+			path=path.replace("\\", "\\\\");
+			path=path.replace("backend", "python\\\\Algorithm\\\\genre.py");
 
 			List<String> args = new ArrayList<>();
 			args.add(program);
-			args.add(url);
+//			args.add(url);
+			args.add(path);
 			args.add(uid);
 
 			List<SongDto> l = myService.showMySinger(uid);
@@ -166,13 +174,6 @@ public class RecommendController {
 		}
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
-//			String path = System.getProperty("user.dir");
-//			System.out.println("path : "+path);
-//			path=path.replace("\\", "\\\\");
-//			System.out.println("path : "+path);
-//			path=path.replace("backend", "python\\\\Algorithm\\\\genre.py");
-//			System.out.println("path : "+path);
 
 			// json 형태의 string으로 받음
 //			String songList = br.readLine();
