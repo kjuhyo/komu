@@ -68,7 +68,13 @@
 		delete from wordlike where uid=#{uid} and namu_id=#{namu_id}
 	</delete>
 	
-	
+	<!-- 최신순 나무위키 정보 가져오기 -->
+	<select id="KomuInfo" parameterType="Pagination" resultType="KomuWikiDto">
+		select n.namu_id, n.uid, n.namu_title, n.namu_content, n.namu_date, n.namu_img, u.nickname, u.profile
+		from namuwiki n left join user u
+		on n.uid = u.uid
+		order by n.namu_date desc limit #{startList}, #{listSize};
+	</select>
 	
 	
 
