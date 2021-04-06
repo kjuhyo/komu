@@ -16,7 +16,7 @@
           {{article.c_title}}
           </router-link>
           </td>
-        <td data-label="Writer">{{article.uid}}</td>
+        <td data-label="Writer">{{article.nickname}}</td>
         <td data-label="Date">{{article.c_date}}</td>
       </tr>
       </tbody>

@@ -25,7 +25,7 @@
               <div class="writer-info">
                 <div class="thumb">
                   <img
-                    :src="img"
+                    :src="writer.profile"
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid userprofile-image"
                     width="42px"
@@ -34,7 +34,7 @@
                 </div>
                 <div class="profile_area">
                   <div class="profile_info">
-                    닉네임
+                    {{writer.nickname}}
                   </div>
                   <div class="article_info">
                     <span>{{community.c_date}}</span>
@@ -44,11 +44,13 @@
 
               <!-- 삭제&수정 버튼 -->
               <div class="com-detail-btn">
-                                <span class="comdetail-btn-text">조회수</span>
+                <span class="comdetail-btn-text">조회수</span>
                 <span class="comdetail-btn-text">{{community.c_view}}</span>
 
-                <span class="comdetail-btn-text">수정</span>
-                <span class="comdetail-btn-text">삭제</span>
+                <div v-if="this.community.uid==this.loginid">
+                  <span class="comdetail-btn-text">수정</span>
+                  <span class="comdetail-btn-text" @click="Delete">삭제</span>
+                </div>
               </div>
             </div>
             <hr />
@@ -62,11 +64,24 @@
                 {{community.c_content}}
               </div>
 
+              <div class="community-detail-content" v-if="community.c_img!=null">
+                  <img
+                    :src="community.c_img"
+                    alt="Circle Image"
+                    class="img-raised rounded-circle img-fluid userprofile-image"
+                    width="42px"
+                    height="42px"
+                  />
+                </div>
+
               <!-- 좋아요, 댓글, 신고 -->
               <div class="reply-box">
                 <div class="box-left">
                   <div class="like-article">
-                    <b-icon class="comm-detail-icon" icon="heart"></b-icon>
+                    <div v-if="isLogin">
+                      <b-icon class="comm-detail-icon" icon="heart" v-if="LIKE == 0" @click="Like"></b-icon>
+                      <b-icon class="comm-detail-icon" icon="heart-fill"  v-if="LIKE == 1" @click="Like"></b-icon>
+                    </div>
                     <span class="com-detail-like-count">좋아요</span>
                     <span class="com-detail-like-count">{{community.c_like_cnt}}</span>
                   </div>
@@ -144,16 +159,17 @@
             <!-- 댓글 작성 -->
             <div class="comdetail-comment-writer">
               <div class="comdetail-comment-inbox">
-                <span class="comdetail-comment-inbox-name">닉네임</span>
+                <span class="comdetail-comment-inbox-name">{{loginInfo.nickname}}</span>
                 <textarea
                   placeholder="댓글을 작성해주세요."
                   class="comdetail-comment-inbox-text"
                   rows="1"
+                  @click="findWriter"
                 ></textarea>
 
                 <!-- 댓글등록버튼 -->
                 <div class="comdetail-comment-attach">
-                  <div class="comdetail-register-box">
+                  <div class="comdetail-register-box" v-if="isLogin" @click="insert_comment">
                     등록
                   </div>
                 </div>
@@ -166,15 +182,14 @@
     </div>
   </div>
 </template>
-
 <script>
 import { Modal } from '@/components';
 // import Comment from '../components/Comment.vue';
 import '../assets/css/commudetail.scss';
-import { getboard } from '@/api/community.js';
+import { getboard, letlike,letdelete } from '@/api/community.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-
+import{ profileByUid } from '@/api/user.js';
 
 export default {
   components: {
@@ -183,6 +198,7 @@ export default {
   },
   bodyClass: 'profile-page',
   created() {
+    this.initUser();
     this.name = this.$route.params.name;
     getboard(
       this.name,
@@ -195,19 +211,22 @@ export default {
         this.check = response.data.check;
         this.message = response.data.message;
         console.log(this.message);
-        console.log(this.comments);
+        this.nowuid = this.community.uid;
+         this.getInfo();
+
       },
       (error)=>{
         console.log(error);
       }
     )
-  },
+   },
+ 
   data() {
     return {
       classicModal: false,
       name:"",
+      nowuid:"",
       loginid:"namu",
-      nickid:"",
       community:{
         cid:0,
         uid:"",
@@ -230,6 +249,18 @@ export default {
       cnt_comment:0,
       check:false,
       LIKE:0,
+      writer:{
+        uid:"",
+        nickname:"",
+        profile:"",
+      },
+      postlike:{
+        uid:"",
+        cid:0,
+      },
+      loginInfo:{
+
+      }
     };
   },
   props: {
@@ -243,7 +274,7 @@ export default {
     },
   },
   computed: {
-        ...mapState(['isLogin', 'loggedInUserData']),
+    ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -258,6 +289,64 @@ export default {
       this.loginid = getuidCookie();
       //this.loginid = 'namu';
     },
+    getInfo(){
+     profileByUid(
+        this.nowuid,
+        (response)=>{
+          this.writer=response.data.info;
+          console.log(this.message);
+          console.log(this.writer);
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+    },
+    Like: function() {
+      this.postlike.uid = this.loginid;
+      this.postlike.cid = this.community.cid;
+      letlike(
+        this.postlike,
+        (response) => {
+          this.LIKE = response.data.LIKE;
+          console.log(response.data.message);
+          window.location.reload();
+        },
+        (error) => {
+          console.log(error.data);
+        }
+      );
+    },
+    Delete:function(){
+      console.log("삭제 눌렸어/");
+      letdelete(
+        this.community.cid,
+        (response)=>{
+          console.log(response.data.message);
+          this.$router.push("/community");
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+    },
+    findWriter:function(){
+      console.log("인풋박스누르면 로그인한 사람의 정보가져와야돼");
+      profileByUid(
+        this.loginid,
+        (response)=>{
+          this.loginInfo=response.data.info;
+          console.log(this.message);
+          console.log(this.loginInfo);
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
+    },
+    insert_comment:function(){
+      
+    }
   },
 };
 </script>

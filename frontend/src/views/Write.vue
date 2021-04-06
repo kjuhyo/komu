@@ -116,16 +116,16 @@ export default {
   },
   created() {
     this.initUser();
-    getSingerName(
-        this.loginid,
-        (response)=>{
-          console.log("SUCCESS");
-          console.log(response.data);
-          this.nick = response.data;
-        },(error)=>{
-          console.log(error.data);
-        }
-      )
+    // getSingerName(
+    //     this.loginid,
+    //     (response)=>{
+    //       console.log("SUCCESS");
+    //       console.log(response.data);
+    //       this.nick = response.data;
+    //     },(error)=>{
+    //       console.log(error.data);
+    //     }
+    //   )
   },
   computed: {
     headerStyle() {
@@ -174,7 +174,7 @@ export default {
       }
     },
     setDto:function(){
-      this.community.uid = this.nick;
+      this.community.uid = this.loginid;
       this.community.c_title = this.title;
       this.community.c_content = this.content;
       console.log(this.community);

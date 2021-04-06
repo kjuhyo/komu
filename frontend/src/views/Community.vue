@@ -84,6 +84,8 @@ import { getboard, getlist, search_list } from '@/api/community.js';
 // import { Tabs } from '@/components';
 import { Pagination } from '@/components';
 import CommunityArticle from '../components/CommunityArticle.vue';
+import {getSingerName} from '@/api/user.js';
+
 
 export default {
   components: {
@@ -122,6 +124,8 @@ export default {
         c_view: 0,
         cid: 0,
         uid: '',
+        nickname:'',
+        profile:'',
       },
     };
   },
@@ -145,11 +149,12 @@ export default {
         console.log(response.data);
         this.pagination = response.data.pagination;
         this.list = response.data.commList;
+        console.log(this.list);
       },
       (error) => {
         console.log(error);
       }
-    );
+    )
   },
   methods: {
     // setsearchdata(data) {
@@ -167,7 +172,6 @@ export default {
     //     }
     //   );
     // },
-
     findname: function() {
       console.log('잘들어왔쪙');
       getCommunityContents(
