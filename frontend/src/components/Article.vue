@@ -12,11 +12,11 @@
       <tr v-for="(komu,idx) in list" :key="idx">
         <td data-label="No">{{komu.namu_id}}</td>
         <td data-label="Contents">
-          <router-link :to="`/komuwikidetail/${komu.namu_title}`">
+          <router-link :to="`/komuwikidetail/${komu.namu_id}`">
           {{komu.namu_title}}
           </router-link>
           </td>
-        <td data-label="Writer">{{komu.uid}}</td>
+        <td data-label="Writer">{{komu.nickname}}</td>
         <td data-label="Date">{{komu.namu_date}}</td>
       </tr>
       </tbody>
@@ -35,6 +35,12 @@ export default {
     }
 
   },
+  created() {
+    //console.log('리스트');
+    //console.log(list.uid);
+    /*getSingerName(
 
+    )*/
+  },
 };
 </script>

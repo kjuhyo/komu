@@ -27,8 +27,8 @@
 		select count(*) from namuwiki where namu_id=#{namu_id} and uid=#{uid}
 	</select>
 	
-	<select id="call_namu" parameterType="String" resultType="NamuwikiDto">
-		select * from namuwiki where namu_title=#{namu_title}
+	<select id="call_namu" parameterType="int" resultType="NamuwikiDto">
+		select * from namuwiki where namu_id=#{namu_id}
 	</select>
 	
 	<select id="get_total" resultType="int">

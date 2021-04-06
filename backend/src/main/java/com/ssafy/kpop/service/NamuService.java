@@ -13,7 +13,7 @@ public interface NamuService {
 	int update(NamuwikiDto namu); //단어 수정 
 	int delete(NamuwikiDto namu); //단어 삭제
 	int checkAuth(int namu_id, String uid);
-	NamuwikiDto call_namu(String namu_title);
+	NamuwikiDto call_namu(int namu_id);
 	int get_total();
 	List<NamuwikiDto> get_list(Pagination pagination);
 	int search_total(String word);

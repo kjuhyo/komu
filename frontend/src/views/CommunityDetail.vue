@@ -16,7 +16,7 @@
             <!-- 제목 -->
             <div class="community-detail-title">
               <span class="community-detail-title-text">
-                조금만 더 힘내요 여러분~~
+                {{community.c_title}}
               </span>
             </div>
 
@@ -37,13 +37,16 @@
                     닉네임
                   </div>
                   <div class="article_info">
-                    <span>2021.03.28</span>
+                    <span>{{community.c_date}}</span>
                   </div>
                 </div>
               </div>
 
               <!-- 삭제&수정 버튼 -->
               <div class="com-detail-btn">
+                                <span class="comdetail-btn-text">조회수</span>
+                <span class="comdetail-btn-text">{{community.c_view}}</span>
+
                 <span class="comdetail-btn-text">수정</span>
                 <span class="comdetail-btn-text">삭제</span>
               </div>
@@ -56,9 +59,7 @@
             <!-- 글 내용 -->
             <div class="comm-detail-main">
               <div class="community-detail-content">
-                커뮤니티 디테일 페이지의 첫번째 글입니다. <br />
-                하하하하하하하하하하하 얼마나 글을 많이 써야할까요?<br />
-                하하하하하하하하하하하<br />
+                {{community.c_content}}
               </div>
 
               <!-- 좋아요, 댓글, 신고 -->
@@ -67,12 +68,12 @@
                   <div class="like-article">
                     <b-icon class="comm-detail-icon" icon="heart"></b-icon>
                     <span class="com-detail-like-count">좋아요</span>
-                    <span class="com-detail-like-count">0</span>
+                    <span class="com-detail-like-count">{{community.c_like_cnt}}</span>
                   </div>
                   <div class="button-comment">
                     <b-icon class="comm-detail-icon" icon="chat-left"></b-icon>
                     <span class="com-detail-comment-count">댓글</span>
-                    <span class="com-detail-comment-count">100</span>
+                    <span class="com-detail-comment-count">{{cnt_comment}}</span>
                   </div>
                 </div>
                 <div class="box-right">
@@ -117,7 +118,7 @@
             <!-- 댓글 리스트 -->
             <ul class="comdetail-comment-option">
               <li class="comdetail-comment-item">
-                <div class="comdetail-comment-area">
+                <div class="comdetail-comment-area" v-for="(comment,idx) in comments" :key="idx"> 
                   <img
                     :src="img"
                     alt="Circle Image"
@@ -127,13 +128,13 @@
                   />
                   <div class="comment-box">
                     <div class="comdetail-comment-nick-box">
-                      닉네임
+                      {{comment.uid}}
                     </div>
                     <div class="comdetail-comment-text-box">
-                      댓글입니다.
+                      {{comment.cc_content}}
                     </div>
                     <div class="comdetail-comment-info-box">
-                      2021.03.28
+                      {{comment.cc_date}}
                     </div>
                   </div>
                 </div>
@@ -170,6 +171,10 @@
 import { Modal } from '@/components';
 // import Comment from '../components/Comment.vue';
 import '../assets/css/commudetail.scss';
+import { getboard } from '@/api/community.js';
+import { mapState } from 'vuex';
+import { getuidCookie } from '@/util/cookie.js';
+
 
 export default {
   components: {
@@ -177,9 +182,54 @@ export default {
     // Comment,
   },
   bodyClass: 'profile-page',
+  created() {
+    this.name = this.$route.params.name;
+    getboard(
+      this.name,
+      this.loginid,
+      (response)=>{
+        this.LIKE=response.data.LIKE;
+        this.community=response.data.Community;
+        this.comments=response.data.commentList;
+        this.cnt_comment = response.data.cnt_comment;
+        this.check = response.data.check;
+        this.message = response.data.message;
+        console.log(this.message);
+        console.log(this.comments);
+      },
+      (error)=>{
+        console.log(error);
+      }
+    )
+  },
   data() {
     return {
       classicModal: false,
+      name:"",
+      loginid:"namu",
+      nickid:"",
+      community:{
+        cid:0,
+        uid:"",
+        c_title:"",
+        c_content:"",
+        c_date:"",
+        is_delete:"",
+        c_view:0,
+        c_like_cnt:0,
+        c_img:"",
+      },
+      comments:{
+        ccid:0,
+        cid:0,
+        uid:"",
+        cc_content:"",
+        cc_date:"",
+        is_delete:0,
+      },
+      cnt_comment:0,
+      check:false,
+      LIKE:0,
     };
   },
   props: {
@@ -193,6 +243,7 @@ export default {
     },
   },
   computed: {
+        ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -202,6 +253,10 @@ export default {
   methods: {
     classicModalHide() {
       this.classicModal = false;
+    },
+    initUser() {
+      this.loginid = getuidCookie();
+      //this.loginid = 'namu';
     },
   },
 };
