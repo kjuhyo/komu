@@ -34,9 +34,56 @@
 
             <Article :list="list" />
           </div>
-          <div class="paging">
-            <Pagination />
+          <!-- <Pagination /> -->
+          <div class="Page" align="center">
+            <nav aria-label="Page navigation">
+              <ul class="pagination">
+                <li class="page-item">
+                  <input
+                    type="button"
+                    class="page-link"
+                    @click="prevPage"
+                    style="width:40px;text-align:center; color:black;"
+                    value="<"
+                  />
+                </li>
+
+                <li
+                  class="page-item"
+                  v-for="(listm, idx) in this.listmaker"
+                  v-bind:key="idx"
+                >
+                  <input
+                    type="button"
+                    class="page-link"
+                    @click="movePage"
+                    v-bind:value="idx + 1"
+                    style="width:40px;text-align:center; color:black;"
+                  />
+                  <input
+                    type="text"
+                    placeholder="listData"
+                    v-bind:value="idx + 1"
+                    @change="updateList"
+                    disabled
+                    style="display:none; color:black;"
+                  />
+                </li>
+                <li class="page-item">
+                  <input
+                    type="button"
+                    class="page-link"
+                    @click="nextPage"
+                    style="width:40px;text-align:center; color:black;"
+                    value=">"
+                  />
+                </li>
+              </ul>
+            </nav>
           </div>
+          <!-- <div class="paging">
+            <Pagination />
+          </div> -->
         </div>
       </div>
     </div>
@@ -47,7 +94,7 @@
 import '../assets/css/profile.css';
 import { getboard, getlist,search_list } from '@/api/komu.js';
 // import { Tabs } from '@/components';
-import { Pagination } from '@/components';
+// import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
 import SearchBar from '../components/SearchBar.vue';
 
@@ -55,7 +102,7 @@ export default {
   components: {
     // Tabs,
     Article,
-    Pagination,
+    // Pagination,
     SearchBar,
   },
   bodyClass: 'profile-page',
@@ -64,8 +111,10 @@ export default {
       page: 1,
       searchpage:1,
       uid: 'uuu',
-      namu_title: '7',
+      // namu_title: '7',
       searchdata:"",
+      listmaker: 0,
+      prevnext: 0,
       pagination: {
         listSize: 0,
         rangeSize: 0,
@@ -78,6 +127,7 @@ export default {
         prev: false,
         next: false,
       },
+      currentPage: 1,
       list: {
         namu_id: 0,
         uid: '',
@@ -107,7 +157,6 @@ export default {
         this.namu_title,
         this.uid,
         (response) => {
-          // this.songList=response.data.songList;
           console.log(response.data);
         },
         (error) => {
@@ -133,7 +182,71 @@ export default {
 
     )
 
-  },
+    },
+    movePage(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+      this.prevnext = updatedText;
+
+      getlist(
+        this.currentPage,
+        (response) => {
+          this.list = response.data.list;
+
+          this.listm = parseInt(
+            this.pagination.listCnt / this.pagination.listSize
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    prevPage() {
+      if (this.prevnext > 1) {
+        this.prevnext -= 1;
+        this.currentPage = this.prevnext;
+
+        getlist(
+          this.currentPage,
+          (response) => {
+            this.list = response.data.list;
+
+            this.listm = parseInt(
+              this.pagination.listCnt / this.pagination.listSize
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    nextPage() {
+      if (this.prevnext <= this.listm) {
+        this.prevnext++;
+        this.currentPage = this.prevnext;
+        alert(this.prevnext);
+
+        getlist(
+          this.currentPage,
+          (response) => {
+            this.list = response.data.list;
+
+            this.listm = parseInt(
+              this.pagination.listCnt / this.pagination.listSize
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    updateList: function(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+    },
   },
   
   created() {
@@ -143,6 +256,10 @@ export default {
         console.log(response.data);
         this.pagination = response.data.pagination;
         this.list = response.data.list;
+        this.listmaker = parseInt(
+          this.pagination.listCnt / this.pagination.listSize + 1
+        );
+        console.log(this.pagination)
       },
       (error) => {
         console.log(error);
