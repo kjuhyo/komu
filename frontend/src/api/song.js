@@ -62,6 +62,16 @@ function do_like(songlike, success, fail){
         .catch(fail);
 }
 
+/*
+*  단어 등록 하기
+*/
+function search_word(sw, uid, success, fail){
+    instance
+        .post(`/song/insert/word?uid=${uid}` , sw)
+        .then(success)
+        .catch(fail);
+}
+
 export{
     get_song,
     getlist_new,
@@ -69,4 +79,5 @@ export{
     getlist_genre,
     getListPopularGenre,
     do_like,
+    search_word,
 };

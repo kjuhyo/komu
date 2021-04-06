@@ -158,23 +158,25 @@ public class SongController {
 				String word = sw.getNamu_title();
 				logger.info("=====> 단어 정보 가져오기");
 				NamuwikiDto namu = songservice.search_word(word);
+				int insert = songservice.insert_list(sw);
 				if (namu != null && namu.getNamu_title().equals(word)) { //
 					resultMap.put("namu", namu);
-					resultMap.put("message", "나무 위키에 해당 단어가 존재합니다.");
+					resultMap.put("message", "existInKomu"); //나무 위키에 해당 단어가 존재합니다.
 					status = HttpStatus.ACCEPTED;
 				} else {
 					// 나무위키에등록되지않은 단어니까 등록하쟈!
 					int result = songservice.insert_namu(word, uid);
-					NamuwikiDto temp = songservice.search_word(word);
+					NamuwikiDto temp = songservice.search_word(word); //단어있는지 나무위키에서 검색해오기
 					resultMap.put("namu", temp);
-					resultMap.put("message", "단어를 등록하였습니다.");
+					resultMap.put("message", "goKomuwiki"); //단어를 등록하였습니다. //단어내용(코뮤위키) 등록하러갑시다.
 					status = HttpStatus.ACCEPTED;
 				}
 			} else { // 노래리스트에도 없으니까 노래리스트에 단어를 등록하쟈!
-				int insert = songservice.insert_list(sw);
-				resultMap.put("message", "단어장에 존재하는 단어입니다.");
+				//int insert = songservice.insert_list(sw);
+				resultMap.put("message", "existInList"); //단어장에 존재하는 단어입니다.
 				status = HttpStatus.ACCEPTED;
-			}
+			}			
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("실행 실패 : {}", e);
