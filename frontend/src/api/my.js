@@ -7,7 +7,7 @@ const instance = createInstance();
 */
 function myPostList(uid, success, fail){
     instance
-        .get(`my/community/uid=${uid}`)
+        .get(`my/community/${uid}`)
         .then(success)
         .catch(fail);
 }
@@ -17,7 +17,7 @@ function myPostList(uid, success, fail){
 */
 function mySongList(uid, success, fail){
     instance
-        .get(`my/singer/${uid}`)
+        .get(`my/song/${uid}`)
         .then(success)
         .catch(fail);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.MyDao;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
@@ -18,7 +19,7 @@ public class MyServiceImpl implements MyService{
 	private MyDao myDao;
 	
 	@Override
-	public List<CommunityDto> showMyCommunity(String uid) {
+	public List<CommunityNickDto> showMyCommunity(String uid) {
 		return myDao.showMyCommunity(uid);
 	}
 

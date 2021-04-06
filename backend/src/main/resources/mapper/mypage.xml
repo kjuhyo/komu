@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.kpop.dao.MyDao">
-	<select id="showMyCommunity" parameterType="String" resultType="CommunityDto">
+	<select id="showMyCommunity" parameterType="String" resultType="CommunityNickDto">
 		select *
 		from community
 		where uid = #{uid} and is_delete = 0	

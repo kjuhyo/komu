@@ -18,31 +18,16 @@
                     class="img-raised rounded-circle img-fluid userprofile-image"
                   />
 
-                  <!-- 프로필수정버튼 -->
-                  <!-- <button class="profileedit-btn material-icons ">
-                    <i class="material-icons">mode_edit</i>
-                  </button> -->
                 </div>
                 <div class="name">
                   <h3 class="title">{{ this.nickname }}</h3>
                 </div>
                 <div class="profile-edit-div">
-                  <!-- 프로필수정버튼 -->
-                  <!-- <button class="profile-edit-btn">
-                    <i class="material-icons">mode_edit</i>
-                  </button> -->
+
                 </div>
               </div>
             </div>
           </div>
-          <!-- <div class="description text-center">
-            <p>
-              An artist of considerable range, Chet Faker — the name taken by
-              Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs
-              and records all of his own music, giving it a warm, intimate feel
-              with a solid groove structure.
-            </p>
-          </div> -->
           <div class="profile-tabs">
             <tabs
               :tab-name="['My Article', 'My Song', 'My Words']"
@@ -51,38 +36,18 @@
               nav-pills-icons
               color-button="primary"
             >
-              <!-- here you can add your content for tab-content -->
+
               <!-- 내가 쓴 글 -->
               <template slot="tab-pane-1">
                 <div class="md-layout">
-                  <!-- <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane1[0].image" class="rounded" />
-                    <img :src="tabPane1[1].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane1[3].image" class="rounded" />
-                    <img :src="tabPane1[2].image" class="rounded" />
-                  </div> -->
                 </div>
-                <Article />
+                <MyPost :commuList="commuList"/>
               </template>
 
               <!-- 좋아요한 노래 -->
               <template slot="tab-pane-2">
                 <div class="md-layout"></div>
-                <!-- <div class="md-layout">
-                  <div class="md-layout-item md-size-25 ml-auto">
-                    <img :src="tabPane2[0].image" class="rounded" />
-                    <img :src="tabPane2[1].image" class="rounded" />
-                    <img :src="tabPane2[2].image" class="rounded" />
-                  </div>
-                  <div class="md-layout-item md-size-25 mr-auto">
-                    <img :src="tabPane2[3].image" class="rounded" />
-                    <img :src="tabPane2[4].image" class="rounded" />
-                  </div>
-                </div> -->
-
-                <Song />
+                <MySong />
               </template>
 
               <!-- 예쁜단어 -->
@@ -99,16 +64,17 @@
 import { mapState } from 'vuex';
 import '../assets/css/profile.css';
 import { Tabs } from '@/components';
-import Article from '../components/Article.vue';
-import Song from '../components/Song.vue';
+import MyPost from '../components/MyPost.vue';
+import MySong from '../components/MySong.vue';
 import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
+import {myPostList} from '@/api/my.js';
 export default {
   components: {
     Tabs,
-    Article,
-    Song,
+    MyPost,
+    MySong,
     MyWord,
   },
   bodyClass: 'profile-page',
@@ -116,50 +82,49 @@ export default {
     this.initUser(),
       profileByUid(
         this.uid,
-        //console.log(this.loggedInUserData.uid),
         (response) => {
-          // console.log('프로피이이일');
-          // console.log(response.data);
           this.nickname = response.data.info.nickname;
           this.profile = response.data.info.profile;
         },
         (error) => {
           console.log(error);
         }
-      );
+      ),
+      myPostList(
+        this.uid,
+        (response) =>{
+          console.log('촤하하')
+          console.log(response.data);
+          this.commuList=response.data;
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
   },
   methods: {
     initUser() {
-      // console.log('사용자'),
-      // console.log(getuidCookie());
       this.uid = getuidCookie();
     },
   },
   data() {
     return {
-      // tabPane1: [
-      //   { image: require('@/assets/img/examples/studio-1.jpg') },
-      //   { image: require('@/assets/img/examples/studio-2.jpg') },
-      //   { image: require('@/assets/img/examples/studio-4.jpg') },
-      //   { image: require('@/assets/img/examples/studio-5.jpg') },
-      // ],
-      // tabPane2: [
-      //   { image: require('@/assets/img/examples/olu-eletu.jpg') },
-      //   { image: require('@/assets/img/examples/clem-onojeghuo.jpg') },
-      //   { image: require('@/assets/img/examples/cynthia-del-rio.jpg') },
-      //   { image: require('@/assets/img/examples/mariya-georgieva.jpg') },
-      //   { image: require('@/assets/img/examples/clem-onojegaw.jpg') },
-      // ],
-      // tabPane3: [
-      //   { image: require('@/assets/img/examples/mariya-georgieva.jpg') },
-      //   { image: require('@/assets/img/examples/studio-3.jpg') },
-      //   { image: require('@/assets/img/examples/clem-onojeghuo.jpg') },
-      //   { image: require('@/assets/img/examples/olu-eletu.jpg') },
-      //   { image: require('@/assets/img/examples/studio-1.jpg') },
-      // ],
       profile: '',
       nickname: '',
       uid: '',
+      commuList:{
+        profile:'',
+        nickname:'',
+        cid:'',
+        uid:'',
+        c_title:'',
+        c_content:'',
+        c_date:'',
+        is_delete:'',
+        c_view:'',
+        c_like_cnt:'',
+        c_img:'',
+      },
     };
   },
   props: {
