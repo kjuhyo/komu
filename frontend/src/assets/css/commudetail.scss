@@ -46,6 +46,7 @@
 }
 
 .com-detail-btn {
+  display: flex;
   padding-right: 5px;
   cursor: pointer;
   text-align: center;
@@ -55,7 +56,10 @@
   top: 145px;
 }
 .comdetail-btn-text {
-  margin-right: 10px;
+  margin-right: 14px;
+}
+.comdetail-btn-text-cnt {
+  margin-right: 2px;
 }
 
 .thumb {
@@ -87,10 +91,12 @@
   //   padding-top: 5px;
 }
 .com-detail-like-count {
+  display: inline-block;
   margin-left: 5px;
   font-size: 16px;
 }
 .com-detail-comment-count {
+  display: inline-block;
   margin-left: 6px;
   font-size: 16px;
 }

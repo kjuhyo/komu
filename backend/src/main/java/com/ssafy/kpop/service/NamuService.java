@@ -31,5 +31,7 @@ public interface NamuService {
 	
 	List<KomuWikiDto> searchkomu_list(String word, int startList, int listSize);
 
+	int update_pic(NamuwikiDto namu);
+	
 
 }

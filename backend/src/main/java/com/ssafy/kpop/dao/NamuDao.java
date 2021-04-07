@@ -32,5 +32,6 @@ public interface NamuDao {
 	
 	List<KomuWikiDto> KomuInfo(Pagination pagination);
 	List<KomuWikiDto> searchkomu_list(Map<String , Object> map);
+	int update_pic(NamuwikiDto namu);
 
 }

@@ -16,7 +16,7 @@
             <!-- 제목 -->
             <div class="community-detail-title">
               <span class="community-detail-title-text">
-                {{community.c_title}}
+                {{ community.c_title }}
               </span>
             </div>
 
@@ -34,20 +34,20 @@
                 </div>
                 <div class="profile_area">
                   <div class="profile_info">
-                    {{writer.nickname}}
+                    {{ writer.nickname }}
                   </div>
                   <div class="article_info">
-                    <span>{{community.c_date}}</span>
+                    <span>{{ community.c_date }}</span>
                   </div>
                 </div>
               </div>
 
               <!-- 삭제&수정 버튼 -->
               <div class="com-detail-btn">
-                <span class="comdetail-btn-text">조회수</span>
-                <span class="comdetail-btn-text">{{community.c_view}}</span>
+                <span class="comdetail-btn-text-cnt">조회수</span>
+                <span class="comdetail-btn-text">{{ community.c_view }}</span>
 
-                <div v-if="this.community.uid==this.loginid">
+                <div v-if="this.community.uid == this.loginid">
                   <span class="comdetail-btn-text">수정</span>
                   <span class="comdetail-btn-text" @click="Delete">삭제</span>
                 </div>
@@ -61,34 +61,60 @@
             <!-- 글 내용 -->
             <div class="comm-detail-main">
               <div class="community-detail-content">
-                {{community.c_content}}
+                {{ community.c_content }}
               </div>
 
-              <div class="community-detail-content" v-if="community.c_img!=null">
-                  <img
-                    :src="community.c_img"
-                    alt="Circle Image"
-                    class="img-raised rounded-circle img-fluid userprofile-image"
-                    width="42px"
-                    height="42px"
-                  />
-                </div>
+              <!-- <div
+                class="community-detail-content"
+                v-if="community.c_img != null"
+              >
+                <img
+                  :src="community.c_img"
+                  alt="Circle Image"
+                  class="img-raised rounded-circle img-fluid userprofile-image"
+                  width="42px"
+                  height="42px"
+                />
+              </div> -->
+
+              <div class="m_komuwiki_body_img" v-if="isMobile">
+                <img class="k_body_img" :src="community.c_img" />
+
+                <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
+              </div>
+
+              <div class="komuwiki_body_img" v-else>
+                <img class="k_body_img" :src="community.c_img" />
+                <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
+              </div>
 
               <!-- 좋아요, 댓글, 신고 -->
               <div class="reply-box">
                 <div class="box-left">
                   <div class="like-article">
-                    <div v-if="isLogin">
-                      <b-icon class="comm-detail-icon" icon="heart" v-if="LIKE == 0" @click="Like"></b-icon>
-                      <b-icon class="comm-detail-icon" icon="heart-fill"  v-if="LIKE == 1" @click="Like"></b-icon>
+                    <div class="com-detail-like-count" v-if="isLogin">
+                      <b-icon
+                        icon="heart"
+                        v-if="LIKE == 0"
+                        @click="Like"
+                      ></b-icon>
+                      <b-icon
+                        icon="heart-fill"
+                        v-if="LIKE == 1"
+                        @click="Like"
+                      ></b-icon>
                     </div>
                     <span class="com-detail-like-count">좋아요</span>
-                    <span class="com-detail-like-count">{{community.c_like_cnt}}</span>
+                    <span class="com-detail-like-count">{{
+                      community.c_like_cnt
+                    }}</span>
                   </div>
                   <div class="button-comment">
                     <b-icon class="comm-detail-icon" icon="chat-left"></b-icon>
                     <span class="com-detail-comment-count">댓글</span>
-                    <span class="com-detail-comment-count">{{cnt_comment}}</span>
+                    <span class="com-detail-comment-count">{{
+                      cnt_comment
+                    }}</span>
                   </div>
                 </div>
                 <div class="box-right">
@@ -133,7 +159,11 @@
             <!-- 댓글 리스트 -->
             <ul class="comdetail-comment-option">
               <li class="comdetail-comment-item">
-                <div class="comdetail-comment-area" v-for="(comment,idx) in comments" :key="idx"> 
+                <div
+                  class="comdetail-comment-area"
+                  v-for="(comment, idx) in comments"
+                  :key="idx"
+                >
                   <img
                     :src="comment.profile"
                     alt="Circle Image"
@@ -143,13 +173,13 @@
                   />
                   <div class="comment-box">
                     <div class="comdetail-comment-nick-box">
-                      {{comment.nickname}}
+                      {{ comment.nickname }}
                     </div>
                     <div class="comdetail-comment-text-box">
-                      {{comment.cc_content}}
+                      {{ comment.cc_content }}
                     </div>
                     <div class="comdetail-comment-info-box">
-                      {{comment.cc_date}}
+                      {{ comment.cc_date }}
                     </div>
                   </div>
                 </div>
@@ -159,7 +189,9 @@
             <!-- 댓글 작성 -->
             <div class="comdetail-comment-writer">
               <div class="comdetail-comment-inbox">
-                <span class="comdetail-comment-inbox-name">{{loginInfo.nickname}}</span>
+                <span class="comdetail-comment-inbox-name">{{
+                  loginInfo.nickname
+                }}</span>
                 <textarea
                   placeholder="댓글을 작성해주세요."
                   class="comdetail-comment-inbox-text"
@@ -187,10 +219,10 @@
 import { Modal } from '@/components';
 // import Comment from '../components/Comment.vue';
 import '../assets/css/commudetail.scss';
-import { getboard, letlike,letdelete, insert_comm } from '@/api/community.js';
+import { getboard, letlike, letdelete, insert_comm } from '@/api/community.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
-import{ profileByUid } from '@/api/user.js';
+import { profileByUid } from '@/api/user.js';
 
 export default {
   components: {
@@ -204,72 +236,69 @@ export default {
     getboard(
       this.name,
       this.loginid,
-      (response)=>{
-        this.LIKE=response.data.LIKE;
-        this.community=response.data.Community;
-        this.comments=response.data.commentList;
+      (response) => {
+        this.LIKE = response.data.LIKE;
+        this.community = response.data.Community;
+        this.comments = response.data.commentList;
         this.cnt_comment = response.data.cnt_comment;
         this.check = response.data.check;
         this.message = response.data.message;
         console.log(this.message);
         this.nowuid = this.community.uid;
-         this.getInfo();
-
+        this.getInfo();
       },
-      (error)=>{
+      (error) => {
         console.log(error);
       }
-    )
-   },
- 
+    );
+  },
+
   data() {
     return {
       classicModal: false,
-      name:"",
-      nowuid:"",
-      loginid:"namu",
-      community:{
-        cid:0,
-        uid:"",
-        c_title:"",
-        c_content:"",
-        c_date:"",
-        is_delete:"",
-        c_view:0,
-        c_like_cnt:0,
-        c_img:"",
+      name: '',
+      nowuid: '',
+      loginid: 'namu',
+      community: {
+        cid: 0,
+        uid: '',
+        c_title: '',
+        c_content: '',
+        c_date: '',
+        is_delete: '',
+        c_view: 0,
+        c_like_cnt: 0,
+        c_img: '',
       },
-      comments:{
-        ccid:0,
-        cid:0,
-        uid:"",
-        cc_content:"",
-        cc_date:"",
-        is_delete:0,
-        nickname:"",
-        profile:"",
+      comments: {
+        ccid: 0,
+        cid: 0,
+        uid: '',
+        cc_content: '',
+        cc_date: '',
+        is_delete: 0,
+        nickname: '',
+        profile: '',
       },
-      cnt_comment:0,
-      check:false,
-      LIKE:0,
-      writer:{
-        uid:"",
-        nickname:"",
-        profile:"",
+      cnt_comment: 0,
+      check: false,
+      LIKE: 0,
+      writer: {
+        uid: '',
+        nickname: '',
+        profile: '',
       },
-      postlike:{
-        uid:"",
-        cid:0,
+      postlike: {
+        uid: '',
+        cid: 0,
       },
-      cccontent:"",
-      sendComment:{
-        cid:0,
-        uid:0,
-        cc_content:"",
+      cccontent: '',
+      sendComment: {
+        cid: 0,
+        uid: 0,
+        cc_content: '',
       },
-      loginInfo:{
-
-      }
+      loginInfo: {},
     };
   },
   props: {
@@ -290,7 +319,14 @@ export default {
       };
     },
   },
+  mounted() {
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  },
   methods: {
+    onResize: function() {
+      this.isMobile = window.innerWidth <= 480;
+    },
     classicModalHide() {
       this.classicModal = false;
     },
@@ -298,18 +334,18 @@ export default {
       this.loginid = getuidCookie();
       //this.loginid = 'namu';
     },
-    getInfo(){
-     profileByUid(
+    getInfo() {
+      profileByUid(
         this.nowuid,
-        (response)=>{
-          this.writer=response.data.info;
+        (response) => {
+          this.writer = response.data.info;
           console.log(this.message);
           console.log(this.writer);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
+      );
     },
     Like: function() {
       this.postlike.uid = this.loginid;
@@ -326,48 +362,48 @@ export default {
         }
       );
     },
-    Delete:function(){
-      console.log("삭제 눌렸어/");
+    Delete: function() {
+      console.log('삭제 눌렸어/');
       letdelete(
         this.community.cid,
-        (response)=>{
+        (response) => {
           console.log(response.data.message);
-          this.$router.push("/community");
+          this.$router.push('/community');
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
+      );
     },
-    findWriter:function(){
+    findWriter: function() {
       profileByUid(
         this.loginid,
-        (response)=>{
-          this.loginInfo=response.data.info;
+        (response) => {
+          this.loginInfo = response.data.info;
           console.log(this.message);
           console.log(this.loginInfo);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
+      );
     },
-    insert_comment:function(){
+    insert_comment: function() {
       this.sendComment.cid = this.name;
       this.sendComment.uid = this.loginid;
-      this.sendComment.cc_content=this.cccontent;
+      this.sendComment.cc_content = this.cccontent;
       console.log(this.sendComment);
       insert_comm(
         this.sendComment,
-        (response)=>{
+        (response) => {
           console.log(response.data);
           window.location.reload();
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-    }
+      );
+    },
   },
 };
 </script>
