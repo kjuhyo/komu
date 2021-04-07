@@ -25,6 +25,7 @@ import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.Song_like_countDto;
 import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
+import com.ssafy.kpop.dto.SongwordIdDto;
 import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.service.SongService;
 import com.ssafy.kpop.util.Pagination;
@@ -120,7 +121,7 @@ public class SongController {
 		try {
 			logger.info("=====> 노래 정보 가져오기");
 			SongDto song = songservice.get_song(id);
-			List<SongwordDto> wordList = songservice.get_word(id);
+			List<SongwordIdDto> wordList = songservice.get_word(id);
 			//전체 좋아요한갯수
 			int songlikecnt = songservice.get_cnt(id);
 			//내가 좋아요했는지랑
@@ -165,7 +166,7 @@ public class SongController {
 					status = HttpStatus.ACCEPTED;
 				} else {
 					// 나무위키에등록되지않은 단어니까 등록하쟈!
-					int result = songservice.insert_namu(word, uid);
+					//int result = songservice.insert_namu(word, uid);
 					NamuwikiDto temp = songservice.search_word(word); //단어있는지 나무위키에서 검색해오기
 					resultMap.put("namu", temp);
 					resultMap.put("message", "goKomuwiki"); //단어를 등록하였습니다. //단어내용(코뮤위키) 등록하러갑시다.
@@ -320,4 +321,26 @@ public class SongController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	/*
+	 * 나무타이틀로 나무 아이디 가져오기
+	 * 
+	 * @param namu_title
+	 * @return namu_id
+	 * */
+	@ApiOperation(value="나무타이틀로 나무아이디 가져오기")
+	@GetMapping("/namuId/{namu_title}")
+	public ResponseEntity<Integer> getNamuId(@PathVariable String namu_title) {
+		HttpStatus status=HttpStatus.ACCEPTED;
+		int result=0;
+		
+		try {
+			result=songservice.checkNamuId(namu_title);
+			status=HttpStatus.ACCEPTED;
+		}catch(Exception e) {
+			e.printStackTrace();
+			status=HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		
+		return new ResponseEntity<Integer>(result, status);
+	}
 }

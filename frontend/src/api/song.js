@@ -72,6 +72,16 @@ function search_word(sw, uid, success, fail){
         .catch(fail);
 }
 
+/*
+*  나무타이틀로 나무 아이디 가져오기
+*/
+function getNamuId(namu_title, success, fail){
+    instance
+        .get(`/song/namuId/${namu_title}`)
+        .then(success)
+        .catch(fail);
+}
+
 export{
     get_song,
     getlist_new,
@@ -80,4 +90,5 @@ export{
     getListPopularGenre,
     do_like,
     search_word,
+    getNamuId,
 };

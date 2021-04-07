@@ -15,6 +15,7 @@ import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.Song_like_countDto;
 import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
+import com.ssafy.kpop.dto.SongwordIdDto;
 
 @Service
 public class SongServiceImpl implements SongService {
@@ -38,7 +39,7 @@ public class SongServiceImpl implements SongService {
 	}
 	
 	@Override
-	public List<SongwordDto> get_word(int id) {
+	public List<SongwordIdDto> get_word(int id) {
 		// TODO Auto-generated method stub
 		return sdao.get_word(id);
 	}
@@ -181,6 +182,12 @@ public class SongServiceImpl implements SongService {
 		map.put("startList", startList);
 		map.put("listSize", listSize);
 		return sdao.popularGenre(map);
+	}
+
+	@Override
+	public int checkNamuId(String namu_title) {
+		// TODO Auto-generated method stub
+		return sdao.checkNamuId(namu_title);
 	}
 
 }

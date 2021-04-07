@@ -9,6 +9,7 @@ import com.ssafy.kpop.dto.SongListDto;
 import com.ssafy.kpop.dto.Song_like_countDto;
 import com.ssafy.kpop.dto.SonglikeDto;
 import com.ssafy.kpop.dto.SongwordDto;
+import com.ssafy.kpop.dto.SongwordIdDto;
 
 public interface SongService {
 	
@@ -16,7 +17,7 @@ public interface SongService {
 	
 	SongDto get_song(int id);
 	
-	List<SongwordDto> get_word(int id);
+	List<SongwordIdDto> get_word(int id);
 	
 	NamuwikiDto search_word(String word);
 	
@@ -52,6 +53,6 @@ public interface SongService {
 
 	List<SongListDto> popularGenre(String genre, int startList, int listSize);
 	
-	
+	int checkNamuId(String namu_title);
 
 }

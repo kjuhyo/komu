@@ -23,8 +23,12 @@
 	</select>
 
 	<select id="get_word" parameterType="int"
-		resultType="SongwordDto">
-		select * from songword where song_id=#{id}
+		resultType="SongwordIdDto">
+		<!-- select * from songword where song_id=#{id}-->
+		select s.song_id, n.namu_id, s.namu_title
+		from songword s left join namuwiki n
+		on s.namu_title = n.namu_title
+		where s.song_id = #{id}
 	</select>
 
 	<select id="search_word" parameterType="String"
@@ -136,5 +140,7 @@
       desc limit #{startList}, #{listSize};
 	</select>
 
-
+	<select id="checkNamuId" parameterType="String" resultType="int">
+		select namu_id from namuwiki where namu_title = #{namu_title}
+	</select>
 </mapper>

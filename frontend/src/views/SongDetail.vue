@@ -123,7 +123,7 @@
                       >
                         <div class="card-question">
                           <router-link
-                            :to="`/komuwikidetail/${item.namu_title}`"
+                            :to="`/komuwikidetail/${item.namu_id}`"
                           >
                             {{ item.namu_title }}
                           </router-link>
@@ -181,7 +181,7 @@
 </template>
 
 <script>
-import { get_song, do_like, search_word } from '@/api/song.js';
+import { get_song, do_like, search_word, getNamuId } from '@/api/song.js';
 import { Tabs } from '@/components';
 //import axios from "axios";
 import { mapState } from 'vuex';
@@ -208,6 +208,7 @@ export default {
       song_like_count: '', //총 좋아요 갯수
       wordList: {
         song_id: '',
+        namu_id:'',
         namu_title: '',
       },
       LIKE: '', //내가 좋아요 눌렀는지
@@ -219,6 +220,7 @@ export default {
       word_bar: '',
       sw: {
         song_id: '',
+        namu_id: '',
         namu_title: '',
       },
     };
@@ -232,6 +234,7 @@ export default {
         //console.log(this.uid),
         (response) => {
           console.log('응답');
+          console.log(response.data);
           this.id = response.data.song.id;
           this.singer_name = response.data.song.singer_name;
           this.song_name = response.data.song.song_name;
@@ -282,8 +285,23 @@ export default {
         }
       );
     },
+    findNamuId:function(){
+      getNamuId(
+        this.word_bar,
+        (response) => {
+          console.log('하하');
+          console.log(response.data);
+          this.sw.namu_id = response.data;
+        },
+        (error) => {
+          console.log(error.data);
+        }
+
+      )
+    },
     insertWord: function() {
       this.sw.song_id = this.id;
+      this.sw.namu_id = this.findNamuId();
       this.sw.namu_title = this.word_bar;
       search_word(
         this.sw,
@@ -299,7 +317,7 @@ export default {
             this.$router.push('/komuwikiwrite');
           } else if (response.data.message === 'existInKomu') {
             alert('코뮤위키에서 단어의 의미를 파악해보세요!');
-            this.$router.push('/komuwikidetail/' + this.sw.namu_title);
+            this.$router.push('/komuwikidetail/' + this.sw.namu_id);
           } else if (response.data.message === 'existInList') {
             alert('단어 목록에 이미 있는 단어에요!');
           }
