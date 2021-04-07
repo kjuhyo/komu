@@ -33,10 +33,11 @@
 
             <Article :list="list" />
           </div>
+
           <!-- <Pagination /> -->
-          <div class="Page" align="center">
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
+          <div class="Page">
+            <nav class="page-nav" aria-label="Page navigation">
+              <ul class="pagination-ul">
                 <li class="page-item">
                   <input
                     type="button"
@@ -80,9 +81,7 @@
               </ul>
             </nav>
           </div>
-          <!-- <div class="paging">
-            <Pagination />
-          </div> -->
+          <!-- 페이지네이션 끝 -->
         </div>
       </div>
     </div>
@@ -91,6 +90,7 @@
 
 <script>
 import '../assets/css/profile.css';
+import '../assets/css/pagination.scss';
 import { getboard, getlist, search_list } from '@/api/komu.js';
 // import { Tabs } from '@/components';
 // import { Pagination } from '@/components';
@@ -109,7 +109,7 @@ export default {
     return {
       page: 1,
       searchpage: 1,
-      uid: 'uuu',
+      uid: '',
       // namu_title: '7',
       searchdata: '',
       listmaker: 0,
@@ -134,8 +134,8 @@ export default {
         namu_content: '',
         namu_date: '',
         namu_img: '',
-        nickname:"",
-        profile:"",
+        nickname: '',
+        profile: '',
       },
     };
   },

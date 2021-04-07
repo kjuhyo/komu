@@ -100,9 +100,9 @@
                 </table>
               </div>
               <!-- <Pagination /> -->
-              <div class="Page" align="center">
-                <nav aria-label="Page navigation">
-                  <ul class="pagination">
+              <div class="Page">
+                <nav class="page-nav" aria-label="Page navigation">
+                  <ul class="pagination-ul">
                     <li class="page-item">
                       <input
                         type="button"
@@ -167,6 +167,7 @@ import { getPopularSongName } from '@/api/search.js';
 import '../assets/css/searchbar.scss';
 import '../assets/css/article.css';
 import '../assets/css/songcategory.scss';
+import '../assets/css/pagination.scss';
 
 export default {
   components: {
@@ -203,7 +204,7 @@ export default {
       },
       currentPage: 1,
       perPage: '',
-      listppp: []
+      listppp: [],
     };
   },
   bodyClass: 'profile-page',
@@ -230,7 +231,18 @@ export default {
           console.log(error);
         }
       );
-      this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+    this.listppp = [
+      this.listpage - 9,
+      this.listpage - 8,
+      this.listpage - 7,
+      this.listpage - 6,
+      this.listpage - 5,
+      this.listpage - 4,
+      this.listpage - 3,
+      this.listpage - 2,
+      this.listpage - 1,
+      this.listpage,
+    ];
   },
   computed: {
     ...mapState(['isLogin', 'loggedInUserData']),
@@ -298,10 +310,10 @@ export default {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
       this.prevnext = updatedText;
-      this.currentPage *= 1
-      this.prevnext *= 1
-      console.log(this.prevnext)
-      console.log(this.currentPage)
+      this.currentPage *= 1;
+      this.prevnext *= 1;
+      console.log(this.prevnext);
+      console.log(this.currentPage);
 
       getlist_pop(
         //최신순 //장르전체
@@ -324,9 +336,9 @@ export default {
         this.prevnext = this.prevnext - 10;
         this.currentPage = this.prevnext;
         this.listpage = this.listpage - 10;
-        console.log(this.prevnext)
-        console.log(this.currentPage)
-        
+        console.log(this.prevnext);
+        console.log(this.currentPage);
+
         getlist_pop(
           //최신순 //장르전체
           //this.page,
@@ -337,7 +349,18 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
-            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            this.listppp = [
+              this.listpage - 9,
+              this.listpage - 8,
+              this.listpage - 7,
+              this.listpage - 6,
+              this.listpage - 5,
+              this.listpage - 4,
+              this.listpage - 3,
+              this.listpage - 2,
+              this.listpage - 1,
+              this.listpage,
+            ];
           },
           (error) => {
             console.log(error);
@@ -346,9 +369,9 @@ export default {
       } else {
         this.prevnext = this.prevnext - 1;
         this.currentPage = this.prevnext;
-        this.listpage = 10
-        console.log(this.prevnext)
-        console.log(this.currentPage)
+        this.listpage = 10;
+        console.log(this.prevnext);
+        console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -360,7 +383,18 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
-            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            this.listppp = [
+              this.listpage - 9,
+              this.listpage - 8,
+              this.listpage - 7,
+              this.listpage - 6,
+              this.listpage - 5,
+              this.listpage - 4,
+              this.listpage - 3,
+              this.listpage - 2,
+              this.listpage - 1,
+              this.listpage,
+            ];
           },
           (error) => {
             console.log(error);
@@ -372,9 +406,9 @@ export default {
       if (this.prevnext <= this.listmaker - 10) {
         this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        console.log(typeof(this.prevnext))
-        console.log(this.prevnext)
-        console.log(this.currentPage)
+        console.log(typeof this.prevnext);
+        console.log(this.prevnext);
+        console.log(this.currentPage);
         this.listpage = this.listpage + 10;
         getlist_pop(
           //최신순 //장르전체
@@ -386,19 +420,33 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
-            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
-            console.log(this.listppp)
+            this.listppp = [
+              this.listpage - 9,
+              this.listpage - 8,
+              this.listpage - 7,
+              this.listpage - 6,
+              this.listpage - 5,
+              this.listpage - 4,
+              this.listpage - 3,
+              this.listpage - 2,
+              this.listpage - 1,
+              this.listpage,
+            ];
+            console.log(this.listppp);
           },
           (error) => {
             console.log(error);
           }
         );
-      } else if ((this.prevnext > this.listmaker -10) && (this.prevnext < this.listmaker)) {
+      } else if (
+        this.prevnext > this.listmaker - 10 &&
+        this.prevnext < this.listmaker
+      ) {
         this.prevnext = this.prevnext + 1;
         this.currentPage = this.prevnext;
         this.listpage = this.listmaker;
-        console.log(this.prevnext)
-        console.log(this.currentPage)
+        console.log(this.prevnext);
+        console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -410,8 +458,19 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
-            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
-            console.log(this.listppp)
+            this.listppp = [
+              this.listpage - 9,
+              this.listpage - 8,
+              this.listpage - 7,
+              this.listpage - 6,
+              this.listpage - 5,
+              this.listpage - 4,
+              this.listpage - 3,
+              this.listpage - 2,
+              this.listpage - 1,
+              this.listpage,
+            ];
+            console.log(this.listppp);
           },
           (error) => {
             console.log(error);
@@ -436,7 +495,18 @@ export default {
         this.currentPage,
         (response) => {
           this.songList = response.data.songList;
-          this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+          this.listppp = [
+            this.listpage - 9,
+            this.listpage - 8,
+            this.listpage - 7,
+            this.listpage - 6,
+            this.listpage - 5,
+            this.listpage - 4,
+            this.listpage - 3,
+            this.listpage - 2,
+            this.listpage - 1,
+            this.listpage,
+          ];
         },
         (error) => {
           console.log(error);
