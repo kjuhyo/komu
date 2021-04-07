@@ -11,6 +11,7 @@ import com.ssafy.kpop.dao.CommunityDao;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.util.Pagination;
 
 @Service
@@ -114,6 +115,12 @@ public class CommunityServiceImpl implements CommunityService{
 	public int insert_nopic(CommunityDto community) {
 		// TODO Auto-generated method stub
 		return cdao.insert_nopic(community);
+	}
+	
+	@Override
+	public List<CommunityNickDto> communityInfo(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return cdao.communityInfo(pagination);
 	}
 	
 }

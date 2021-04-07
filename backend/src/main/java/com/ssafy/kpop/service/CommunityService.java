@@ -5,6 +5,7 @@ import java.util.List;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.util.Pagination;
 
 public interface CommunityService {
@@ -28,4 +29,7 @@ public interface CommunityService {
 	List<CommunityDto> all_post(Pagination pagination);
 	
 	int insert_nopic(CommunityDto community);
+	List<CommunityNickDto> communityInfo(Pagination pagination);
+
+	
 }

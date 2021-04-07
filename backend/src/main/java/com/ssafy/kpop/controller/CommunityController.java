@@ -30,6 +30,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.WordlikeDto;
@@ -389,7 +390,8 @@ public class CommunityController {
 			Pagination pagination = new Pagination();
 			pagination.pageInfo(page, range, listCnt);
 
-			List<CommunityDto> commList = cservice.all_post(pagination);
+			List<CommunityNickDto> commList = cservice.communityInfo(pagination);
+//			System.out.println(commList);
 
 			resultMap.put("pagination", pagination);
 			resultMap.put("commList", commList);

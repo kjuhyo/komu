@@ -21,6 +21,12 @@ function letlike(articlelike, success,fail){
     .then(success)
     .catch(fail);
 }
+function letdelete(cid, success,fail){
+    instance
+    .post(`/community/delete/${cid}`)
+    .then(success)
+    .catch(fail);
+}
 
 function insert(FormData, success, fail){
     instance
@@ -61,5 +67,6 @@ export{
     insert_nopic,
     update_nopic,
     search_list,
+    letdelete
 
 };

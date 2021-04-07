@@ -75,6 +75,8 @@
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { insert, insert_nopic } from '@/api/community.js';
+import {getSingerName} from '@/api/user.js';
+import { getuidCookie } from '@/util/cookie.js';
 
 export default {
   components: { TextEditor },
@@ -91,6 +93,7 @@ export default {
         c_title: "",
         c_content: "",
       },
+      nick:"",
       loginid:"",
       show: true,
       previewImageData: null,
@@ -113,6 +116,16 @@ export default {
   },
   created() {
     this.initUser();
+    // getSingerName(
+    //     this.loginid,
+    //     (response)=>{
+    //       console.log("SUCCESS");
+    //       console.log(response.data);
+    //       this.nick = response.data;
+    //     },(error)=>{
+    //       console.log(error.data);
+    //     }
+    //   )
   },
   computed: {
     headerStyle() {

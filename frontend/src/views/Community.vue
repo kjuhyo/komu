@@ -132,6 +132,8 @@ import { getboard, getlist } from '@/api/community.js';
 // import { Tabs } from '@/components';
 // import { Pagination } from '@/components';
 import CommunityArticle from '../components/CommunityArticle.vue';
+import {getSingerName} from '@/api/user.js';
+
 
 export default {
   components: {
@@ -173,6 +175,8 @@ export default {
         c_view: 0,
         cid: 0,
         uid: '',
+        nickname:'',
+        profile:'',
       },
     };
   },
@@ -204,7 +208,7 @@ export default {
       (error) => {
         console.log(error);
       }
-    );
+    )
   },
   methods: {
     // setsearchdata(data) {

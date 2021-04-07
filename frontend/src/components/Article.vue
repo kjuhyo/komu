@@ -3,8 +3,8 @@
     <thead class="thead-css">
       <tr>
         <th width="5%" scope="col">No</th>
-        <th width="60%" scope="col">Title</th>
-        <th width="15%" scope="col">Writer</th>
+        <th width="50%" scope="col">Title</th>
+        <th width="25%" scope="col">Writer</th>
         <th width="20%" scope="col">Date</th>
       </tr>
     </thead>
