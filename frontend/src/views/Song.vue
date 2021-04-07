@@ -125,20 +125,20 @@
 
                     <li
                       class="page-item"
-                      v-for="(list, idx) in this.listpage"
+                      v-for="(list, idx) in this.listppp"
                       v-bind:key="idx"
                     >
                       <input
                         type="button"
                         class="page-link"
                         @click="movePage"
-                        v-bind:value="idx + 1"
+                        v-bind:value="list"
                         style="width:40px;text-align:center; color:black;"
                       />
                       <input
                         type="text"
                         placeholder="listData"
-                        v-bind:value="idx + 1"
+                        v-bind:value="list"
                         @change="updateList"
                         disabled
                         style="display:none; color:black;"
@@ -215,6 +215,7 @@ export default {
       //     for (var i = this.page - 10; i < this.page; i += 1) list.push(i);
       //     return listppp
       // },
+      listppp: []
     };
   },
   bodyClass: 'profile-page',
@@ -241,6 +242,7 @@ export default {
           console.log(error);
         }
       );
+      this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
   },
   computed: {
     ...mapState(['isLogin', 'loggedInUserData']),
@@ -347,6 +349,7 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
           },
           (error) => {
             console.log(error);
@@ -369,6 +372,7 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
           },
           (error) => {
             console.log(error);
@@ -384,7 +388,6 @@ export default {
         console.log(this.prevnext)
         console.log(this.currentPage)
         this.listpage = this.listpage + 10;
-
         getlist_new(
           //최신순 //장르전체
           //this.page,
@@ -395,6 +398,8 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            console.log(this.listppp)
           },
           (error) => {
             console.log(error);
@@ -417,6 +422,8 @@ export default {
             this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            console.log(this.listppp)
           },
           (error) => {
             console.log(error);
@@ -441,6 +448,7 @@ export default {
         this.currentPage,
         (response) => {
           this.songList = response.data.songList;
+          this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
         },
         (error) => {
           console.log(error);

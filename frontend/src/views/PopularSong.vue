@@ -99,9 +99,56 @@
                   </tr>
                 </table>
               </div>
-              <div class="paging">
-                <Pagination />
+              <!-- <Pagination /> -->
+              <div class="Page" align="center">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination">
+                    <li class="page-item">
+                      <input
+                        type="button"
+                        class="page-link"
+                        @click="prevPage"
+                        style="width:40px;text-align:center; color:black;"
+                        value="<"
+                      />
+                    </li>
+
+                    <li
+                      class="page-item"
+                      v-for="(list, idx) in this.listppp"
+                      v-bind:key="idx"
+                    >
+                      <input
+                        type="button"
+                        class="page-link"
+                        @click="movePage"
+                        v-bind:value="list"
+                        style="width:40px;text-align:center; color:black;"
+                      />
+                      <input
+                        type="text"
+                        placeholder="listData"
+                        v-bind:value="list"
+                        @change="updateList"
+                        disabled
+                        style="display:none; color:black;"
+                      />
+                    </li>
+                    <li class="page-item">
+                      <input
+                        type="button"
+                        class="page-link"
+                        @click="nextPage"
+                        style="width:40px;text-align:center; color:black;"
+                        value=">"
+                      />
+                    </li>
+                  </ul>
+                </nav>
               </div>
+              <!-- <div class="paging">
+                <Pagination />
+              </div> -->
             </div>
           </div>
         </div>
@@ -112,7 +159,7 @@
 
 <script>
 //import SearchBar from '../components/SearchBar.vue';
-import { Pagination } from '@/components';
+// import { Pagination } from '@/components';
 import { getlist_pop, getListPopularGenre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
@@ -124,7 +171,7 @@ import '../assets/css/songcategory.scss';
 export default {
   components: {
     //SearchBar,
-    Pagination,
+    // Pagination,
     //Small,
   },
   data() {
@@ -141,10 +188,22 @@ export default {
         page: 1,
       },
       pickgenre: '',
-      page: 1,
+      // page: 1,
       isMobile: false,
       searchtext: '',
       menubar: true,
+
+      listmaker: 0,
+      prevnext: 0,
+      listpage: 10,
+      paginations: {
+        listSize: '',
+        startPage: '',
+        listCnt: '',
+      },
+      currentPage: 1,
+      perPage: '',
+      listppp: []
     };
   },
   bodyClass: 'profile-page',
@@ -157,16 +216,21 @@ export default {
   created() {
     this.initUser(),
       getlist_pop(
-        this.page,
+        this.songList.page,
         (response) => {
           console.log('인기순');
           // console.log(response.data);
+          this.paginations = response.data.pagination;
           this.songList = response.data.songList;
+          this.listmaker = parseInt(
+            this.paginations.listCnt / this.paginations.listSize + 1
+          );
         },
         (error) => {
           console.log(error);
         }
       );
+      this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
   },
   computed: {
     ...mapState(['isLogin', 'loggedInUserData']),
@@ -186,7 +250,7 @@ export default {
       if (genre == 'all') {
         //인기순 //전체
         getlist_pop(
-          this.page,
+          this.currentPage,
           (response) => {
             console.log('인기순');
             // console.log(response.data);
@@ -201,7 +265,7 @@ export default {
         getListPopularGenre(
           //인기순 //장르별
           this.pickgenre,
-          this.page,
+          this.currentPage,
           (response) => {
             console.log('인기순');
             // console.log(response.data);
@@ -229,6 +293,155 @@ export default {
     },
     onResize: function() {
       this.isMobile = window.innerWidth <= 480;
+    },
+    movePage(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+      this.prevnext = updatedText;
+      this.currentPage *= 1
+      this.prevnext *= 1
+      console.log(this.prevnext)
+      console.log(this.currentPage)
+
+      getlist_pop(
+        //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList = response.data.songList;
+
+          this.list = parseInt(
+            this.paginations.listCnt / this.paginations.listSize
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    prevPage() {
+      if (this.prevnext > 10) {
+        this.prevnext = this.prevnext - 10;
+        this.currentPage = this.prevnext;
+        this.listpage = this.listpage - 10;
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+        
+        getlist_pop(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.prevnext = this.prevnext - 1;
+        this.currentPage = this.prevnext;
+        this.listpage = 10
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+
+        getlist_pop(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    nextPage() {
+      if (this.prevnext <= this.listmaker - 10) {
+        this.prevnext = this.prevnext + 10;
+        this.currentPage = this.prevnext;
+        console.log(typeof(this.prevnext))
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+        this.listpage = this.listpage + 10;
+        getlist_pop(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            console.log(this.listppp)
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else if ((this.prevnext > this.listmaker -10) && (this.prevnext < this.listmaker)) {
+        this.prevnext = this.prevnext + 1;
+        this.currentPage = this.prevnext;
+        this.listpage = this.listmaker;
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+
+        getlist_pop(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+            this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+            console.log(this.listppp)
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    updateList: function(event) {
+      var updatedText = event.target.value;
+      this.currentPage = updatedText;
+    },
+    MovePage: function(page) {
+      console.log('안녕안녕');
+      console.log(this.currentPage);
+
+      this.currentPage = page;
+      console.log(page);
+
+      getlist_pop(
+        //최신순 //장르전체
+        //this.page,
+        this.currentPage,
+        (response) => {
+          this.songList = response.data.songList;
+          this.listppp = [this.listpage-9, this.listpage-8, this.listpage-7, this.listpage-6, this.listpage-5, this.listpage-4, this.listpage-3, this.listpage-2, this.listpage-1, this.listpage]
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
   },
   mounted() {
