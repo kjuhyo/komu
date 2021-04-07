@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.kpop.dto.Comm_commentDto;
+import com.ssafy.kpop.dto.Comm_comment_nickDto;
 
 @Mapper
 public interface CommentDao {
@@ -14,5 +15,5 @@ public interface CommentDao {
 	int do_delete(Comm_commentDto comment);
 	
 	List<Comm_commentDto> get_list(int cid);
-
+	List<Comm_comment_nickDto> commentList(int cid);
 }

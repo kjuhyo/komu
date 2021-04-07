@@ -28,12 +28,14 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.Comm_commentDto;
+import com.ssafy.kpop.dto.Comm_comment_nickDto;
 import com.ssafy.kpop.dto.Comm_likeDto;
 import com.ssafy.kpop.dto.CommunityDto;
 import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SongDto;
 import com.ssafy.kpop.dto.WordlikeDto;
+import com.ssafy.kpop.service.CommentService;
 import com.ssafy.kpop.service.CommunityService;
 import com.ssafy.kpop.util.Pagination;
 import com.ssafy.kpop.util.S3Util;
@@ -50,6 +52,9 @@ public class CommunityController {
 
 	@Autowired
 	CommunityService cservice;
+	
+	@Autowired
+	CommentService commentservice;
 
 	@Autowired
 	private S3Util s3util;
@@ -295,7 +300,10 @@ public class CommunityController {
 
 			CommunityDto new_com = cservice.get_community(cid);
 
-			List<Comm_commentDto> commentList = cservice.get_comment(cid);
+//			List<Comm_commentDto> commentList = cservice.get_comment(cid);
+			
+			List<Comm_comment_nickDto> commentList = commentservice.commentList(cid);
+
 
 			int cnt_comment = commentList.size();
 

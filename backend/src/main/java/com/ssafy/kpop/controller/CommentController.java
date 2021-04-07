@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_comment_likeDto;
+import com.ssafy.kpop.dto.Comm_comment_nickDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SingerchatDto;
 import com.ssafy.kpop.dto.SongDto;
@@ -50,6 +51,7 @@ public class CommentController {
 
 		try {
 			// 댓글등록 시작하기
+			System.out.println(comment);
 			int result = commentservice.chat_regist(comment);
 
 			if (result >= 1) {
@@ -130,7 +132,7 @@ public class CommentController {
 		try {
 			logger.info("=====> 해당 가수 정보가져오기");
 			// 가수 식별번호 찾아오기
-			List<Comm_commentDto> list = commentservice.get_list(cid);
+			List<Comm_comment_nickDto> list = commentservice.commentList(cid);
 			
 			System.out.println(list);
 

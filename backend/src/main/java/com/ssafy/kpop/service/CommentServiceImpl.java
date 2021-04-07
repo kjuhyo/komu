@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.kpop.dao.CommentDao;
 import com.ssafy.kpop.dto.Comm_commentDto;
 import com.ssafy.kpop.dto.Comm_comment_likeDto;
+import com.ssafy.kpop.dto.Comm_comment_nickDto;
 
 @Service
 public class CommentServiceImpl implements CommentService{
@@ -37,6 +38,12 @@ public class CommentServiceImpl implements CommentService{
 	public List<Comm_commentDto> get_list(int cid) {
 		// TODO Auto-generated method stub
 		return cdao.get_list(cid);
+	}
+	
+	@Override
+	public List<Comm_comment_nickDto> commentList(int cid) {
+		// TODO Auto-generated method stub
+		return cdao.commentList(cid);
 	}
 
 }
