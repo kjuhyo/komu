@@ -308,8 +308,8 @@ export default {
       this.currentPage = updatedText;
     },
 
-    newest:function(){
-      this.page =1;
+    newest: function() {
+      this.page = 1;
       getlist(
         this.page,
         (response) => {
@@ -326,8 +326,8 @@ export default {
         }
       );
     },
-    popol:function(){
-      this.page =1;
+    popol: function() {
+      this.page = 1;
       poplist(
         this.page,
         (response) => {
@@ -343,10 +343,7 @@ export default {
           console.log(error);
         }
       );
-
     },
-
-
   },
 };
 </script>
@@ -365,6 +362,7 @@ export default {
 
 .comm_sorting_container {
   padding-left: 10px;
+  cursor: pointer;
 }
 .comm_write_btn {
   font-family: 'Nanum Gothic', sans-serif;
