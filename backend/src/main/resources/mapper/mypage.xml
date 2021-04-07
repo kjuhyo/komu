@@ -3,10 +3,11 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.kpop.dao.MyDao">
-	<select id="showMyCommunity" parameterType="String" resultType="CommunityDto">
-		select *
-		from community
-		where uid = #{uid} and is_delete = 0	
+	<select id="showMyCommunity" parameterType="String" resultType="CommunityNickDto">	
+		select c.cid, c.uid, c.c_title, c.c_content, c.c_date, c.is_delete, c.c_view, c.c_like_cnt, c.c_img, u.nickname, u.profile
+		from community c left join user u 
+		on c.uid = u.uid
+		where c.uid = #{uid} and c.is_delete = 0;
 	</select>
 	
 	<select id="showMySinger" parameterType="String" resultType="SongDto">

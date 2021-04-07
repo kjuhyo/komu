@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.kpop.dto.CommunityDto;
+import com.ssafy.kpop.dto.CommunityNickDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerDto;
 import com.ssafy.kpop.dto.SongDto;
@@ -42,18 +43,18 @@ public class MyController {
 	 * */
 	@ApiOperation(value="커뮤니티 내가 쓴 글 불러오기", notes = "@param uid </br> @return CommunityDto", response=List.class)
 	@GetMapping("/community/{uid}")
-	public ResponseEntity<List<CommunityDto>> myPostList(@PathVariable String uid) {
+	public ResponseEntity<List<CommunityNickDto>> myPostList(@PathVariable String uid) {
 		HttpStatus status=HttpStatus.ACCEPTED;
 		
 		try {
-			List<CommunityDto> list = myService.showMyCommunity(uid);
-			Collections.sort(list, new Comparator<CommunityDto>() {
+			List<CommunityNickDto> list = myService.showMyCommunity(uid);
+			Collections.sort(list, new Comparator<CommunityNickDto>() {
 				@Override
-				public int compare(CommunityDto o1, CommunityDto o2) {
+				public int compare(CommunityNickDto o1, CommunityNickDto o2) {
 					return o2.getC_date().compareTo(o1.getC_date());
 				}
 			});
-			return new ResponseEntity<List<CommunityDto>>(list, HttpStatus.OK);
+			return new ResponseEntity<List<CommunityNickDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			
 			e.printStackTrace();
@@ -69,7 +70,7 @@ public class MyController {
 	 * @return List<SingerDto>
 	 * */
 	@ApiOperation(value="내가 좋아요한 노래 불러오기", notes = "@param uid </br> @return SongDto", response=List.class)
-	@GetMapping("/singer/{uid}")
+	@GetMapping("/song/{uid}")
 	public ResponseEntity<List<SongDto>> mySongList(@PathVariable String uid) {
 		HttpStatus status=HttpStatus.ACCEPTED;
 		List<SongDto> l=null;

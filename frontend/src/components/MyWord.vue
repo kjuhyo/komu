@@ -1,44 +1,12 @@
 <template>
   <div class="cards-container">
-    <div class="card card-css">
-      <div class="card-question">
-        사랑
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        안녕
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        바다
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        달
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        사랑
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        안녕
-      </div>
-    </div>
-
-    <div class="card card-css">
-      <div class="card-question">
-        바다
+    <h4 v-if="this.wordList.length == 0">좋아요한 단어가 없어요!</h4>
+    <div v-for="(word, idx) in wordList" :key="idx" class="card card-css">
+      <div v-if="word != null" class="card-question">
+         <router-link
+          :to="`/komuwikidetail/${word.namu_id}`">
+          {{word.namu_title}}
+         </router-link>
       </div>
     </div>
   </div>
@@ -46,5 +14,16 @@
 
 <script>
 import '../assets/css/myword.scss';
-export default {};
+export default {
+  name: "myword",
+  props:{
+    wordList:{type:Object},
+  },
+  data() {
+    return
+  },
+  created() {
+    console.log(this.songList)
+  }
+};
 </script>

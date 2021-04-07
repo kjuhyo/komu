@@ -7,17 +7,17 @@ const instance = createInstance();
 */
 function myPostList(uid, success, fail){
     instance
-        .get(`my/community/uid=${uid}`)
+        .get(`my/community/${uid}`)
         .then(success)
         .catch(fail);
 }
 
 /*
-*  내가 좋아요한 가수
+*  내가 좋아요한 노래
 */
 function mySongList(uid, success, fail){
     instance
-        .get(`my/singer/${uid}`)
+        .get(`my/song/${uid}`)
         .then(success)
         .catch(fail);
 }
