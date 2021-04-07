@@ -32,7 +32,10 @@
                     @click="Like"
                   ></b-icon>
                 </div>
-                <router-link :to="`/komuwikiupdate/${namuwiki.namu_id}`">
+                <router-link
+                  :to="`/komuwikiupdate/${namuwiki.namu_id}`"
+                  v-if="isLogin"
+                >
                   <b-icon class="wiki_option_icon" icon="pencil" font-scale="2">
                   </b-icon
                 ></router-link>
@@ -144,14 +147,14 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
     initUser() {
       this.loginid = getuidCookie();
       //this.loginid = 'namu';
     },
-    Like: function() {
+    Like: function () {
       this.wordlike.uid = this.loginid;
       this.wordlike.namu_id = this.namuwiki.namu_id;
       letlike(

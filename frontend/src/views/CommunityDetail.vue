@@ -47,7 +47,7 @@
                 <span class="comdetail-btn-text-cnt">조회수</span>
                 <span class="comdetail-btn-text">{{ community.c_view }}</span>
 
-                <div v-if="this.community.uid == this.loginid">
+                <div v-if="this.community.uid == this.loginid && isLogin">
                   <span class="comdetail-btn-text">수정</span>
                   <span class="comdetail-btn-text" @click="Delete">삭제</span>
                 </div>
@@ -118,7 +118,7 @@
                   </div>
                 </div>
                 <div class="box-right">
-                  <div class="report-article">
+                  <div v-if="isLogin" class="report-article">
                     <template>
                       <!-- class="md-primary md-round classic-modal" -->
                       <md-button class="md-danger" @click="classicModal = true"
@@ -157,7 +157,7 @@
 
             <!-- 댓글 -->
             <!-- 댓글 리스트 -->
-            <ul class="comdetail-comment-option">
+            <ul class="comdetail-comment-option" style="padding-bottom: 20px">
               <li class="comdetail-comment-item">
                 <div
                   class="comdetail-comment-area"
@@ -187,7 +187,7 @@
             </ul>
 
             <!-- 댓글 작성 -->
-            <div class="comdetail-comment-writer">
+            <div v-if="isLogin" class="comdetail-comment-writer">
               <div class="comdetail-comment-inbox">
                 <span class="comdetail-comment-inbox-name">{{
                   loginInfo.nickname
@@ -202,7 +202,7 @@
 
                 <!-- 댓글등록버튼 -->
                 <div class="comdetail-comment-attach">
-                  <div class="comdetail-register-box" v-if="isLogin">
+                  <div class="comdetail-register-box">
                     <button @click="insert_comment">등록</button>
                   </div>
                 </div>
@@ -324,7 +324,7 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
     classicModalHide() {
@@ -347,7 +347,7 @@ export default {
         }
       );
     },
-    Like: function() {
+    Like: function () {
       this.postlike.uid = this.loginid;
       this.postlike.cid = this.community.cid;
       letlike(
@@ -362,7 +362,7 @@ export default {
         }
       );
     },
-    Delete: function() {
+    Delete: function () {
       console.log('삭제 눌렸어/');
       letdelete(
         this.community.cid,
@@ -375,7 +375,7 @@ export default {
         }
       );
     },
-    findWriter: function() {
+    findWriter: function () {
       profileByUid(
         this.loginid,
         (response) => {
@@ -388,7 +388,7 @@ export default {
         }
       );
     },
-    insert_comment: function() {
+    insert_comment: function () {
       this.sendComment.cid = this.name;
       this.sendComment.uid = this.loginid;
       this.sendComment.cc_content = this.cccontent;
