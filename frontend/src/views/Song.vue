@@ -323,7 +323,7 @@ export default {
       if (this.prevnext > 1) {
         this.prevnext -= 1;
         this.currentPage = this.prevnext;
-
+        
         getlist_new(
           //최신순 //장르전체
           //this.page,
