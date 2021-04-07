@@ -30,6 +30,7 @@ public interface CommunityService {
 	
 	int insert_nopic(CommunityDto community);
 	List<CommunityNickDto> communityInfo(Pagination pagination);
+	List<CommunityNickDto> popInfo(Pagination pagination);
 
 	
 }

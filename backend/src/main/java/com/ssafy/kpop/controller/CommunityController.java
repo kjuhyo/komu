@@ -52,7 +52,7 @@ public class CommunityController {
 
 	@Autowired
 	CommunityService cservice;
-	
+
 	@Autowired
 	CommentService commentservice;
 
@@ -65,7 +65,8 @@ public class CommunityController {
 	// 게시물 등록하기
 	@ApiOperation(value = "Community Post Insert", notes = "커뮤니티 글 등록")
 	@PostMapping("/insert")
-	public ResponseEntity<Map<String, Object>> insert_post(@RequestPart MultipartFile file, @RequestPart CommunityDto community) {
+	public ResponseEntity<Map<String, Object>> insert_post(@RequestPart MultipartFile file,
+			@RequestPart CommunityDto community) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
@@ -125,7 +126,6 @@ public class CommunityController {
 			System.out.println(community);
 
 			int result = cservice.insert_nopic(community);
-
 
 			if (result == 1) {
 				logger.info("=====> 나무위키 글 등록 성공");
@@ -301,9 +301,8 @@ public class CommunityController {
 			CommunityDto new_com = cservice.get_community(cid);
 
 //			List<Comm_commentDto> commentList = cservice.get_comment(cid);
-			
-			List<Comm_comment_nickDto> commentList = commentservice.commentList(cid);
 
+			List<Comm_comment_nickDto> commentList = commentservice.commentList(cid);
 
 			int cnt_comment = commentList.size();
 
@@ -400,6 +399,42 @@ public class CommunityController {
 
 			List<CommunityNickDto> commList = cservice.communityInfo(pagination);
 //			System.out.println(commList);
+
+			resultMap.put("pagination", pagination);
+			resultMap.put("commList", commList);
+			resultMap.put("message", "노래 페이지별 가져오기 성공하였습니다.");
+			status = HttpStatus.ACCEPTED;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("실행 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 커뮤니티 글 페이징 처리
+	@ApiOperation(value = "Community List", notes = "커뮤니티 인기순 글 페이지")
+	@GetMapping("/popul/{page}")
+	public ResponseEntity<Map<String, Object>> get_poplist(@PathVariable int page) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+
+		int range = (page / 10) + 1;
+		int listCnt = 0;
+
+		try {
+			listCnt = cservice.total_post();
+			logger.info("=====> 해당 가수 전체 노래 정보가져오기");
+			Pagination pagination = new Pagination();
+			pagination.pageInfo(page, range, listCnt);
+
+//			List<CommunityNickDto> commList = cservice.communityInfo(pagination);
+			List<CommunityNickDto> commList = cservice.popInfo(pagination);
+
+			//				System.out.println(commList);
 
 			resultMap.put("pagination", pagination);
 			resultMap.put("commList", commList);

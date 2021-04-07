@@ -31,4 +31,5 @@ public interface CommunityDao {
 	List<CommunityDto> all_post(Pagination pagination);
 	int insert_nopic(CommunityDto community);
 	List<CommunityNickDto> communityInfo(Pagination pagination);
+	List<CommunityNickDto> popInfo(Pagination pagination);
 }

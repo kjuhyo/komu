@@ -15,12 +15,20 @@ function getlist(page, success, fail){
     .then(success)
     .catch(fail);
 }
+function poplist(page, success,fail){
+    instance
+    .get(`/community/popul/${page}`)
+    .then(success)
+    .catch(fail);
+}
+
 function letlike(articlelike, success,fail){
     instance
     .post(`/community/like`, articlelike)
     .then(success)
     .catch(fail);
 }
+
 function letdelete(cid, success,fail){
     instance
     .post(`/community/delete/${cid}`)
@@ -75,5 +83,6 @@ export{
     search_list,
     letdelete,
     insert_comm,
+    poplist,
 
 };
