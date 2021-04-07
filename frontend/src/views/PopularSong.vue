@@ -100,7 +100,7 @@
                 </table>
               </div>
               <!-- <Pagination /> -->
-              <div class="Page">
+              <div v-if="isSearch" class="Page">
                 <nav class="page-nav" aria-label="Page navigation">
                   <ul class="pagination-ul">
                     <li class="page-item">
@@ -193,6 +193,7 @@ export default {
       isMobile: false,
       searchtext: '',
       menubar: true,
+      isSearch: true,
 
       listmaker: 0,
       prevnext: 0,
@@ -259,6 +260,7 @@ export default {
     popular: function(genre) {
       this.searchtext = '';
       this.menubar = true;
+      this.isSearch = true;
       if (genre == 'all') {
         //인기순 //전체
         getlist_pop(
@@ -291,6 +293,8 @@ export default {
     },
     findname: function() {
       this.menubar = false;
+      this.isSearch = false;
+
       getPopularSongName(
         //검색결과 //인기순
         this.searchtext,
