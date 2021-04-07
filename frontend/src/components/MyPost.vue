@@ -13,7 +13,7 @@
       <tr v-for="(commu,idx) in commuList" :key="idx">
         <td data-label="No">{{commu.cid}}</td>
         <td data-label="Contents">
-          <router-link :to="`/communitydetail/${commu.c_title}`">
+          <router-link :to="`/communitydetail/${commu.cid}`">
           {{commu.c_title}}
           </router-link>
           </td>

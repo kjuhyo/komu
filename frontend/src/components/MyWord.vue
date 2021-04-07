@@ -4,7 +4,7 @@
     <div v-for="(word, idx) in wordList" :key="idx" class="card card-css">
       <div v-if="word != null" class="card-question">
          <router-link
-          :to="`/komuwikidetail/${word.namu_title}`">
+          :to="`/komuwikidetail/${word.namu_id}`">
           {{word.namu_title}}
          </router-link>
       </div>
