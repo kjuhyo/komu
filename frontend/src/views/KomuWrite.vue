@@ -14,7 +14,7 @@
             <!-- 글 제목 -->
             <div class="write_title">
               <span class="title_css">제목 </span>
-              <input class="content_title" v-model="title"/>
+              <input class="content_title" v-model="title" />
             </div>
             <br />
             <!-- 텍스트에디터 -->
@@ -47,7 +47,7 @@
               <!-- :disabled="form.file == null" -->
               <div class="align-center">
                 <b-button
-                v-if="previewImageData != null"
+                  v-if="previewImageData != null"
                   type="submit"
                   class="community-submit"
                   aria-disabled="true"
@@ -55,7 +55,7 @@
                   >업로드</b-button
                 >
                 <b-button
-                v-if="previewImageData == null"
+                  v-if="previewImageData == null"
                   type="submit"
                   class="community-submit"
                   aria-disabled="true"
@@ -74,10 +74,9 @@
 <script>
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
-import { insert,insert_nopic } from '@/api/komu.js';
-import {profileByUid,getSingerName} from '@/api/user.js';
+import { insert, insert_nopic } from '@/api/komu.js';
+import { profileByUid, getSingerName } from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
-
 
 export default {
   components: { TextEditor },
@@ -89,18 +88,18 @@ export default {
         //   desc: ''
         content: '',
       },
-      namu:{
-        uid:"",
-        namu_title:"",
-        namu_content:"",
+      namu: {
+        uid: '',
+        namu_title: '',
+        namu_content: '',
       },
-      nick:"",
-      loginid:"",
+      nick: '',
+      loginid: '',
       show: true,
       previewImageData: null,
       isMobile: false,
       content: '',
-      title:'',
+      title: '',
     };
   },
 
@@ -108,20 +107,21 @@ export default {
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   created() {
     this.initUser();
-     getSingerName(
-        this.loginid,
-        (response)=>{
-          console.log("SUCCESS");
-          this.nick = response.data;
-        },(error)=>{
-          console.log(error.data);
-        }
-      )
+    getSingerName(
+      this.loginid,
+      (response) => {
+        console.log('SUCCESS');
+        this.nick = response.data;
+      },
+      (error) => {
+        console.log(error.data);
+      }
+    );
   },
   computed: {
     headerStyle() {
@@ -169,51 +169,47 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto:function(){
-      console.log("nick");
-      this.namu.uid=this.nick;
-      this.namu.namu_title=this.title;
+    setDto: function() {
+      console.log('nick');
+      this.namu.uid = this.nick;
+      this.namu.namu_title = this.title;
       this.namu.namu_content = this.content;
-     
     },
-    UploadCertification:function(){
+    UploadCertification: function() {
       this.setDto();
       const formData = new FormData();
       formData.append(
-        "namu", 
-        new Blob([JSON.stringify(this.namu)],{type:"application/json"})
+        'namu',
+        new Blob([JSON.stringify(this.namu)], { type: 'application/json' })
       );
-      formData.append("file", this.form.file);
+      formData.append('file', this.form.file);
       insert(
         formData,
-        (response)=>{
+        (response) => {
           console.log(response.data.message);
-          console.log("SUCCESS");
+          console.log('SUCCESS');
           alert(response.data.message);
-          this.$router.push("/komuwiki");          
+          this.$router.push('/komuwiki');
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-    
+      );
     },
-    Upload:function(){
+    Upload: function() {
       this.setDto();
       insert_nopic(
         this.namu,
-        (response)=>{
+        (response) => {
           console.log(response.data.message);
-          console.log("SUCCESS");
+          console.log('SUCCESS');
           alert(response.data.message);
-          this.$router.push("/komuwiki");          
+          this.$router.push('/komuwiki');
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-
-
+      );
     },
     initUser() {
       this.loginid = getuidCookie();

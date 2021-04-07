@@ -36,7 +36,7 @@
 import '../assets/css/recommend.scss';
 import Song from '../components/Song.vue';
 import { getuidCookie } from '@/util/cookie.js';
-import { lyricRecommend } from '@/api/recommend.js'
+import { lyricRecommend } from '@/api/recommend.js';
 
 export default {
   components: { Song },
@@ -52,15 +52,15 @@ export default {
         lyric: '',
         singer_img: '',
         singer_name: '',
-        song_name: ''
-      }
+        song_name: '',
+      },
     };
   },
   bodyClass: 'profile-page',
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   computed: {
@@ -75,20 +75,20 @@ export default {
       lyricRecommend(
         this.uid,
         (response) => {
-          this.songList = response.data.dtoList
-          console.log(this.songList)
+          this.songList = response.data.dtoList;
+          console.log(this.songList);
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
-      )
+      );
   },
   mounted() {
     this.onResize();
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-     initUser() {
+    initUser() {
       this.uid = getuidCookie();
     },
     onResize: function() {

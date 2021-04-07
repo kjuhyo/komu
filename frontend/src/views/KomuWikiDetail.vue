@@ -17,28 +17,25 @@
               </div>
               <div class="komuwiki_option_area">
                 <div v-if="isLogin">
-                <b-icon
-                  v-if="LIKE == 0"
-                  class="wiki_option_icon"
-                  icon="heart"
-                  font-scale="2"
-                  @click="Like"
-                ></b-icon>
-                <b-icon
-                  v-if="LIKE == 1"
-                  class="wiki_option_icon"
-                  icon="heart-fill"
-                  font-scale="2"
-                  @click="Like"
-                ></b-icon>
+                  <b-icon
+                    v-if="LIKE == 0"
+                    class="wiki_option_icon"
+                    icon="heart"
+                    font-scale="2"
+                    @click="Like"
+                  ></b-icon>
+                  <b-icon
+                    v-if="LIKE == 1"
+                    class="wiki_option_icon"
+                    icon="heart-fill"
+                    font-scale="2"
+                    @click="Like"
+                  ></b-icon>
                 </div>
                 <router-link :to="`/komuwikiupdate/${namuwiki.namu_id}`">
-                <b-icon
-                  class="wiki_option_icon"
-                  icon="pencil"
-                  font-scale="2"
-                >
-          </b-icon></router-link>
+                  <b-icon class="wiki_option_icon" icon="pencil" font-scale="2">
+                  </b-icon
+                ></router-link>
               </div>
             </div>
 
@@ -127,7 +124,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
     img: {
       type: String,

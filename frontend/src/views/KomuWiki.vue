@@ -17,7 +17,6 @@
           <!-- 검색바 -->
           <div class="komu-searchbar">
             <SearchBar @eventdata="setsearchdata" />
-
           </div>
 
           <!-- 글작성버튼 -->
@@ -92,7 +91,7 @@
 
 <script>
 import '../assets/css/profile.css';
-import { getboard, getlist,search_list } from '@/api/komu.js';
+import { getboard, getlist, search_list } from '@/api/komu.js';
 // import { Tabs } from '@/components';
 // import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
@@ -109,10 +108,10 @@ export default {
   data() {
     return {
       page: 1,
-      searchpage:1,
+      searchpage: 1,
       uid: 'uuu',
       // namu_title: '7',
-      searchdata:"",
+      searchdata: '',
       listmaker: 0,
       prevnext: 0,
       pagination: {
@@ -141,7 +140,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   computed: {
@@ -164,24 +163,22 @@ export default {
         }
       );
     },
-    setsearchdata:function(data){
-    this.searchdata = data;
-    console.log(this.searchdata);
-    console.log("여기는 상위컴포넌트");
-    search_list(
-      this.searchpage,
-      this.searchdata,
-      (response)=>{
-        console.log(response.data);
-        this.pagination = response.data.pagination;
-        this.list = response.data.list;
-      },
-      (error)=>{
-        console.log(error);
-      }
-
-    )
-
+    setsearchdata: function(data) {
+      this.searchdata = data;
+      console.log(this.searchdata);
+      console.log('여기는 상위컴포넌트');
+      search_list(
+        this.searchpage,
+        this.searchdata,
+        (response) => {
+          console.log(response.data);
+          this.pagination = response.data.pagination;
+          this.list = response.data.list;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     },
     movePage(event) {
       var updatedText = event.target.value;
@@ -248,7 +245,7 @@ export default {
       this.currentPage = updatedText;
     },
   },
-  
+
   created() {
     getlist(
       this.page,
@@ -259,7 +256,7 @@ export default {
         this.listmaker = parseInt(
           this.pagination.listCnt / this.pagination.listSize + 1
         );
-        console.log(this.pagination)
+        console.log(this.pagination);
       },
       (error) => {
         console.log(error);

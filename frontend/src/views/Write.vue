@@ -14,7 +14,7 @@
             <!-- 글 제목 -->
             <div class="write_title">
               <span class="title_css">제목 </span>
-              <input class="content_title" v-model="title"/>
+              <input class="content_title" v-model="title" />
             </div>
             <br />
             <!-- 텍스트에디터 -->
@@ -47,7 +47,7 @@
               <!-- :disabled="form.file == null" -->
               <div class="align-center">
                 <b-button
-                v-if="previewImageData != null"
+                  v-if="previewImageData != null"
                   type="submit"
                   class="community-submit"
                   aria-disabled="true"
@@ -55,7 +55,7 @@
                   >업로드</b-button
                 >
                 <b-button
-                v-if="previewImageData == null"
+                  v-if="previewImageData == null"
                   type="submit"
                   class="community-submit"
                   aria-disabled="true"
@@ -75,7 +75,7 @@
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { insert, insert_nopic } from '@/api/community.js';
-import {getSingerName} from '@/api/user.js';
+import { getSingerName } from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
 
 export default {
@@ -88,18 +88,18 @@ export default {
         //   desc: ''
         content: '',
       },
-      community:{
-        uid: "",
-        c_title: "",
-        c_content: "",
+      community: {
+        uid: '',
+        c_title: '',
+        c_content: '',
       },
-      nick:"",
-      loginid:"",
+      nick: '',
+      loginid: '',
       show: true,
       previewImageData: null,
       isMobile: false,
-      content: "",
-      title: "",
+      content: '',
+      title: '',
       // show: true,
       // previewImageData: null,
       // isMobile: false,
@@ -111,7 +111,7 @@ export default {
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   created() {
@@ -173,51 +173,48 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto:function(){
+    setDto: function() {
       this.community.uid = this.loginid;
       this.community.c_title = this.title;
       this.community.c_content = this.content;
       console.log(this.community);
     },
-    UploadCertification:function(){
+    UploadCertification: function() {
       this.setDto();
       console.log(this.form.file);
       const formData = new FormData();
       formData.append(
-        "community", 
-        new Blob([JSON.stringify(this.community)],{type:"application/json"})
+        'community',
+        new Blob([JSON.stringify(this.community)], { type: 'application/json' })
       );
-      formData.append("file", this.form.file);
+      formData.append('file', this.form.file);
       insert(
         formData,
-        (response)=>{
+        (response) => {
           console.log(response.data.message);
-          console.log("SUCCESS");
-          this.$router.push("/community");          
+          console.log('SUCCESS');
+          this.$router.push('/community');
           alert(response.data.message);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-    
+      );
     },
-    Upload:function(){
+    Upload: function() {
       this.setDto();
       insert_nopic(
         this.community,
-        (response)=>{
+        (response) => {
           console.log(response.data.message);
-          console.log("SUCCESS");
-          this.$router.push("/community");          
+          console.log('SUCCESS');
+          this.$router.push('/community');
           alert(response.data.message);
         },
-        (error)=>{
+        (error) => {
           console.log(error.data);
         }
-      )
-
-
+      );
     },
     initUser() {
       this.loginid = getuidCookie();

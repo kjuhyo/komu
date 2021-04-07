@@ -132,8 +132,7 @@ import { getboard, getlist } from '@/api/community.js';
 // import { Tabs } from '@/components';
 // import { Pagination } from '@/components';
 import CommunityArticle from '../components/CommunityArticle.vue';
-import {getSingerName} from '@/api/user.js';
-
+import { getSingerName } from '@/api/user.js';
 
 export default {
   components: {
@@ -175,15 +174,15 @@ export default {
         c_view: 0,
         cid: 0,
         uid: '',
-        nickname:'',
-        profile:'',
+        nickname: '',
+        profile: '',
       },
     };
   },
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   computed: {
@@ -203,12 +202,12 @@ export default {
         this.listmaker = parseInt(
           this.pagination.listCnt / this.pagination.listSize + 1
         );
-        console.log(this.pagination)
+        console.log(this.pagination);
       },
       (error) => {
         console.log(error);
       }
-    )
+    );
   },
   methods: {
     // setsearchdata(data) {
