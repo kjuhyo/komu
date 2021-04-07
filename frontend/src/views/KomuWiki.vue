@@ -134,6 +134,8 @@ export default {
         namu_content: '',
         namu_date: '',
         namu_img: '',
+        nickname:"",
+        profile:"",
       },
     };
   },
@@ -166,7 +168,6 @@ export default {
     setsearchdata: function(data) {
       this.searchdata = data;
       console.log(this.searchdata);
-      console.log('여기는 상위컴포넌트');
       search_list(
         this.searchpage,
         this.searchdata,

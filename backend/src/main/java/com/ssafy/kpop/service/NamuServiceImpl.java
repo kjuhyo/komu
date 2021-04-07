@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.kpop.dao.NamuDao;
+import com.ssafy.kpop.dto.KomuWikiDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.util.Pagination;
@@ -116,6 +117,22 @@ public class NamuServiceImpl implements NamuService{
 	public int insert_nopic(NamuwikiDto namu) {
 		// TODO Auto-generated method stub
 		return ndao.insert_nopic(namu);
+	}
+	
+	@Override
+	public List<KomuWikiDto> KomuInfo(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return ndao.KomuInfo(pagination);
+	}
+	
+	@Override
+	public List<KomuWikiDto> searchkomu_list(String word, int startList, int listSize) {
+		// TODO Auto-generated method stub
+		Map<String , Object> map = new HashMap<>();
+		map.put("word", word);
+		map.put("startList", startList);
+		map.put("listSize", listSize);
+		return ndao.searchkomu_list(map);
 	}
 
 }

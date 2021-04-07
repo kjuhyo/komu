@@ -2,6 +2,7 @@ package com.ssafy.kpop.service;
 
 import java.util.List;
 
+import com.ssafy.kpop.dto.KomuWikiDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.WordlikeDto;
 import com.ssafy.kpop.util.Pagination;
@@ -26,5 +27,9 @@ public interface NamuService {
 	int let_dislike(WordlikeDto wordlike);
 	
 	int insert_nopic(NamuwikiDto namu); //사진없이 단어 등록 
+	List<KomuWikiDto> KomuInfo(Pagination pagination);
+	
+	List<KomuWikiDto> searchkomu_list(String word, int startList, int listSize);
+
 
 }

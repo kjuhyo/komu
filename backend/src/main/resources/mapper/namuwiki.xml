@@ -76,6 +76,13 @@
 		order by n.namu_date desc limit #{startList}, #{listSize};
 	</select>
 	
+	<select id="searchkomu_list" parameterType="map" resultType="KomuWikiDto">
+		select n.namu_id, n.uid, n.namu_title, n.namu_content, n.namu_date, n.namu_img, u.nickname, u.profile
+		from namuwiki n left join user u
+		on n.uid = u.uid
+		where n.namu_title like concat('%',#{word},'%') order by n.namu_date limit #{startList}, #{listSize}
+	</select>
+	
 	
 
 </mapper>

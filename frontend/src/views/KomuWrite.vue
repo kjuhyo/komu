@@ -112,16 +112,16 @@ export default {
   },
   created() {
     this.initUser();
-    getSingerName(
-      this.loginid,
-      (response) => {
-        console.log('SUCCESS');
-        this.nick = response.data;
-      },
-      (error) => {
-        console.log(error.data);
-      }
-    );
+    // getSingerName(
+    //   this.loginid,
+    //   (response) => {
+    //     console.log('SUCCESS');
+    //     this.nick = response.data;
+    //   },
+    //   (error) => {
+    //     console.log(error.data);
+    //   }
+    // );
   },
   computed: {
     headerStyle() {
@@ -170,8 +170,7 @@ export default {
       }
     },
     setDto: function() {
-      console.log('nick');
-      this.namu.uid = this.nick;
+      this.namu.uid = this.loginid;
       this.namu.namu_title = this.title;
       this.namu.namu_content = this.content;
     },

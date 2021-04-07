@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.ssafy.kpop.dto.KomuWikiDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
 import com.ssafy.kpop.dto.SingerlikeDto;
 import com.ssafy.kpop.dto.WordlikeDto;
@@ -291,7 +292,7 @@ public class NamuController {
 
 		int range = (page / 10) + 1;
 		int listCnt = 0;
-		List<NamuwikiDto> list = null;
+		List<KomuWikiDto> list = null;
 
 		try {
 			logger.info("=====> 단어목록 확인");
@@ -305,7 +306,9 @@ public class NamuController {
 			pagination.pageInfo(page, range, listCnt);
 
 			logger.info("=====> 글 목록 받기");
-			list = namuservice.get_list(pagination);
+			list = namuservice.KomuInfo(pagination);
+
+			System.out.println(list);
 
 			resultMap.put("pagination", pagination);
 			resultMap.put("list", list);
@@ -330,7 +333,7 @@ public class NamuController {
 
 		int range = (page / 10) + 1;
 		int listCnt = 0;
-		List<NamuwikiDto> list = null;
+		List<KomuWikiDto> list = null;
 
 		try {
 			logger.info("=====> 단어목록 확인");
@@ -347,7 +350,9 @@ public class NamuController {
 			int listSize = pagination.getListSize();
 
 			logger.info("=====> 단어 목록 받기");
-			list = namuservice.search_list(word, startList, listSize);
+//			list = namuservice.search_list(word, startList, listSize);
+			list = namuservice.searchkomu_list(word, startList, listSize);
+			System.out.println(list);
 
 			resultMap.put("pagination", pagination);
 			resultMap.put("list", list);
