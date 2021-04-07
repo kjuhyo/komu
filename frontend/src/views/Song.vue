@@ -125,7 +125,7 @@
 
                     <li
                       class="page-item"
-                      v-for="(list, idx) in this.listmaker"
+                      v-for="(list, idx) in this.listpage"
                       v-bind:key="idx"
                     >
                       <input
@@ -202,6 +202,7 @@ export default {
 
       listmaker: 0,
       prevnext: 0,
+      listpage: 10,
       paginations: {
         listSize: '',
         startPage: '',
@@ -209,6 +210,11 @@ export default {
       },
       currentPage: 1,
       perPage: '',
+      // listppp: function () {
+      //     var listppp = [];
+      //     for (var i = this.page - 10; i < this.page; i += 1) list.push(i);
+      //     return listppp
+      // },
     };
   },
   bodyClass: 'profile-page',
@@ -302,6 +308,10 @@ export default {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
       this.prevnext = updatedText;
+      this.currentPage *= 1
+      this.prevnext *= 1
+      console.log(this.prevnext)
+      console.log(this.currentPage)
 
       getlist_new(
         //최신순 //장르전체
@@ -320,10 +330,35 @@ export default {
       );
     },
     prevPage() {
-      if (this.prevnext > 1) {
-        this.prevnext -= 1;
+      if (this.prevnext > 10) {
+        this.prevnext = this.prevnext - 10;
         this.currentPage = this.prevnext;
+        this.listpage = this.listpage - 10;
+        console.log(this.prevnext)
+        console.log(this.currentPage)
         
+        getlist_new(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.prevnext = this.prevnext - 1;
+        this.currentPage = this.prevnext;
+        this.listpage = 10
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+
         getlist_new(
           //최신순 //장르전체
           //this.page,
@@ -342,10 +377,13 @@ export default {
       }
     },
     nextPage() {
-      if (this.prevnext <= this.list) {
-        this.prevnext++;
+      if (this.prevnext <= this.listmaker - 10) {
+        this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        alert(this.prevnext);
+        console.log(typeof(this.prevnext))
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+        this.listpage = this.listpage + 10;
 
         getlist_new(
           //최신순 //장르전체
@@ -354,7 +392,29 @@ export default {
           (response) => {
             this.songList = response.data.songList;
 
-            this.songList = parseInt(
+            this.list = parseInt(
+              this.paginations.listCnt / this.paginations.listSize
+            );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else if ((this.prevnext > this.listmaker -10) && (this.prevnext < this.listmaker)) {
+        this.prevnext = this.prevnext + 1;
+        this.currentPage = this.prevnext;
+        this.listpage = this.listmaker;
+        console.log(this.prevnext)
+        console.log(this.currentPage)
+
+        getlist_new(
+          //최신순 //장르전체
+          //this.page,
+          this.currentPage,
+          (response) => {
+            this.songList = response.data.songList;
+
+            this.list = parseInt(
               this.paginations.listCnt / this.paginations.listSize
             );
           },

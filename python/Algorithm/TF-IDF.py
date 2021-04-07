@@ -23,10 +23,10 @@ def read_data(user_id):
     curs = conn.cursor()
     sql = f"select namu_id from wordlike where uid=\'{user_id}\';"
     curs.execute(sql)
-    rows = curs.fetchone()
+    rows = curs.fetchall()
     namu_id_list = []
     for i in range(len(rows)):
-        namu_id_list.append(rows[i])
+        namu_id_list.append(rows[i][0])
     
     for i in range(len(namu_id_list)):
         sql = f"select namu_title from namuwiki where namu_id={namu_id_list[i]}"
