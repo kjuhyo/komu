@@ -20,7 +20,7 @@
           </div>
 
           <!-- 글작성버튼 -->
-          <div class="tab-write">
+          <div class="tab-write" v-if="isLogin">
             <div>
               <router-link class="komu_write_btn" to="/komuwikiwrite"
                 >글 작성</router-link
@@ -96,6 +96,8 @@ import { getboard, getlist, search_list } from '@/api/komu.js';
 // import { Pagination } from '@/components';
 import Article from '../components/Article.vue';
 import SearchBar from '../components/SearchBar.vue';
+import { mapState } from 'vuex';
+import { getuidCookie } from '@/util/cookie.js';
 
 export default {
   components: {
@@ -146,6 +148,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -153,6 +156,9 @@ export default {
     },
   },
   methods: {
+    initUser() {
+      this.uid = getuidCookie();
+    },
     getboard: function() {
       getboard(
         this.namu_title,
@@ -248,6 +254,7 @@ export default {
   },
 
   created() {
+    this.initUser(),
     getlist(
       this.page,
       (response) => {
