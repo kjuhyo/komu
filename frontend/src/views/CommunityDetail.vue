@@ -48,7 +48,11 @@
                 <span class="comdetail-btn-text">{{ community.c_view }}</span>
 
                 <div v-if="this.community.uid == this.loginid && isLogin">
-                  <span class="comdetail-btn-text">수정</span>
+                  <router-link
+                  :to="`/communityupdate/${community.cid}`"
+                  v-if="isLogin">
+                    <span class="comdetail-btn-text">수정</span>
+                  </router-link>
                   <span class="comdetail-btn-text" @click="Delete">삭제</span>
                 </div>
               </div>

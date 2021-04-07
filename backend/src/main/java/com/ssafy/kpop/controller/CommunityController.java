@@ -128,12 +128,12 @@ public class CommunityController {
 			int result = cservice.insert_nopic(community);
 
 			if (result == 1) {
-				logger.info("=====> 나무위키 글 등록 성공");
-				resultMap.put("message", "단어 등록에 성공하였습니다.");
+				logger.info("=====> 커뮤니티 글 등록 성공");
+				resultMap.put("message", "커뮤니티 글 등록에 성공하였습니다.");
 				status = HttpStatus.ACCEPTED;
 			} else {
-				logger.info("=====> 나무위키 글 등록 실패");
-				resultMap.put("message", "단어 등록에 실패하였습니다.");
+				logger.info("=====> 커뮤니티 글 등록 실패");
+				resultMap.put("message", "커뮤니티 글 등록에 실패하였습니다.");
 				status = HttpStatus.NOT_FOUND;
 			}
 
@@ -147,6 +147,35 @@ public class CommunityController {
 	}
 
 	// 게시물 수정하기
+	@ApiOperation(value = "Namu Update", notes = "나무위키 등록 단어 수정")
+	@PutMapping("/update/np")
+	public ResponseEntity<Map<String, Object>> modify(@RequestBody CommunityDto comm) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			logger.info("=====> 내용 수정");
+			int result = cservice.update_nopic(comm);
+
+			if (result == 1) {
+				System.out.println("=====> 수정 성공");
+				resultMap.put("message", "글 수정에 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", "글 수정에 실패하였습니다.");
+				status = HttpStatus.NOT_FOUND;
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			logger.error("글 수정 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+	// 게시물 수정하기
 	@ApiOperation(value = "Community Post Update", notes = "커뮤니티 글 수정")
 	@PutMapping("/update")
 	public ResponseEntity<Map<String, Object>> modify_post(@RequestPart MultipartFile file,
@@ -154,61 +183,49 @@ public class CommunityController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
 
-		CommunityDto old = cservice.get_old(community.getCid());
 		try {
 			logger.info("=====> 사진, 내용 수정");
-			if (file != null) { // 사진 수정할 파일 있을때
-				// 파일 가져와서 삭제하고 db에 있는거 삭제
-				String photo = old.getC_img();
-				if (photo != null) { // 이미 사진이 저장되어있을때
-					s3util.setS3Client().deleteObject(new DeleteObjectRequest(bucket, photo));
-				}
-				// 그전에 등록한 사진이 없으면 바로 등록하면 됩니다!
-				// 자 사진 삭제했으니 다시 사진을 등록해 봅시다! 렛츠꼬우!
-				String originName = file.getOriginalFilename(); // 파일 이름 가져오기
+			int res = cservice.update_nopic(community); // title,content,date 수정해줬고
 
-				String ext = originName.substring(originName.lastIndexOf('.')); // 파일 확장명 가져오기
-				String saveFileName = UUID.randomUUID().toString() + ext; // 암호화해서 파일확장넣어주기
-				String path = System.getProperty("user.dir"); // 경로설정해주고
-
-				File tempfile = new File(path, saveFileName); // 경로에 파일만들어주고
-
-				String line = "community/";
-
-				saveFileName = line + saveFileName;
-
-				file.transferTo(tempfile);
-				s3util.setS3Client().putObject(new PutObjectRequest(bucket, saveFileName, tempfile)
-						.withCannedAcl(CannedAccessControlList.PublicRead));
-				String url = s3util.setS3Client().getUrl(bucket, saveFileName).toString();
-				tempfile.delete();
-
-				community.setC_img(url); // 사진 등록했꼬
-
-				logger.info("=====> 사진 등록완료! 글 등록 해야합니다!");
-				int result = cservice.update_post(community);
-				if (result == 1) {
-					System.out.println("=====> 수정 성공");
-					resultMap.put("message", "글 수정에 성공하였습니다.");
-					status = HttpStatus.ACCEPTED;
-				} else {
-					resultMap.put("message", "글 수정에 실패하였습니다.");
-					status = HttpStatus.ACCEPTED;
-				}
-				// 아마 키앞에 photo/ 붙여야할꺼야
-
-			} else { // 사진 수정할 필요가 없을 때 글만 수정하면돼 ! 렛츠꼬!
-				int content_update = cservice.update(community);
-				if (content_update == 1) {
-					System.out.println("=====> 수정 성공");
-					resultMap.put("message", "글 수정에 성공하였습니다.");
-					status = HttpStatus.ACCEPTED;
-				} else {
-					resultMap.put("message", "글 수정에 실패하였습니다.");
-					status = HttpStatus.ACCEPTED;
-				}
+			CommunityDto old = cservice.get_old(community.getCid());
+			String photo = old.getC_img();
+			if (photo != null) { // 이미 사진이 저장되어있을때
+				s3util.setS3Client().deleteObject(new DeleteObjectRequest(bucket, photo));
 			}
-		} catch (Exception e) {
+
+			String originName = file.getOriginalFilename(); // 파일 이름 가져오기
+
+			String ext = originName.substring(originName.lastIndexOf('.')); // 파일 확장명 가져오기
+			String saveFileName = UUID.randomUUID().toString() + ext; // 암호화해서 파일확장넣어주기
+			String path = System.getProperty("user.dir"); // 경로설정해주고
+
+			File tempfile = new File(path, saveFileName); // 경로에 파일만들어주고
+
+			String line = "community/";
+
+			saveFileName = line + saveFileName;
+
+			file.transferTo(tempfile);
+			s3util.setS3Client().putObject(new PutObjectRequest(bucket, saveFileName, tempfile)
+					.withCannedAcl(CannedAccessControlList.PublicRead));
+			String url = s3util.setS3Client().getUrl(bucket, saveFileName).toString();
+			tempfile.delete();
+
+			community.setC_img(url); // 사진 등록했꼬
+
+			int result = cservice.update_post(community);
+			if (result == 1) {
+				System.out.println("=====> 수정 성공");
+				resultMap.put("message", "글 수정에 성공하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", "글 수정에 실패하였습니다.");
+				status = HttpStatus.ACCEPTED;
+			}
+
+		} catch (
+
+		Exception e) {
 			// TODO Auto-generated catch block
 			logger.error("글 수정 실패 : {}", e);
 			resultMap.put("message", e.getMessage());
@@ -434,7 +451,7 @@ public class CommunityController {
 //			List<CommunityNickDto> commList = cservice.communityInfo(pagination);
 			List<CommunityNickDto> commList = cservice.popInfo(pagination);
 
-			//				System.out.println(commList);
+			// System.out.println(commList);
 
 			resultMap.put("pagination", pagination);
 			resultMap.put("commList", commList);

@@ -54,12 +54,24 @@ function insert_nopic(article, success, fail){
     .catch(fail);
 }
 
-function update_nopic(uid, c_content, c_title, success, fail){
+function update_nopic(community, success, fail){
     instance
-    .put(`/community/update`, uid, c_content, c_title)
+    .put(`/community//update/np`, community)
     .then(success)
     .catch(fail);
 }
+
+function update(FormData, success, fail){
+    instance
+    .put(`/community/update`, FormData,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+    .then(success)
+    .catch(fail);
+}
+
 function search_list(c_title, success, fail){
     instance
     .get(`/community/${c_title}`)
@@ -80,6 +92,7 @@ export{
     insert,
     insert_nopic,
     update_nopic,
+    update,
     search_list,
     letdelete,
     insert_comm,

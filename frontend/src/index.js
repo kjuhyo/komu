@@ -8,6 +8,7 @@ import MainNavbar from "./layout/MainNavbar.vue";
 import MainFooter from "./layout/MainFooter.vue";
 import Community from "./views/Community.vue";
 import CommunityDetail from "./views/CommunityDetail.vue";
+import CommunityUpdate from "./views/CommunityUpdate.vue";
 import SingerDetail from "./views/SingerDetail.vue";
 import Singer from "./views/Singer.vue";
 import KomuWikiDetail from "./views/KomuWikiDetail.vue";
@@ -167,6 +168,15 @@ export default new Router({
       path: "/communitywrite",
       name: "communitywrite",
       components: { default: Write, header: MainNavbar, footer: MainFooter},
+      props: {
+        header: { colorOnScroll: 400 },
+        footer: { backgroundColor: "black" }
+      }
+    },
+    {  
+      path: "/communityupdate/:name",
+      name: "communityupdate",
+      components: { default: CommunityUpdate, header: MainNavbar, footer: MainFooter},
       props: {
         header: { colorOnScroll: 400 },
         footer: { backgroundColor: "black" }
