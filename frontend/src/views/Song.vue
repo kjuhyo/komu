@@ -110,7 +110,7 @@
               </div>
 
               <!-- <Pagination /> -->
-              <div class="Page">
+              <div v-if="isSearch" class="Page">
                 <nav class="page-nav" aria-label="Page navigation">
                   <ul class="pagination-ul">
                     <li class="page-item">
@@ -200,6 +200,7 @@ export default {
       isMobile: false,
       searchtext: '',
       menubar: true,
+      isSearch: true,
 
       listmaker: 0,
       prevnext: 0,
@@ -272,6 +273,7 @@ export default {
       //console.log("함수실행");
       this.searchtext = '';
       this.menubar = true;
+      this.isSearch = true;
       if (genre == 'all') {
         getlist_new(
           //최신순 //장르전체
@@ -303,6 +305,7 @@ export default {
     findname: function() {
       //this.searchInput = searchcontent.target.value;
       this.menubar = false;
+      this.isSearch = false;
       getNewSongName(
         //검색결과 //최신순
         this.searchtext,
