@@ -40,9 +40,20 @@ function insert_nopic(komu, success,fail){
     .catch(fail);
 }
 
-function update_nopic(uid,namu_content, namu_title, success, fail){
+function update(FormData, success,fail){
     instance
-    .put(`/namu/update`, uid, namu_content,namu_title)
+    .put(`/namu/update`, FormData,{
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+    .then(success)
+    .catch(fail);
+}
+
+function update_nopic(namu, success, fail){
+    instance
+    .put(`/namu/update/np`, namu)
     .then(success)
     .catch(fail);
 }
@@ -61,5 +72,6 @@ export{
     insert_nopic,
     update_nopic,
     search_list,
+    update,
 
 };

@@ -58,7 +58,7 @@
               <span> | </span>
               <span class="comm_sorting">최신순</span>
             </div>
-            <div>
+            <div v-if="isLogin">
               <router-link class="comm_write_btn" to="/communitywrite"
                 >글 작성</router-link
               >
@@ -127,6 +127,7 @@
 
 <script>
 import '../assets/css/profile.css';
+import { mapState } from 'vuex';
 import { getCommunityContents } from '@/api/search.js';
 import { getboard, getlist } from '@/api/community.js';
 // import { Tabs } from '@/components';
@@ -186,6 +187,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(['isLogin']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -226,7 +228,6 @@ export default {
     //   );
     // },
     findname: function() {
-      console.log('잘들어왔쪙');
       getCommunityContents(
         //검색결과 //최신순
         this.searchtext,
