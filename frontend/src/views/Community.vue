@@ -54,9 +54,9 @@
 
           <div class="tab-write">
             <div class="comm_sorting_container">
-              <span class="comm_sorting">인기순</span>
+              <span class="comm_sorting" @click="popol">인기순</span>
               <span> | </span>
-              <span class="comm_sorting">최신순</span>
+              <span class="comm_sorting" @click="newest">최신순</span>
             </div>
             <div v-if="isLogin">
               <router-link class="comm_write_btn" to="/communitywrite"
@@ -132,7 +132,7 @@ import { mapState } from 'vuex';
 import '../assets/css/pagination.scss';
 
 import { getCommunityContents } from '@/api/search.js';
-import { getboard, getlist } from '@/api/community.js';
+import { getboard, getlist, poplist } from '@/api/community.js';
 // import { Tabs } from '@/components';
 // import { Pagination } from '@/components';
 import CommunityArticle from '../components/CommunityArticle.vue';
@@ -307,6 +307,46 @@ export default {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
     },
+
+    newest:function(){
+      this.page =1;
+      getlist(
+        this.page,
+        (response) => {
+          console.log(response.data);
+          this.pagination = response.data.pagination;
+          this.list = response.data.commList;
+          this.listmaker = parseInt(
+            this.pagination.listCnt / this.pagination.listSize + 1
+          );
+          console.log(this.pagination);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    popol:function(){
+      this.page =1;
+      poplist(
+        this.page,
+        (response) => {
+          console.log(response.data);
+          this.pagination = response.data.pagination;
+          this.list = response.data.commList;
+          this.listmaker = parseInt(
+            this.pagination.listCnt / this.pagination.listSize + 1
+          );
+          console.log(this.pagination);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+    },
+
+
   },
 };
 </script>

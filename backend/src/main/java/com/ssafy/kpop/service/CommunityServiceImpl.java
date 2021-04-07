@@ -122,5 +122,10 @@ public class CommunityServiceImpl implements CommunityService{
 		// TODO Auto-generated method stub
 		return cdao.communityInfo(pagination);
 	}
+	@Override
+	public List<CommunityNickDto> popInfo(Pagination pagination) {
+		// TODO Auto-generated method stub
+		return cdao.popInfo(pagination);
+	}
 	
 }
