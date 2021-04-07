@@ -17,14 +17,11 @@
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid userprofile-image"
                   />
-
                 </div>
                 <div class="name">
                   <h3 class="title">{{ this.nickname }}</h3>
                 </div>
-                <div class="profile-edit-div">
-
-                </div>
+                <div class="profile-edit-div"></div>
               </div>
             </div>
           </div>
@@ -36,22 +33,22 @@
               nav-pills-icons
               color-button="primary"
             >
-
               <!-- 내가 쓴 글 -->
               <template slot="tab-pane-1">
-                <div class="md-layout">
-                </div>
-                <MyPost :commuList="commuList"/>
+                <div class="md-layout"></div>
+                <MyPost :commuList="commuList" />
               </template>
 
               <!-- 좋아요한 노래 -->
               <template slot="tab-pane-2">
                 <div class="md-layout"></div>
-                <MySong :songList="songList"/>
+                <MySong :songList="songList" />
               </template>
 
               <!-- 예쁜단어 -->
-              <template slot="tab-pane-3"> <MyWord :wordList="wordList"/></template>
+              <template slot="tab-pane-3">
+                <MyWord :wordList="wordList"
+              /></template>
             </tabs>
           </div>
         </div>
@@ -69,7 +66,7 @@ import MySong from '../components/MySong.vue';
 import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
-import {myPostList, mySongList, myWordList} from '@/api/my.js';
+import { myPostList, mySongList, myWordList } from '@/api/my.js';
 export default {
   components: {
     Tabs,
@@ -92,38 +89,37 @@ export default {
       ),
       myPostList(
         this.uid,
-        (response) =>{
-          console.log('푸하하')
+        (response) => {
+          console.log('푸하하');
           console.log(response.data);
-          this.commuList=response.data;
+          this.commuList = response.data;
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
       ),
       mySongList(
         this.uid,
-        (response) =>{
-          console.log('무하하')
+        (response) => {
+          console.log('무하하');
           console.log(response.data);
-          this.songList=response.data;
+          this.songList = response.data;
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
       ),
       myWordList(
         this.uid,
-        (response) =>{
-          console.log('우하하')
+        (response) => {
+          console.log('우하하');
           console.log(response.data);
-          this.wordList=response.data;
+          this.wordList = response.data;
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
-      )
-     
+      );
   },
   methods: {
     initUser() {
@@ -135,44 +131,44 @@ export default {
       profile: '',
       nickname: '',
       uid: '',
-      commuList:{
-        profile:'',
-        nickname:'',
-        cid:'',
-        uid:'',
-        c_title:'',
-        c_content:'',
-        c_date:'',
-        is_delete:'',
-        c_view:'',
-        c_like_cnt:'',
-        c_img:'',
+      commuList: {
+        profile: '',
+        nickname: '',
+        cid: '',
+        uid: '',
+        c_title: '',
+        c_content: '',
+        c_date: '',
+        is_delete: '',
+        c_view: '',
+        c_like_cnt: '',
+        c_img: '',
       },
-      songList:{
-        id:'',
-        song_name:'',
-        singer_name:'',
-        singer_img:'',
-        album_name:'',
-        album_cover:'',
-        genre:'',
-        issue_date:'',
-        lyric:'',
+      songList: {
+        id: '',
+        song_name: '',
+        singer_name: '',
+        singer_img: '',
+        album_name: '',
+        album_cover: '',
+        genre: '',
+        issue_date: '',
+        lyric: '',
       },
-      wordList:{
+      wordList: {
         namu_id: '',
         uid: '',
         namu_title: '',
         namu_content: '',
         namu_date: '',
         namu_img: '',
-      }
+      },
     };
   },
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
     img: {
       type: String,
