@@ -11,19 +11,21 @@
             <div class="md-layout-item md-size-50 mx-auto"></div>
           </div>
           <div class="genrerecommend_container">
-            <div class="recom-info-text-con">
+            <div v-if="isLogin" class="recom-info-text-con">
               <span class="recom-info-text"
                 >사용자님께 추천 드리는 음악입니다.</span
               >
-            </div>
-            <div v-if="uid">
-              <div v-if="songList === undefined" class="text-center">
-                <h3><strong>노래에 좋아요를 해주세요.</strong></h3>
+              <div
+                v-if="songList === undefined"
+                class="reco-warning text-center"
+              >
+                <span class="reco-warning">노래에 좋아요를 해주세요.</span>
               </div>
               <Song v-else :songList="songList" />
             </div>
+
             <div v-else class="text-center">
-              <h3><strong>로그인을 해주세요</strong></h3>
+              <span class="recom-info-text">로그인 후 이용해주세요!</span>
             </div>
           </div>
         </div>
@@ -34,9 +36,10 @@
 
 <script>
 import '../assets/css/recommend.scss';
+import { mapState } from 'vuex';
 import Song from '../components/Song.vue';
 import { getuidCookie } from '@/util/cookie.js';
-import { genreRecommend } from '@/api/recommend.js'
+import { genreRecommend } from '@/api/recommend.js';
 
 export default {
   components: { Song },
@@ -52,18 +55,19 @@ export default {
         lyric: '',
         singer_img: '',
         singer_name: '',
-        song_name: ''
-      }
+        song_name: '',
+      },
     };
   },
   bodyClass: 'profile-page',
   props: {
     header: {
       type: String,
-      default: require('@/assets/img/city-profile.jpg'),
+      default: require('@/assets/img/concert11.jpg'),
     },
   },
   computed: {
+    ...mapState(['isLogin', 'loggedInUserData']),
     headerStyle() {
       return {
         backgroundImage: `url(${this.header})`,
@@ -71,29 +75,28 @@ export default {
     },
   },
   created() {
-    this.initUser(),
-    console.log('id')
-    console.log(this.songList.id)
-      genreRecommend(
-        this.uid,
-        (response) => {
-          this.songList = response.data.dtoList
-          console.log(this.songList)
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+    this.initUser(), console.log('id');
+    console.log(this.songList.id);
+    genreRecommend(
+      this.uid,
+      (response) => {
+        this.songList = response.data.dtoList;
+        console.log(this.songList);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   },
   mounted() {
     this.onResize();
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-     initUser() {
+    initUser() {
       this.uid = getuidCookie();
     },
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
   },
