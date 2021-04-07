@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.ssafy.kpop.dto.KomuWikiDto;
 import com.ssafy.kpop.dto.NamuwikiDto;
@@ -150,7 +151,7 @@ public class NamuController {
 
 	// 게시물 수정하기
 	@ApiOperation(value = "Namu Update", notes = "나무위키 등록 단어 수정")
-	@PutMapping("/update")
+	@PutMapping("/update/np")
 	public ResponseEntity<Map<String, Object>> modify(@RequestBody NamuwikiDto namu) {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = null;
@@ -176,6 +177,63 @@ public class NamuController {
 
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+	// 게시물 수정하기
+		@ApiOperation(value = "Namu Update", notes = "나무위키 등록 단어 수정")
+		@PutMapping("/update")
+		public ResponseEntity<Map<String, Object>> modify_pic(@RequestPart MultipartFile file, @RequestPart NamuwikiDto namu) {
+			Map<String, Object> resultMap = new HashMap<>();
+			HttpStatus status = null;
+			try {
+				logger.info("=====> 내용 수정");
+				int result = namuservice.update(namu);
+				
+				//namuid로 나무 아이디를 가져오고 거기서 numu_img을 삭제하고 
+				NamuwikiDto temp_namu = namuservice.call_namu(namu.getNamu_id());
+				String del_img = temp_namu.getNamu_img();
+				if(del_img!=null) {
+					s3util.setS3Client().deleteObject(new DeleteObjectRequest(bucket, del_img));					
+				}
+				//file로 사진등록
+				String originName = file.getOriginalFilename();
+
+				String ext = originName.substring(originName.lastIndexOf('.'));
+				String saveFileName = UUID.randomUUID().toString() + ext;
+				String path = System.getProperty("user.dir");
+
+				File tempfile = new File(path, saveFileName);
+
+				String line = "namu/";
+
+				saveFileName = line + saveFileName;
+
+				file.transferTo(tempfile);
+				s3util.setS3Client().putObject(new PutObjectRequest(bucket, saveFileName, tempfile)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
+				String url = s3util.setS3Client().getUrl(bucket, saveFileName).toString();
+				tempfile.delete();
+
+				namu.setNamu_img(url);
+				int update = namuservice.update_pic(namu);
+
+				if (result == 1) {
+					System.out.println("=====> 수정 성공");
+					resultMap.put("message", "글 수정에 성공하였습니다.");
+					status = HttpStatus.ACCEPTED;
+				} else {
+					resultMap.put("message", "글 수정에 실패하였습니다.");
+					status = HttpStatus.NOT_FOUND;
+				}
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.error("글 수정 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+
+			return new ResponseEntity<Map<String, Object>>(resultMap, status);
+		}
+	
 
 	// 게시물 삭제하기
 	@ApiOperation(value = "Namu Delete", notes = "나무위키 등록 단어 삭제")

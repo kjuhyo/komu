@@ -134,5 +134,11 @@ public class NamuServiceImpl implements NamuService{
 		map.put("listSize", listSize);
 		return ndao.searchkomu_list(map);
 	}
+	
+	@Override
+	public int update_pic(NamuwikiDto namu) {
+		// TODO Auto-generated method stub
+		return ndao.update_pic(namu);
+	}
 
 }

@@ -22,10 +22,10 @@
 	</select>
 	
 	<!-- 최신순 커뮤니티 정보 가져오기 -->
-	<select id="commentList" resultType="Comm_comment_nickDto">
+	<select id="commentList" parameterType="int" resultType="Comm_comment_nickDto">
 		select c.ccid, c.cid, c.uid, c.cc_content, c.cc_date, c.is_delete, u.nickname, u.profile
 		from comm_comment c left join user u 
-		on c.uid = u.uid where c.is_delete=0
+		on c.uid = u.uid where c.is_delete=0 and c.cid=#{cid}
 		order by c.cc_date desc
 	</select>
 

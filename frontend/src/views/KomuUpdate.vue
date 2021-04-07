@@ -80,7 +80,7 @@
 <script>
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
-import { getboard, update_nopic } from '@/api/komu.js';
+import { getboard, update_nopic, update } from '@/api/komu.js';
 import { getuidCookie } from '@/util/cookie.js';
 
 export default {
@@ -99,6 +99,8 @@ export default {
         namu_title: '',
         namu_content: '',
         namu_img: '',
+        namu_date:"",
+        namu_id:0
       },
       getKomu: false,
       message: '',
@@ -187,21 +189,39 @@ export default {
     },
     setDto: function() {
       this.namu.uid = this.loginid;
-      this.namu.namu_title = this.title;
       this.namu.namu_content = this.content;
     },
     UploadCertification: function() {
       this.setDto();
+      const formData = new FormData();
+      formData.append(
+        'namu',
+        new Blob([JSON.stringify(this.namu)], { type: 'application/json' })
+      );
+      formData.append('file', this.form.file);
+      update(
+        formData,
+        (response) => {
+          console.log(response.data.message);
+          console.log('SUCCESS');
+          alert(response.data.message);
+          this.$router.push('/komuwikidetail/' + this.namu.namu_id);
+        },
+        (error) => {
+          console.log(error.data);
+        }
+      );
     },
     Upload: function() {
       this.setDto();
       update_nopic(
-        this.namu.uid,
-        this.namu.namu_content,
-        this.namu.namu_title,
+        // this.namu.uid,
+        // this.namu.namu_content,
+        // this.namu.namu_title,
+        this.namu,
         (response) => {
           console.log(response.data);
-          this.$router.push('/komuwikidetail/' + this.namu.namu_title);
+          this.$router.push('/komuwikidetail/' + this.namu.namu_id);
           // this.$router.push( { path: `/komuwikidetail/${this.namu.namu_title}`});
         },
         (error) => {
@@ -211,8 +231,8 @@ export default {
       );
     },
     initUser() {
-      // this.loginid = getuidCookie();
-      this.loginid = 'namu';
+      this.loginid = getuidCookie();
+      // this.loginid = 'namu';
     },
   },
 };
