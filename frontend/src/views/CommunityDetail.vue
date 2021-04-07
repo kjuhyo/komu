@@ -135,7 +135,7 @@
               <li class="comdetail-comment-item">
                 <div class="comdetail-comment-area" v-for="(comment,idx) in comments" :key="idx"> 
                   <img
-                    :src="img"
+                    :src="comment.profile"
                     alt="Circle Image"
                     class="img-raised rounded-circle img-fluid userprofile-image comment-thumb"
                     width="42px"
@@ -143,7 +143,7 @@
                   />
                   <div class="comment-box">
                     <div class="comdetail-comment-nick-box">
-                      {{comment.uid}}
+                      {{comment.nickname}}
                     </div>
                     <div class="comdetail-comment-text-box">
                       {{comment.cc_content}}
@@ -165,12 +165,13 @@
                   class="comdetail-comment-inbox-text"
                   rows="1"
                   @click="findWriter"
+                  v-model="cccontent"
                 ></textarea>
 
                 <!-- 댓글등록버튼 -->
                 <div class="comdetail-comment-attach">
-                  <div class="comdetail-register-box" v-if="isLogin" @click="insert_comment">
-                    등록
+                  <div class="comdetail-register-box" v-if="isLogin">
+                    <button @click="insert_comment">등록</button>
                   </div>
                 </div>
               </div>
@@ -186,7 +187,7 @@
 import { Modal } from '@/components';
 // import Comment from '../components/Comment.vue';
 import '../assets/css/commudetail.scss';
-import { getboard, letlike,letdelete } from '@/api/community.js';
+import { getboard, letlike,letdelete, insert_comm } from '@/api/community.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import{ profileByUid } from '@/api/user.js';
@@ -245,6 +246,8 @@ export default {
         cc_content:"",
         cc_date:"",
         is_delete:0,
+        nickname:"",
+        profile:"",
       },
       cnt_comment:0,
       check:false,
@@ -257,6 +260,12 @@ export default {
       postlike:{
         uid:"",
         cid:0,
+      },
+      cccontent:"",
+      sendComment:{
+        cid:0,
+        uid:0,
+        cc_content:"",
       },
       loginInfo:{
 
@@ -331,7 +340,6 @@ export default {
       )
     },
     findWriter:function(){
-      console.log("인풋박스누르면 로그인한 사람의 정보가져와야돼");
       profileByUid(
         this.loginid,
         (response)=>{
@@ -345,7 +353,20 @@ export default {
       )
     },
     insert_comment:function(){
-      
+      this.sendComment.cid = this.name;
+      this.sendComment.uid = this.loginid;
+      this.sendComment.cc_content=this.cccontent;
+      console.log(this.sendComment);
+      insert_comm(
+        this.sendComment,
+        (response)=>{
+          console.log(response.data);
+          window.location.reload();
+        },
+        (error)=>{
+          console.log(error.data);
+        }
+      )
     }
   },
 };

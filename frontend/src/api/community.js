@@ -58,6 +58,12 @@ function search_list(c_title, success, fail){
     .then(success)
     .catch(fail);
 }
+function insert_comm(comm, success,fail){
+    instance
+    .post(`/comment/community/regist`,comm)
+    .then(success)
+    .catch(fail);
+}
 
 export{
     getboard,
@@ -67,6 +73,7 @@ export{
     insert_nopic,
     update_nopic,
     search_list,
-    letdelete
+    letdelete,
+    insert_comm,
 
 };
