@@ -52,25 +52,35 @@
             </div>
           </div>
 
-          <div class="tab-write">
-            <div class="comm_sorting_container">
+          <div class="com-tab-write">
+            <div v-if="isAlign" class="comm_sorting_container">
               <span class="comm_sorting" @click="popol">인기순</span>
               <span> | </span>
               <span class="comm_sorting" @click="newest">최신순</span>
             </div>
-            <div v-if="isLogin">
+            <div class="comm-write-btn" v-if="isLogin">
               <router-link class="comm_write_btn" to="/communitywrite"
                 >글 작성</router-link
               >
             </div>
           </div>
-          <div class="community-tabs">
+
+          <div v-if="isAlign" class="com-community-tabs">
             <div class="md-layout"></div>
             <CommunityArticle :list="list" />
           </div>
 
+          <div v-else class="search-com-community-tabs">
+            <div class="md-layout"></div>
+            <CommunityArticle :list="list" />
+          </div>
+
+          <div v-if="list.length == 0" class="com-nosearch-result">
+            검색 결과가 존재하지 않습니다.
+          </div>
+
           <!-- <Pagination /> -->
-          <div class="Page-container">
+          <div v-if="isSearchbar" class="Page-container">
             <nav class="page-nav" aria-label="Page navigation">
               <ul class="pagination-ul">
                 <li class="page-item">
@@ -78,7 +88,7 @@
                     type="button"
                     class="page-link"
                     @click="prevPage"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                     value="<"
                   />
                 </li>
@@ -93,7 +103,7 @@
                     class="page-link"
                     @click="movePage"
                     v-bind:value="idx + 1"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                   />
                   <input
                     type="text"
@@ -101,7 +111,7 @@
                     v-bind:value="idx + 1"
                     @change="updateList"
                     disabled
-                    style="display:none; color:black;"
+                    style="display: none; color: black"
                   />
                 </li>
                 <li class="page-item">
@@ -109,7 +119,7 @@
                     type="button"
                     class="page-link"
                     @click="nextPage"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                     value=">"
                   />
                 </li>
@@ -154,6 +164,8 @@ export default {
       uid: 'uuu',
       // namu_title: '7',
       searchdata: '',
+      isSearchbar: true,
+      isAlign: true,
       listmaker: 0,
       prevnext: 0,
       pagination: {
@@ -215,22 +227,29 @@ export default {
     );
   },
   methods: {
-    // setsearchdata(data) {
-    //   this.searchdata = data;
-    //   console.log(this.searchdata);
-    //   console.log('여기는 상위컴포넌트');
-    //   search_list(
-    //     this.searchdata,
-    //     (response) => {
-    //       console.log(response.data);
-    //       this.list = response.data.list;
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // },
-    findname: function() {
+    findname: function () {
+      this.isAlign = false;
+      if (this.searchtext.length != 0) {
+        this.isSearchbar = false;
+      } else {
+        this.isSearchbar = true;
+        this.isAlign = true;
+        getlist(
+          this.page,
+          (response) => {
+            console.log(response.data);
+            this.pagination = response.data.pagination;
+            this.list = response.data.commList;
+            this.listmaker = parseInt(
+              this.pagination.listCnt / this.pagination.listSize + 1
+            );
+            console.log(this.pagination);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
       getCommunityContents(
         //검색결과 //최신순
         this.searchtext,
@@ -303,12 +322,12 @@ export default {
         );
       }
     },
-    updateList: function(event) {
+    updateList: function (event) {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
     },
 
-    newest: function() {
+    newest: function () {
       this.page = 1;
       getlist(
         this.page,
@@ -326,7 +345,7 @@ export default {
         }
       );
     },
-    popol: function() {
+    popol: function () {
       this.page = 1;
       poplist(
         this.page,
@@ -352,6 +371,27 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Rakkas');
 
+.com-community-tabs {
+  padding-bottom: 15px;
+}
+
+.search-com-community-tabs {
+  padding-bottom: 15px;
+  margin-top: 20px;
+}
+.com-nosearch-result {
+  font-family: 'Nanum Gothic', sans-serif;
+  text-align: center;
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+
+.comm-write-btn {
+  position: absolute;
+  right: 15px;
+  // top: 0px;
+  float: right;
+}
 .section {
   padding: 0;
 }
@@ -394,11 +434,18 @@ export default {
 .community-title {
   margin-bottom: 20px;
 }
+.com-tab-write {
+  display: flex;
+  justify-content: space-between;
+  // margin-bottom: 10px;
+}
+
 .tab-write {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
 .paging {
   display: flex;
   justify-content: center;
