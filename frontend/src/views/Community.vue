@@ -70,9 +70,9 @@
           </div>
 
           <!-- <Pagination /> -->
-          <div class="Page" align="center">
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
+          <div class="Page-container">
+            <nav class="page-nav" aria-label="Page navigation">
+              <ul class="pagination-ul">
                 <li class="page-item">
                   <input
                     type="button"
@@ -127,7 +127,10 @@
 
 <script>
 import '../assets/css/profile.css';
+
 import { mapState } from 'vuex';
+import '../assets/css/pagination.scss';
+
 import { getCommunityContents } from '@/api/search.js';
 import { getboard, getlist } from '@/api/community.js';
 // import { Tabs } from '@/components';
