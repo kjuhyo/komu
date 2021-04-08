@@ -40,6 +40,7 @@ import { mapState } from 'vuex';
 import Song from '../components/Song.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { lyricRecommend } from '@/api/recommend.js';
+import swal from 'sweetalert';
 
 export default {
   components: { Song },
@@ -80,10 +81,11 @@ export default {
         this.uid,
         (response) => {
           this.songList = response.data.dtoList;
-          console.log(this.songList);
+          // console.log(this.songList);
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
+          swal(`${error}`);
         }
       );
   },
