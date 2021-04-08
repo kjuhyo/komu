@@ -119,9 +119,7 @@ def lyric_REC(song_name, cosine_matrix):
 
 
 # 전처리 된 csv 파일 불러오기
-# path = '.\\'
 path = os.path.dirname(os.path.realpath(__file__))
-# data = dir + '/member.txt'
 data = pd.read_csv(path + '/preLyric.csv', low_memory=False)
 
 # data의 전처리된 가사가 null값이거나 '없다'인 경우를 제거해준다.
@@ -142,15 +140,11 @@ tfidf = TfidfVectorizer(stop_words='english')
 
 # lyric에 대해서 tf-idf 수행
 tfidf_matrix = tfidf.fit_transform(data['pre_lyric'])
-# print(tfidf_matrix.shape)
 
 # cosine_matrix 생성
 cosine_matrix = cosine_similarity(tfidf_matrix, tfidf_matrix)
-# print(cosine_matrix)
 
 # 인덱스 테이블 생성
 indices = pd.Series(data.index, index=data['song_name']).drop_duplicates()
 
-# user_id = input()
-# print(user_id)
 print(lyric_REC('user_words', cosine_matrix))

@@ -74,20 +74,8 @@ def Crawling(song_id, song_name):
         if gen == '국외영화':
             return
 
-    # print("제목:", song_name)
-    # print("가수:", singer_s)
-    # print("앨범명:", album_name)
-    # print("앨범커버이미지", album_cover)
-    # print("장르:", song_genre)
-    # print("발매날짜:", song_date)
-
-
     ### 가사가 있으면 추출
     try:
-        # lyric_html = soup.select_one('#d_video_summary').get_text()
-        # lyric_html = soup.select_one('.section_lyric .wrap_lyric .lyric').string
-        # print(lyric_html)
-        # lyric = lyric_html
         lyric_html = str(soup.select('.section_lyric .wrap_lyric .lyric')[0])
         lyric_html = lyric_html.replace('\t','').replace('\r','').split('\n')
         lyric_html = ''.join(lyric_html)

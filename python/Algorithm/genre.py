@@ -1,4 +1,3 @@
-# from google.colab import drive
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 from ast import literal_eval
@@ -36,20 +35,9 @@ def read_data(user_id):
     conn.close()
 
 
-# warnings.filterwarnings('ignore')
-
-# drive.mount('/content/gdrive')
-
-# song = pd.read_csv('/content/gdrive/My Drive/Colab Notebooks/kpop.csv')
-
-# path = 'C:\\Users\\multicampus\\Desktop\\ssafy\\PJT 2\\Sub PJT 3\\s04p23c104\\python\\Algorithm\\'
 path = os.path.dirname(os.path.realpath(__file__))
-# data = dir + '/member.txt'
-# data = pd.read_csv(path + '/preLyric.csv', low_memory=False)
 song = pd.read_csv(path + '/kpop.csv', low_memory=False)
-
 song_df = song[['id', 'song_name', 'genre']]
-# song_df.head(5)
 
 # CountVectorizer를 적용하기 위해 공백문자로 word 단위가 구분되는 문자열로 변환.
 song_df['genre_literal'] = song_df['genre'].apply(lambda x: (' ').join(x))
@@ -58,12 +46,10 @@ song_df['genre_literal'] = song_df['genre'].apply(lambda x: (' ').join(x))
 # 장르 문자열을 숫자로 바꿔 벡터화 시킴
 count_vect = CountVectorizer(ngram_range=(1, 3))
 c_vector_genre = count_vect.fit_transform(song_df['genre'])
-# c_vector_genre.shape
 
 # 코사인 유사도를 구한 벡터를 미리 저장
 genre_c_sim = cosine_similarity(
     c_vector_genre, c_vector_genre).argsort()[:, ::-1]
-# genre_c_sim.shape
 
 
 def get_recommend_song_list(df, song_id, top=30):
@@ -81,11 +67,8 @@ def get_recommend_song_list(df, song_id, top=30):
     return json.dumps(song_id_list)
 
 user_id = sys.argv[1]
-# user_id = 'prteUBReKZX2'
-# song_id = int(song_id)
-# song_id = 3625504
 user_songs = []
 read_data(user_id)
-# print(user_songs)
 song_id = user_songs[0]
+
 print(get_recommend_song_list(song_df, song_id=song_id))
