@@ -69,6 +69,9 @@ export default {
 .mypost-article {
   font-family: 'Nanum Gothic', sans-serif;
   text-align: center;
-  margin: auto;
+  /* margin: auto; */
+  padding: 20px;
+  font-size: 18px;
+  margin: 10px;
 }
 </style>
