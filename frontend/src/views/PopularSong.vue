@@ -108,7 +108,7 @@
                         type="button"
                         class="page-link"
                         @click="prevPage"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                         value="<"
                       />
                     </li>
@@ -123,7 +123,7 @@
                         class="page-link"
                         @click="movePage"
                         v-bind:value="list"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                       />
                       <input
                         type="text"
@@ -131,7 +131,7 @@
                         v-bind:value="list"
                         @change="updateList"
                         disabled
-                        style="display:none; color:black;"
+                        style="display: none; color: black"
                       />
                     </li>
                     <li class="page-item">
@@ -139,16 +139,13 @@
                         type="button"
                         class="page-link"
                         @click="nextPage"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                         value=">"
                       />
                     </li>
                   </ul>
                 </nav>
               </div>
-              <!-- <div class="paging">
-                <Pagination />
-              </div> -->
             </div>
           </div>
         </div>
@@ -158,8 +155,6 @@
 </template>
 
 <script>
-//import SearchBar from '../components/SearchBar.vue';
-// import { Pagination } from '@/components';
 import { getlist_pop, getListPopularGenre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
@@ -168,13 +163,10 @@ import '../assets/css/searchbar.scss';
 import '../assets/css/article.css';
 import '../assets/css/songcategory.scss';
 import '../assets/css/pagination.scss';
+import swal from 'sweetalert';
 
 export default {
-  components: {
-    //SearchBar,
-    // Pagination,
-    //Small,
-  },
+  components: {},
   data() {
     return {
       uid: '',
@@ -220,7 +212,7 @@ export default {
       getlist_pop(
         this.songList.page,
         (response) => {
-          console.log('인기순');
+          // console.log('인기순');
           // console.log(response.data);
           this.paginations = response.data.pagination;
           this.songList = response.data.songList;
@@ -229,7 +221,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     this.listppp = [
@@ -257,7 +249,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    popular: function(genre) {
+    popular: function (genre) {
       this.searchtext = '';
       this.menubar = true;
       this.isSearch = true;
@@ -266,12 +258,12 @@ export default {
         getlist_pop(
           this.currentPage,
           (response) => {
-            console.log('인기순');
+            // console.log('인기순');
             // console.log(response.data);
             this.songList = response.data.songList;
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else {
@@ -281,17 +273,17 @@ export default {
           this.pickgenre,
           this.currentPage,
           (response) => {
-            console.log('인기순');
+            // console.log('인기순');
             // console.log(response.data);
             this.songList = response.data.songList;
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
     },
-    findname: function() {
+    findname: function () {
       this.menubar = false;
       this.isSearch = false;
 
@@ -303,11 +295,11 @@ export default {
           //this.songList=response.data.songList;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
     movePage(event) {
@@ -316,8 +308,8 @@ export default {
       this.prevnext = updatedText;
       this.currentPage *= 1;
       this.prevnext *= 1;
-      console.log(this.prevnext);
-      console.log(this.currentPage);
+      // console.log(this.prevnext);
+      // console.log(this.currentPage);
 
       getlist_pop(
         //최신순 //장르전체
@@ -331,7 +323,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -340,8 +332,8 @@ export default {
         this.prevnext = this.prevnext - 10;
         this.currentPage = this.prevnext;
         this.listpage = this.listpage - 10;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -367,15 +359,15 @@ export default {
             ];
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else {
         this.prevnext = this.prevnext - 1;
         this.currentPage = this.prevnext;
         this.listpage = 10;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -401,7 +393,7 @@ export default {
             ];
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -410,9 +402,9 @@ export default {
       if (this.prevnext <= this.listmaker - 10) {
         this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        console.log(typeof this.prevnext);
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(typeof this.prevnext);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
         this.listpage = this.listpage + 10;
         getlist_pop(
           //최신순 //장르전체
@@ -436,10 +428,10 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            console.log(this.listppp);
+            // console.log(this.listppp);
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else if (
@@ -449,8 +441,8 @@ export default {
         this.prevnext = this.prevnext + 1;
         this.currentPage = this.prevnext;
         this.listpage = this.listmaker;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -474,24 +466,24 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            console.log(this.listppp);
+            // console.log(this.listppp);
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
     },
-    updateList: function(event) {
+    updateList: function (event) {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
     },
-    MovePage: function(page) {
-      console.log('안녕안녕');
-      console.log(this.currentPage);
+    MovePage: function (page) {
+      // console.log('안녕안녕');
+      // console.log(this.currentPage);
 
       this.currentPage = page;
-      console.log(page);
+      // console.log(page);
 
       getlist_pop(
         //최신순 //장르전체
@@ -513,7 +505,7 @@ export default {
           ];
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -521,11 +513,6 @@ export default {
   mounted() {
     this.onResize();
     window.addEventListener('resize', this.onResize);
-    // window.addEventListener('keyup', function(event) {
-    //   if (event.keyCode === 13) {
-    //     app.findname();
-    //   }
-    // });
   },
 };
 </script>
