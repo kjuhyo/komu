@@ -118,7 +118,7 @@
                         type="button"
                         class="page-link"
                         @click="prevPage"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                         value="<"
                       />
                     </li>
@@ -133,7 +133,7 @@
                         class="page-link"
                         @click="movePage"
                         v-bind:value="list"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                       />
                       <input
                         type="text"
@@ -141,7 +141,7 @@
                         v-bind:value="list"
                         @change="updateList"
                         disabled
-                        style="display:none; color:black;"
+                        style="display: none; color: black"
                       />
                     </li>
                     <li class="page-item">
@@ -149,7 +149,7 @@
                         type="button"
                         class="page-link"
                         @click="nextPage"
-                        style="width:40px;text-align:center; color:black;"
+                        style="width: 40px; text-align: center; color: black"
                         value=">"
                       />
                     </li>
@@ -165,8 +165,6 @@
 </template>
 
 <script>
-//import SearchBar from '../components/SearchBar.vue';
-//import { Pagination } from '@/components';
 import { getlist_new, getlist_genre } from '@/api/song.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
@@ -175,13 +173,10 @@ import '../assets/css/searchbar.scss';
 import '../assets/css/article.css';
 import '../assets/css/pagination.scss';
 import '../assets/css/songcategory.scss';
+import swal from 'sweetalert';
 
 export default {
-  components: {
-    // SearchBar,
-    // Pagination,
-    //Small,
-  },
+  components: {},
   data() {
     return {
       uid: '',
@@ -212,11 +207,6 @@ export default {
       },
       currentPage: 1,
       perPage: '',
-      // listppp: function () {
-      //     var listppp = [];
-      //     for (var i = this.page - 10; i < this.page; i += 1) list.push(i);
-      //     return listppp
-      // },
       listppp: [],
     };
   },
@@ -241,7 +231,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     this.listppp = [
@@ -269,7 +259,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    getlist_genre: function(genre) {
+    getlist_genre: function (genre) {
       //console.log("함수실행");
       this.searchtext = '';
       this.menubar = true;
@@ -283,7 +273,7 @@ export default {
             this.songList = response.data.songList;
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else {
@@ -297,12 +287,12 @@ export default {
             this.songList = response.data.songList;
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
     },
-    findname: function() {
+    findname: function () {
       //this.searchInput = searchcontent.target.value;
       this.menubar = false;
       this.isSearch = false;
@@ -314,11 +304,11 @@ export default {
           this.songList = response.data;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
     movePage(event) {
@@ -327,8 +317,8 @@ export default {
       this.prevnext = updatedText;
       this.currentPage *= 1;
       this.prevnext *= 1;
-      console.log(this.prevnext);
-      console.log(this.currentPage);
+      // console.log(this.prevnext);
+      // console.log(this.currentPage);
 
       getlist_new(
         //최신순 //장르전체
@@ -342,7 +332,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -351,8 +341,8 @@ export default {
         this.prevnext = this.prevnext - 10;
         this.currentPage = this.prevnext;
         this.listpage = this.listpage - 10;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -378,15 +368,15 @@ export default {
             ];
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else {
         this.prevnext = this.prevnext - 1;
         this.currentPage = this.prevnext;
         this.listpage = 10;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -412,7 +402,7 @@ export default {
             ];
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -421,9 +411,9 @@ export default {
       if (this.prevnext <= this.listmaker - 10) {
         this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        console.log(typeof this.prevnext);
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(typeof this.prevnext);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
         this.listpage = this.listpage + 10;
         getlist_new(
           //최신순 //장르전체
@@ -447,10 +437,10 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            console.log(this.listppp);
+            // console.log(this.listppp);
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       } else if (
@@ -460,8 +450,8 @@ export default {
         this.prevnext = this.prevnext + 1;
         this.currentPage = this.prevnext;
         this.listpage = this.listmaker;
-        console.log(this.prevnext);
-        console.log(this.currentPage);
+        // console.log(this.prevnext);
+        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -485,24 +475,24 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            console.log(this.listppp);
+            // console.log(this.listppp);
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
     },
-    updateList: function(event) {
+    updateList: function (event) {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
     },
-    MovePage: function(page) {
-      console.log('안녕안녕');
-      console.log(this.currentPage);
+    MovePage: function (page) {
+      // console.log('안녕안녕');
+      // console.log(this.currentPage);
 
       this.currentPage = page;
-      console.log(page);
+      // console.log(page);
 
       getlist_new(
         //최신순 //장르전체
@@ -524,7 +514,7 @@ export default {
           ];
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
