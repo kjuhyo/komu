@@ -23,6 +23,7 @@ axios.defaults.baseURL = 'http://localhost:9999/komu/'
 
 import MaterialKit from "./plugins/material-kit";
 
+Vue.prototype.axios = axios // 사용법 => this.axios
 Vue.config.productionTip = false;
 
 Vue.use(MaterialKit);
