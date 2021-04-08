@@ -17,6 +17,7 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import App from "./App.vue";
 import router from ".";
 import store from './store';
+import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:9999/komu/'
 
