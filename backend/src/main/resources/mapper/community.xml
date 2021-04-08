@@ -14,7 +14,7 @@
 	</select>
 	
 	<update id="update_post" parameterType="CommunityDto">
-		update community set c_title=#{c_title}, c_content=#{c_content}, c_img=#{c_img}
+		update community set c_img=#{c_img}
 		where cid=#{cid}
 	</update>
 	
@@ -88,7 +88,11 @@
 		on c.uid = u.uid where c.is_delete=0
 		order by c.c_like_cnt desc limit #{startList}, #{listSize}
 	</select>
-
+	
+	<update id="update_nopic" parameterType="CommunityDto">
+		update community set c_title=#{c_title}, c_content=#{c_content}, c_date=now()
+		where cid=#{cid}
+	</update>
 
 
 
