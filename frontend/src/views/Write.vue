@@ -44,7 +44,6 @@
               </div>
 
               <!-- 제출 -->
-              <!-- :disabled="form.file == null" -->
               <div class="align-center">
                 <b-button
                   v-if="previewImageData != null"
@@ -75,8 +74,8 @@
 import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { insert, insert_nopic } from '@/api/community.js';
-import { getSingerName } from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
+import swal from 'sweetalert';
 
 export default {
   components: { TextEditor },
@@ -85,7 +84,6 @@ export default {
       form: {
         petName: '',
         file: null,
-        //   desc: ''
         content: '',
       },
       community: {
@@ -100,10 +98,6 @@ export default {
       isMobile: false,
       content: '',
       title: '',
-      // show: true,
-      // previewImageData: null,
-      // isMobile: false,
-      // namu_content: '',
     };
   },
 
@@ -116,16 +110,6 @@ export default {
   },
   created() {
     this.initUser();
-    // getSingerName(
-    //     this.loginid,
-    //     (response)=>{
-    //       console.log("SUCCESS");
-    //       console.log(response.data);
-    //       this.nick = response.data;
-    //     },(error)=>{
-    //       console.log(error.data);
-    //     }
-    //   )
   },
   computed: {
     headerStyle() {
@@ -139,11 +123,11 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
 
-    GetEditorContent: function(data) {
+    GetEditorContent: function (data) {
       this.content = data;
     },
 
@@ -173,15 +157,15 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto: function() {
+    setDto: function () {
       this.community.uid = this.loginid;
       this.community.c_title = this.title;
       this.community.c_content = this.content;
-      console.log(this.community);
+      // console.log(this.community);
     },
-    UploadCertification: function() {
+    UploadCertification: function () {
       this.setDto();
-      console.log(this.form.file);
+      // console.log(this.form.file);
       const formData = new FormData();
       formData.append(
         'community',
@@ -191,34 +175,33 @@ export default {
       insert(
         formData,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
+          // console.log(response.data.message);
+          // console.log('SUCCESS');
           this.$router.push('/community');
-          alert(response.data.message);
+          swal(`${response.data.message}`);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
-    Upload: function() {
+    Upload: function () {
       this.setDto();
       insert_nopic(
         this.community,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
+          // console.log(response.data.message);
+          // console.log('SUCCESS');
           this.$router.push('/community');
-          alert(response.data.message);
+          swal(`${response.data.message}`);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
     initUser() {
       this.loginid = getuidCookie();
-      // this.loginid = '65D7CRpy4vBA';
     },
   },
 };
