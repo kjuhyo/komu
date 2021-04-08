@@ -300,7 +300,6 @@ export default {
         //검색결과 //최신순
         this.searchtext,
         (response) => {
-          //console.log(response.data);
           this.songList = response.data;
         },
         (error) => {
@@ -317,8 +316,6 @@ export default {
       this.prevnext = updatedText;
       this.currentPage *= 1;
       this.prevnext *= 1;
-      // console.log(this.prevnext);
-      // console.log(this.currentPage);
 
       getlist_new(
         //최신순 //장르전체
@@ -341,8 +338,6 @@ export default {
         this.prevnext = this.prevnext - 10;
         this.currentPage = this.prevnext;
         this.listpage = this.listpage - 10;
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -375,8 +370,6 @@ export default {
         this.prevnext = this.prevnext - 1;
         this.currentPage = this.prevnext;
         this.listpage = 10;
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -411,9 +404,6 @@ export default {
       if (this.prevnext <= this.listmaker - 10) {
         this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        // console.log(typeof this.prevnext);
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
         this.listpage = this.listpage + 10;
         getlist_new(
           //최신순 //장르전체
@@ -450,8 +440,6 @@ export default {
         this.prevnext = this.prevnext + 1;
         this.currentPage = this.prevnext;
         this.listpage = this.listmaker;
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
 
         getlist_new(
           //최신순 //장르전체
@@ -475,7 +463,6 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            // console.log(this.listppp);
           },
           (error) => {
             swal(`${error}`);
@@ -488,11 +475,8 @@ export default {
       this.currentPage = updatedText;
     },
     MovePage: function (page) {
-      // console.log('안녕안녕');
-      // console.log(this.currentPage);
 
       this.currentPage = page;
-      // console.log(page);
 
       getlist_new(
         //최신순 //장르전체

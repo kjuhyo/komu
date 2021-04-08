@@ -8,7 +8,6 @@ const actions = {
         axios
         .post("http://j4c104.p.ssafy.io/api/user/login/google", data.tc.id_token)
           .then(response => {
-            console.log(response.data.user)
             let token = response.data.access_token
             let provider = response.data.user.provider
             localStorage.setItem('provider',provider)
@@ -18,7 +17,6 @@ const actions = {
           .catch(function (error) {
             console.log(error);
           });
-         console.log("actions success");
     },
     // 유저 정보 가져오기
     getMemberInfo({ commit }){
@@ -26,14 +24,12 @@ const actions = {
       if (token) {
         let config = {
           headers : {
-            "access_token" : token
+            "Authorization" : token
           }
         }
         axios
             .get("http://j4c104.p.ssafy.io/api/user/getUserInfo", config)
             .then(response=> {
-             // console.log("actions에서")
-             // console.log(response.data)
               let userInfo = {
                 
                 uid: response.data.user.uid,
@@ -41,19 +37,15 @@ const actions = {
                 profile: response.data.user.profile
               }
               saveUserToCookie(response.data.user.uid)
-             // console.log('쿠키에넣었다')
-             // console.log(response.data.user.uid)
               commit('fetchLoggedInUserData', userInfo)        
             })
             .catch(function (error) {
-              console.log("actions데이터불러오기실패")
               console.log(error);
             });
       } 
     },
     // 로그아웃
     LOGOUT({ commit }) {
-      console.log('actions 로그아웃')
       commit("logout");
     },
   }

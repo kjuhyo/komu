@@ -161,11 +161,9 @@ export default {
       this.community.uid = this.loginid;
       this.community.c_title = this.title;
       this.community.c_content = this.content;
-      // console.log(this.community);
     },
     UploadCertification: function () {
       this.setDto();
-      // console.log(this.form.file);
       const formData = new FormData();
       formData.append(
         'community',
@@ -175,8 +173,6 @@ export default {
       insert(
         formData,
         (response) => {
-          // console.log(response.data.message);
-          // console.log('SUCCESS');
           this.$router.push('/community');
           swal(`${response.data.message}`);
         },
@@ -190,8 +186,6 @@ export default {
       insert_nopic(
         this.community,
         (response) => {
-          // console.log(response.data.message);
-          // console.log('SUCCESS');
           this.$router.push('/community');
           swal(`${response.data.message}`);
         },

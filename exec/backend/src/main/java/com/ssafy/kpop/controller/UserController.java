@@ -127,7 +127,7 @@ public class UserController {
 	@GetMapping("/getUserInfo")
 	public ResponseEntity<Map<String, Object>> getUserInfo(
 			HttpServletRequest request ) {
-		final String jwt = request.getHeader("access_token");
+		final String jwt = request.getHeader("authorization");
 		String uid = null;
 		uid = jwtService.getUserId(jwt);
 		System.out.println("uid "+uid);

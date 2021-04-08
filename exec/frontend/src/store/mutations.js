@@ -6,7 +6,6 @@ const mutations = {
         state.isLogin = true;
     },
     logout(state) {
-        console.log('fetchLoggedInUserData 로그아웃')
         state.loggedInUserData = null;
         state.isLogin = false;
         localStorage.clear()
