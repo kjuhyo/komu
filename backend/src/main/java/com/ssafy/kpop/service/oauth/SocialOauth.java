@@ -20,7 +20,7 @@ public interface SocialOauth {
 	
 	final String GOOGLE_CLIENT_ID="708865580158-3vqqvt6jap80ulb016p1jvve0nfvd0pf.apps.googleusercontent.com";
 	final String GOOGLE_CLIENT_SECRET="6VEi5l7ezTi-y0OBF7Wb7s_n";
-	final String GOOGLE_REDIRECT_URI = "http://j4c104.p.ssafy.io/api/login/google";
+	final String GOOGLE_REDIRECT_URI = "http://localhost:9999/komu/login/google";
 	final String GOOGLE_REQUEST_URL = "https://oauth2.googleapis.com/token";
 	
 	public static final Logger logger = LoggerFactory.getLogger(SocialOauth.class);
