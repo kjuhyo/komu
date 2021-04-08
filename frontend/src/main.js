@@ -17,13 +17,13 @@ import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
 import App from "./App.vue";
 import router from ".";
 import store from './store';
-import axios from 'axios'
+//import axios from 'axios'
 
-axios.defaults.baseURL = 'http://localhost:9999/komu/'
+//axios.defaults.baseURL = 'http://localhost:9999/komu/'
 
 import MaterialKit from "./plugins/material-kit";
 
-Vue.prototype.axios = axios // 사용법 => this.axios
+//Vue.prototype.axios = axios // 사용법 => this.axios
 Vue.config.productionTip = false;
 
 Vue.use(MaterialKit);
