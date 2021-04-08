@@ -26,7 +26,7 @@ const actions = {
       if (token) {
         let config = {
           headers : {
-            "access_token" : token
+            "Authorization" : token
           }
         }
         axios
