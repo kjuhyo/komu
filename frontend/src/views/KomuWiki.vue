@@ -34,8 +34,12 @@
             <Article :list="list" />
           </div>
 
+          <div v-if="list.length == 0" class="komu-nosearch-result">
+            검색 결과가 존재하지 않습니다.
+          </div>
+
           <!-- <Pagination /> -->
-          <div class="Page">
+          <div v-if="isSearchbar" class="Page">
             <nav class="page-nav" aria-label="Page navigation">
               <ul class="pagination-ul">
                 <li class="page-item">
@@ -43,7 +47,7 @@
                     type="button"
                     class="page-link"
                     @click="prevPage"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                     value="<"
                   />
                 </li>
@@ -58,7 +62,7 @@
                     class="page-link"
                     @click="movePage"
                     v-bind:value="idx + 1"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                   />
                   <input
                     type="text"
@@ -66,7 +70,7 @@
                     v-bind:value="idx + 1"
                     @change="updateList"
                     disabled
-                    style="display:none; color:black;"
+                    style="display: none; color: black"
                   />
                 </li>
                 <li class="page-item">
@@ -74,7 +78,7 @@
                     type="button"
                     class="page-link"
                     @click="nextPage"
-                    style="width:40px;text-align:center; color:black;"
+                    style="width: 40px; text-align: center; color: black"
                     value=">"
                   />
                 </li>
@@ -114,6 +118,7 @@ export default {
       uid: '',
       // namu_title: '7',
       searchdata: '',
+      isSearchbar: true,
       listmaker: 0,
       prevnext: 0,
       pagination: {
@@ -159,7 +164,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    getboard: function() {
+    getboard: function () {
       getboard(
         this.namu_title,
         this.uid,
@@ -171,9 +176,17 @@ export default {
         }
       );
     },
-    setsearchdata: function(data) {
+    setsearchdata: function (data) {
       this.searchdata = data;
+      if (this.searchdata.length != 0) {
+        this.isSearchbar = false;
+      } else {
+        this.isSearchbar = true;
+      }
+      console.log('검색했찌롱');
+      console.log(this.searchdata.length);
       console.log(this.searchdata);
+      console.log(this.isSearchbar);
       search_list(
         this.searchpage,
         this.searchdata,
@@ -247,7 +260,7 @@ export default {
         );
       }
     },
-    updateList: function(event) {
+    updateList: function (event) {
       var updatedText = event.target.value;
       this.currentPage = updatedText;
     },
@@ -255,21 +268,21 @@ export default {
 
   created() {
     this.initUser(),
-    getlist(
-      this.page,
-      (response) => {
-        console.log(response.data);
-        this.pagination = response.data.pagination;
-        this.list = response.data.list;
-        this.listmaker = parseInt(
-          this.pagination.listCnt / this.pagination.listSize + 1
-        );
-        console.log(this.pagination);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      getlist(
+        this.page,
+        (response) => {
+          console.log(response.data);
+          this.pagination = response.data.pagination;
+          this.list = response.data.list;
+          this.listmaker = parseInt(
+            this.pagination.listCnt / this.pagination.listSize + 1
+          );
+          console.log(this.pagination);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   },
 };
 </script>
@@ -278,6 +291,12 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Rakkas');
 
+.komu-nosearch-result {
+  font-family: 'Nanum Gothic', sans-serif;
+  text-align: center;
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
 .main-komu-title {
   padding-top: 2.5rem;
   // font-family: 'Nanum Gothic', sans-serif;
