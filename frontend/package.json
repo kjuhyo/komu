@@ -17,6 +17,7 @@
     "bourbon": "^7.0.0",
     "core-js": "3.10.0",
     "nouislider": "14.6.4",
+    "sweetalert": "^2.1.2",
     "tiptap": "^1.32.2",
     "tiptap-extensions": "^1.35.2",
     "v-tooltip": "2.1.3",
