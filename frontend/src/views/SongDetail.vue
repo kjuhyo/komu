@@ -28,9 +28,7 @@
                 </div>
               </div>
               <a
-                :href="
-                  `https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`
-                "
+                :href="`https://www.youtube.com/results?search_query=${this.singer_name}+${this.song_name}`"
                 target="_blank"
               >
                 <div class="songdetail-card_play"></div>
@@ -122,25 +120,12 @@
                         :key="index"
                       >
                         <div class="card-question">
-                          <router-link
-                            :to="`/komuwikidetail/${item.namu_id}`"
-                          >
+                          <router-link :to="`/komuwikidetail/${item.namu_id}`">
                             {{ item.namu_title }}
                           </router-link>
                         </div>
                       </div>
                     </div>
-
-                    <!-- 단어등록 -->
-                    <!--<div class="songdetail-writekomu" v-if="isLogin">
-                      <router-link
-                        class="songdetail-writekomu-btn"
-                        to="/komuwikiwrite"
-                      >
-                        <p class="wirte-komu-font">단어 등록</p>
-                      </router-link>
-                    </div>-->
-                    <!-- 단어등록끝 -->
 
                     <!-- 단어등록 -->
 
@@ -159,6 +144,7 @@
                             class="songdetail-wordbar"
                             v-model="word_bar"
                             placeholder="등록할 단어를 입력하세요"
+                            @keyup.enter="insertWord"
                           />
                           <div class="songdetail-writekomu">
                             <p class="wirte-komu-font" @click="insertWord">
@@ -188,6 +174,7 @@ import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import '../assets/css/songdetail.scss';
 import '../assets/css/myword.scss';
+import swal from 'sweetalert';
 
 export default {
   components: {
@@ -208,7 +195,7 @@ export default {
       song_like_count: '', //총 좋아요 갯수
       wordList: {
         song_id: '',
-        namu_id:'',
+        namu_id: '',
         namu_title: '',
       },
       LIKE: '', //내가 좋아요 눌렀는지
@@ -233,8 +220,8 @@ export default {
         //console.log('uid'),
         //console.log(this.uid),
         (response) => {
-          console.log('응답');
-          console.log(response.data);
+          // console.log('응답');
+          // console.log(response.data);
           this.id = response.data.song.id;
           this.singer_name = response.data.song.singer_name;
           this.song_name = response.data.song.song_name;
@@ -248,7 +235,7 @@ export default {
           this.LIKE = response.data.LIKE;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
   },
@@ -270,7 +257,7 @@ export default {
     initUser() {
       this.uid = getuidCookie();
     },
-    Like: function() {
+    Like: function () {
       this.songlike.song_id = this.id;
       this.songlike.uid = this.uid;
       do_like(
@@ -281,25 +268,24 @@ export default {
           //console.log(response.data.message);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
-    findNamuId:function(){
+    findNamuId: function () {
       getNamuId(
         this.word_bar,
         (response) => {
-          console.log('하하');
-          console.log(response.data);
+          // console.log('하하');
+          // console.log(response.data);
           this.sw.namu_id = response.data;
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
-
-      )
+      );
     },
-    insertWord: function() {
+    insertWord: function () {
       this.sw.song_id = this.id;
       this.sw.namu_id = this.findNamuId();
       this.sw.namu_title = this.word_bar;
@@ -311,19 +297,25 @@ export default {
           //console.log('search_word')
           //console.log(this.search_word)
           if (response.data.message === 'goKomuwiki') {
-            alert(
-              '코뮤위키에 없는 단어입니다. 코뮤위키에서 단어를 등록해주세요!'
+            swal(
+              '단어 등록 필요!',
+              '코뮤위키에 없는 단어입니다.코뮤위키에서 단어를 등록해주세요!',
+              'warning'
             );
             this.$router.push('/komuwikiwrite');
           } else if (response.data.message === 'existInKomu') {
-            alert('코뮤위키에서 단어의 의미를 파악해보세요!');
+            swal(
+              '코뮤 위키 이동',
+              '코뮤위키에서 단어의 의미를 파악해보세요!',
+              'success'
+            );
             this.$router.push('/komuwikidetail/' + this.sw.namu_id);
           } else if (response.data.message === 'existInList') {
-            alert('단어 목록에 이미 있는 단어에요!');
+            swal('중복 확인!', '단어 목록에 이미 있는 단어에요!', 'warning');
           }
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
       this.wordbar = true;
