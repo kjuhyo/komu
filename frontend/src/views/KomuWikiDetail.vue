@@ -48,13 +48,10 @@
               <!-- 이미지 -->
               <div class="m_komuwiki_body_img" v-if="isMobile">
                 <img class="k_body_img" :src="namuwiki.namu_img" />
-
-                <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
               </div>
 
               <div class="komuwiki_body_img" v-else>
                 <img class="k_body_img" :src="namuwiki.namu_img" />
-                <!-- <img class="k_body_img" src="@/assets/img/jihyeon.jpg" /> -->
               </div>
 
               <!-- 내용 -->
@@ -79,12 +76,13 @@ import '../assets/css/komuwikidetail.scss';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import { getboard, letlike } from '@/api/komu.js';
+import swal from 'sweetalert';
 
 export default {
   components: {},
   created() {
     this.name = this.$route.params.name;
-    console.log(this.name);
+    // console.log(this.name);
     this.initUser();
     getboard(
       this.name,
@@ -93,12 +91,12 @@ export default {
         this.LIKE = response.data.LIKE;
         this.namuwiki = response.data.namuwiki;
         this.message = response.data.message;
-        console.log(this.message);
-        console.log(this.namuwiki);
-        console.log(this.LIKE);
+        // console.log(this.message);
+        // console.log(this.namuwiki);
+        // console.log(this.LIKE);
       },
       (error) => {
-        console.log(error);
+        swal(`${error}`);
       }
     );
   },
@@ -161,11 +159,11 @@ export default {
         this.wordlike,
         (response) => {
           this.LIKE = response.data.LIKE;
-          console.log(response.data.LIKE);
-          console.log(response.data.message);
+          // console.log(response.data.LIKE);
+          // console.log(response.data.message);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },

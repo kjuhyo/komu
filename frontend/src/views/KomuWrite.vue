@@ -44,7 +44,6 @@
               </div>
 
               <!-- 제출 -->
-              <!-- :disabled="form.file == null" -->
               <div class="align-center">
                 <b-button
                   v-if="previewImageData != null"
@@ -77,6 +76,7 @@ import TextEditor from '../components/TextEditor.vue';
 import { insert, insert_nopic } from '@/api/komu.js';
 import { profileByUid, getSingerName } from '@/api/user.js';
 import { getuidCookie } from '@/util/cookie.js';
+import swal from 'sweetalert';
 
 export default {
   components: { TextEditor },
@@ -112,16 +112,6 @@ export default {
   },
   created() {
     this.initUser();
-    // getSingerName(
-    //   this.loginid,
-    //   (response) => {
-    //     console.log('SUCCESS');
-    //     this.nick = response.data;
-    //   },
-    //   (error) => {
-    //     console.log(error.data);
-    //   }
-    // );
   },
   computed: {
     headerStyle() {
@@ -135,11 +125,11 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
 
-    GetEditorContent: function(data) {
+    GetEditorContent: function (data) {
       this.content = data;
     },
 
@@ -151,7 +141,6 @@ export default {
       // Reset
       this.form.petName = '';
       this.form.file = '';
-      //   this.form.desc = '';
       this.show = false;
       this.$nextTick(() => {
         this.show = true;
@@ -169,12 +158,12 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto: function() {
+    setDto: function () {
       this.namu.uid = this.loginid;
       this.namu.namu_title = this.title;
       this.namu.namu_content = this.content;
     },
-    UploadCertification: function() {
+    UploadCertification: function () {
       this.setDto();
       const formData = new FormData();
       formData.append(
@@ -185,28 +174,26 @@ export default {
       insert(
         formData,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
-          alert(response.data.message);
+          // console.log(response.data.message);
+          // console.log('SUCCESS');
+          swal(`${response.data.message}`);
           this.$router.push('/komuwiki');
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
-    Upload: function() {
+    Upload: function () {
       this.setDto();
       insert_nopic(
         this.namu,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
-          alert(response.data.message);
+          swal(`${response.data.message}`);
           this.$router.push('/komuwiki');
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },

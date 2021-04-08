@@ -102,6 +102,7 @@ import Article from '../components/Article.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
+import swal from 'sweetalert';
 
 export default {
   components: {
@@ -169,10 +170,10 @@ export default {
         this.namu_title,
         this.uid,
         (response) => {
-          console.log(response.data);
+          swal(`${response.data}`);
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -183,20 +184,20 @@ export default {
       } else {
         this.isSearchbar = true;
       }
-      console.log('검색했찌롱');
-      console.log(this.searchdata.length);
-      console.log(this.searchdata);
-      console.log(this.isSearchbar);
+      // console.log('검색했찌롱');
+      // console.log(this.searchdata.length);
+      // console.log(this.searchdata);
+      // console.log(this.isSearchbar);
       search_list(
         this.searchpage,
         this.searchdata,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.pagination = response.data.pagination;
           this.list = response.data.list;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -215,7 +216,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -234,7 +235,7 @@ export default {
             );
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -255,7 +256,7 @@ export default {
             );
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -271,16 +272,16 @@ export default {
       getlist(
         this.page,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.pagination = response.data.pagination;
           this.list = response.data.list;
           this.listmaker = parseInt(
             this.pagination.listCnt / this.pagination.listSize + 1
           );
-          console.log(this.pagination);
+          // console.log(this.pagination);
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
   },
