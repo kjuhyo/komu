@@ -1,5 +1,8 @@
 <template>
   <table>
+    <div class="mypost-article" v-if="this.commuList.length == 0">
+      작성한 글이 없어요!
+    </div>
     <thead class="thead-css">
       <tr>
         <th width="5%" scope="col">No</th>
@@ -9,18 +12,17 @@
       </tr>
     </thead>
     <tbody>
-      <h4 v-if="this.commuList.length == 0">작성한 글이 없어요!</h4>
-      <tr v-for="(commu,idx) in commuList" :key="idx">
-        <td data-label="No">{{commu.cid}}</td>
+      <tr v-for="(commu, idx) in commuList" :key="idx">
+        <td data-label="No">{{ commu.cid }}</td>
         <td data-label="Contents">
           <router-link :to="`/communitydetail/${commu.cid}`">
-          {{commu.c_title}}
+            {{ commu.c_title }}
           </router-link>
-          </td>
-        <td data-label="Writer">{{commu.nickname}}</td>
-        <td data-label="Date">{{commu.c_date}}</td>
+        </td>
+        <td data-label="Writer">{{ commu.nickname }}</td>
+        <td data-label="Date">{{ commu.c_date }}</td>
       </tr>
-      </tbody>
+    </tbody>
   </table>
 </template>
 
@@ -30,16 +32,15 @@ import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
 
 export default {
-  namu:"MyPost",
-  props:{
-    commuList:{type:Object},
+  namu: 'MyPost',
+  props: {
+    commuList: { type: Object },
   },
-  data:function(){
-    return{
-      uid:'',
-      nickname:'',
-   }
-
+  data: function () {
+    return {
+      uid: '',
+      nickname: '',
+    };
   },
   created() {
     this.initUser(),
@@ -51,7 +52,7 @@ export default {
         (error) => {
           console.log(error);
         }
-      )
+      );
   },
   methods: {
     initUser() {
@@ -60,3 +61,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+.mypost-article {
+  font-family: 'Nanum Gothic', sans-serif;
+  text-align: center;
+  margin: auto;
+}
+</style>
