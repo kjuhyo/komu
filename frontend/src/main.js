@@ -18,6 +18,8 @@ import App from "./App.vue";
 import router from ".";
 import store from './store';
 
+axios.defaults.baseURL = 'http://localhost:9999/komu/'
+
 import MaterialKit from "./plugins/material-kit";
 
 Vue.config.productionTip = false;
@@ -41,5 +43,8 @@ Vue.mixin({
 new Vue({
   router,
   store,
+  beforeCreate() {
+    this.$store.dispatch('getMemberInfo')
+  },
   render: h => h(App)
 }).$mount("#app");
