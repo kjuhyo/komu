@@ -58,10 +58,10 @@
                 <th class="sd-h-title" scope="row">발매일</th>
                 <td class="sd-h-info">{{ this.issue_date }}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <th class="sd-h-title" scope="row">좋아요수</th>
                 <td class="sd-h-info">{{ this.song_like_count }}</td>
-              </tr>
+              </tr> -->
             </div>
 
             <!-- 좋아요 버튼 -->
