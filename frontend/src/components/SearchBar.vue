@@ -51,36 +51,14 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    onResize: function() {
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
-    letsearch: function() {
+    letsearch: function () {
       console.log('여기는서치바응답하라오바');
       console.log(this.data);
       this.$emit('eventdata', this.data);
     },
-    // doSearch(e) {
-    //   this.searchInput = e.target.value;
-    //   e.target.value = '';
-    // },
   },
 };
 </script>
-
-<style lang="scss">
-// .searchbar {
-//   display: flex;
-//   justify-content: center;
-//   margin-bottom: 20px;
-// }
-// .search-input {
-//   width: 30%;
-//   border-radius: 3px;
-// }
-// .search-icon {
-//   background-color: #eeeeee;
-//   // background-color: purple;
-//   border-radius: 3px;
-// }
-//
-</style>

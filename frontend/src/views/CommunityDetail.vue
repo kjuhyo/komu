@@ -230,6 +230,7 @@ import { getboard, letlike, letdelete, insert_comm } from '@/api/community.js';
 import { mapState } from 'vuex';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
+import swal from 'sweetalert';
 
 export default {
   components: {
@@ -250,12 +251,12 @@ export default {
         this.cnt_comment = response.data.cnt_comment;
         this.check = response.data.check;
         this.message = response.data.message;
-        console.log(this.message);
+        // console.log(this.message);
         this.nowuid = this.community.uid;
         this.getInfo();
       },
       (error) => {
-        console.log(error);
+        swal(`${error}`);
       }
     );
   },
@@ -332,9 +333,9 @@ export default {
   },
   methods: {
     modaldel() {
-      console.log('함수들왔쪄');
+      // console.log('함수들왔쪄');
       this.classicModal = false;
-      alert('신고 완료되었습니다');
+      swal('신고 완료', '신고 완료되었습니다', 'success');
     },
     onResize: function () {
       this.isMobile = window.innerWidth <= 480;
@@ -351,11 +352,11 @@ export default {
         this.nowuid,
         (response) => {
           this.writer = response.data.info;
-          console.log(this.message);
-          console.log(this.writer);
+          // console.log(this.message);
+          // console.log(this.writer);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
@@ -366,24 +367,24 @@ export default {
         this.postlike,
         (response) => {
           this.LIKE = response.data.LIKE;
-          console.log(response.data.message);
+          // console.log(response.data.message);
           window.location.reload();
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
     Delete: function () {
-      console.log('삭제 눌렸어/');
+      // console.log('삭제 눌렸어/');
       letdelete(
         this.community.cid,
         (response) => {
-          console.log(response.data.message);
+          // console.log(response.data.message);
           this.$router.push('/community');
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
@@ -392,11 +393,11 @@ export default {
         this.loginid,
         (response) => {
           this.loginInfo = response.data.info;
-          console.log(this.message);
-          console.log(this.loginInfo);
+          // console.log(this.message);
+          // console.log(this.loginInfo);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
@@ -404,15 +405,15 @@ export default {
       this.sendComment.cid = this.name;
       this.sendComment.uid = this.loginid;
       this.sendComment.cc_content = this.cccontent;
-      console.log(this.sendComment);
+      // console.log(this.sendComment);
       insert_comm(
         this.sendComment,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           window.location.reload();
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },

@@ -126,9 +126,6 @@
               </ul>
             </nav>
           </div>
-          <!-- <div class="paging">
-            <Pagination />
-          </div> -->
         </div>
       </div>
     </div>
@@ -137,23 +134,16 @@
 
 <script>
 import '../assets/css/profile.css';
-
 import { mapState } from 'vuex';
 import '../assets/css/pagination.scss';
-
 import { getCommunityContents } from '@/api/search.js';
 import { getboard, getlist, poplist } from '@/api/community.js';
-// import { Tabs } from '@/components';
-// import { Pagination } from '@/components';
+import swal from 'sweetalert';
 import CommunityArticle from '../components/CommunityArticle.vue';
-import { getSingerName } from '@/api/user.js';
 
 export default {
   components: {
-    // Tabs,
     CommunityArticle,
-    // Pagination,
-    // SearchBar,
   },
   bodyClass: 'profile-page',
   data() {
@@ -213,16 +203,16 @@ export default {
     getlist(
       this.page,
       (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.pagination = response.data.pagination;
         this.list = response.data.commList;
         this.listmaker = parseInt(
           this.pagination.listCnt / this.pagination.listSize + 1
         );
-        console.log(this.pagination);
+        // console.log(this.pagination);
       },
       (error) => {
-        console.log(error);
+        swal(`${error}`);
       }
     );
   },
@@ -237,16 +227,16 @@ export default {
         getlist(
           this.page,
           (response) => {
-            console.log(response.data);
+            // console.log(response.data);
             this.pagination = response.data.pagination;
             this.list = response.data.commList;
             this.listmaker = parseInt(
               this.pagination.listCnt / this.pagination.listSize + 1
             );
-            console.log(this.pagination);
+            // console.log(this.pagination);
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -254,11 +244,11 @@ export default {
         //검색결과 //최신순
         this.searchtext,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.list = response.data;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -277,7 +267,7 @@ export default {
           );
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -296,7 +286,7 @@ export default {
             );
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -317,7 +307,7 @@ export default {
             );
           },
           (error) => {
-            console.log(error);
+            swal(`${error}`);
           }
         );
       }
@@ -332,16 +322,16 @@ export default {
       getlist(
         this.page,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.pagination = response.data.pagination;
           this.list = response.data.commList;
           this.listmaker = parseInt(
             this.pagination.listCnt / this.pagination.listSize + 1
           );
-          console.log(this.pagination);
+          // console.log(this.pagination);
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
@@ -350,16 +340,16 @@ export default {
       poplist(
         this.page,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           this.pagination = response.data.pagination;
           this.list = response.data.commList;
           this.listmaker = parseInt(
             this.pagination.listCnt / this.pagination.listSize + 1
           );
-          console.log(this.pagination);
+          // console.log(this.pagination);
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },

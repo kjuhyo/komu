@@ -82,6 +82,7 @@ import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { getboard, update_nopic, update } from '@/api/komu.js';
 import { getuidCookie } from '@/util/cookie.js';
+import swal from 'sweetalert';
 
 export default {
   components: { TextEditor },
@@ -99,8 +100,8 @@ export default {
         namu_title: '',
         namu_content: '',
         namu_img: '',
-        namu_date:"",
-        namu_id:0
+        namu_date: '',
+        namu_id: 0,
       },
       getKomu: false,
       message: '',
@@ -131,12 +132,12 @@ export default {
         this.message = response.data.message;
         // this.GetEditorContent(this.namu.namu_content);
         this.getKomu = !this.getKomu;
-        console.log(this.content);
-        console.log(this.namu);
-        console.log(this.message);
+        // console.log(this.content);
+        // console.log(this.namu);
+        // console.log(this.message);
       },
       (error) => {
-        console.log(error);
+        swal(`${error}`);
       }
     );
   },
@@ -152,12 +153,12 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    getboard: function() {},
-    onResize: function() {
+    getboard: function () {},
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
 
-    GetEditorContent: function(data) {
+    GetEditorContent: function (data) {
       this.content = data;
     },
 
@@ -187,11 +188,11 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto: function() {
+    setDto: function () {
       this.namu.uid = this.loginid;
       this.namu.namu_content = this.content;
     },
-    UploadCertification: function() {
+    UploadCertification: function () {
       this.setDto();
       const formData = new FormData();
       formData.append(
@@ -202,17 +203,17 @@ export default {
       update(
         formData,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
-          alert(response.data.message);
+          // console.log(response.data.message);
+          // console.log('SUCCESS');
+          swal(`${response.data.message}`);
           this.$router.push('/komuwikidetail/' + this.namu.namu_id);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
-    Upload: function() {
+    Upload: function () {
       this.setDto();
       update_nopic(
         // this.namu.uid,
@@ -220,13 +221,12 @@ export default {
         // this.namu.namu_title,
         this.namu,
         (response) => {
-          console.log(response.data);
+          swal(`${response.data.message}`);
           this.$router.push('/komuwikidetail/' + this.namu.namu_id);
           // this.$router.push( { path: `/komuwikidetail/${this.namu.namu_title}`});
         },
         (error) => {
-          console.log('FAIL');
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },

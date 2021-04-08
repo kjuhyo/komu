@@ -14,10 +14,7 @@
             <!-- 글 제목 -->
             <div class="write_title">
               <span class="title_css">제목 </span>
-              <input
-                class="content_title"
-                v-model="community.c_title"
-              />
+              <input class="content_title" v-model="community.c_title" />
             </div>
             <br />
             <!-- 텍스트에디터 -->
@@ -81,6 +78,7 @@ import '../assets/css/writearticle.scss';
 import TextEditor from '../components/TextEditor.vue';
 import { getboard, update_nopic, update } from '@/api/community.js';
 import { getuidCookie } from '@/util/cookie.js';
+import swal from 'sweetalert';
 
 export default {
   components: { TextEditor },
@@ -132,10 +130,10 @@ export default {
         this.community = response.data.Community;
         this.message = response.data.message;
         this.getComm = !this.getComm;
-        console.log(this.message);
+        // console.log(this.message);
       },
       (error) => {
-        console.log(error);
+        swal(`${error}`);
       }
     );
   },
@@ -151,12 +149,12 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
-    getboard: function() {},
-    onResize: function() {
+    getboard: function () {},
+    onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
 
-    GetEditorContent: function(data) {
+    GetEditorContent: function (data) {
       this.content = data;
     },
 
@@ -186,10 +184,10 @@ export default {
         this.previewImageData = null;
       }
     },
-    setDto: function() {
+    setDto: function () {
       this.community.c_content = this.content;
     },
-    UploadCertification: function() {
+    UploadCertification: function () {
       this.setDto();
       const formData = new FormData();
       formData.append(
@@ -200,33 +198,31 @@ export default {
       update(
         formData,
         (response) => {
-          console.log(response.data.message);
-          console.log('SUCCESS');
-          alert(response.data.message);
+          // console.log(response.data.message);
+          // console.log('SUCCESS');
+          swal(`${response.data.message}`);
           this.$router.push('/communitydetail/' + this.community.cid);
         },
         (error) => {
-          console.log(error.data);
+          swal(`${error}`);
         }
       );
     },
-    Upload: function() {
+    Upload: function () {
       this.setDto();
       update_nopic(
         this.community,
         (response) => {
-          console.log(response.data);
+          swal(`${response.data.message}`);
           this.$router.push('/communitydetail/' + this.community.cid);
         },
         (error) => {
-          console.log('FAIL');
-          console.log(error);
+          swal(`${error}`);
         }
       );
     },
     initUser() {
       this.loginid = getuidCookie();
-      // this.loginid = 'namu';
     },
   },
 };
