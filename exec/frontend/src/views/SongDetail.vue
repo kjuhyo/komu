@@ -217,11 +217,7 @@ export default {
       get_song(
         this.id,
         this.uid,
-        //console.log('uid'),
-        //console.log(this.uid),
         (response) => {
-          // console.log('응답');
-          // console.log(response.data);
           this.id = response.data.song.id;
           this.singer_name = response.data.song.singer_name;
           this.song_name = response.data.song.song_name;
@@ -264,8 +260,6 @@ export default {
         this.songlike,
         (response) => {
           this.LIKE = response.data.LIKE;
-          //console.log(response.data.LIKE);
-          //console.log(response.data.message);
         },
         (error) => {
           swal(`${error}`);
@@ -276,8 +270,6 @@ export default {
       getNamuId(
         this.word_bar,
         (response) => {
-          // console.log('하하');
-          // console.log(response.data);
           this.sw.namu_id = response.data;
         },
         (error) => {
@@ -292,10 +284,7 @@ export default {
       search_word(
         this.sw,
         this.uid,
-        //console.log(this.uid),
         (response) => {
-          //console.log('search_word')
-          //console.log(this.search_word)
           if (response.data.message === 'goKomuwiki') {
             swal(
               '단어 등록 필요!',
@@ -327,8 +316,6 @@ export default {
 <style lang="scss" scoped>
 .songTitle_summary_section {
   display: flex;
-  // justify-content: left;
-  // margin-bottom: 20px;
   margin-left: 2%;
 }
 

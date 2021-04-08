@@ -92,8 +92,6 @@ export default {
       myPostList(
         this.uid,
         (response) => {
-          // console.log('푸하하');
-          // console.log(response.data);
           this.commuList = response.data;
         },
         (error) => {
@@ -103,8 +101,6 @@ export default {
       mySongList(
         this.uid,
         (response) => {
-          // console.log('무하하');
-          // console.log(response.data);
           this.songList = response.data;
         },
         (error) => {
@@ -114,8 +110,6 @@ export default {
       myWordList(
         this.uid,
         (response) => {
-          // console.log('우하하');
-          // console.log(response.data);
           this.wordList = response.data;
         },
         (error) => {

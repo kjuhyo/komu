@@ -365,9 +365,7 @@ export default {
       } else {
         this.prevnext = this.prevnext - 1;
         this.currentPage = this.prevnext;
-        this.listpage = 10;
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
+        this.listpage = 10;    
 
         getlist_pop(
           //최신순 //장르전체
@@ -402,9 +400,6 @@ export default {
       if (this.prevnext <= this.listmaker - 10) {
         this.prevnext = this.prevnext + 10;
         this.currentPage = this.prevnext;
-        // console.log(typeof this.prevnext);
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
         this.listpage = this.listpage + 10;
         getlist_pop(
           //최신순 //장르전체
@@ -428,7 +423,6 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            // console.log(this.listppp);
           },
           (error) => {
             swal(`${error}`);
@@ -441,8 +435,6 @@ export default {
         this.prevnext = this.prevnext + 1;
         this.currentPage = this.prevnext;
         this.listpage = this.listmaker;
-        // console.log(this.prevnext);
-        // console.log(this.currentPage);
 
         getlist_pop(
           //최신순 //장르전체
@@ -466,7 +458,6 @@ export default {
               this.listpage - 1,
               this.listpage,
             ];
-            // console.log(this.listppp);
           },
           (error) => {
             swal(`${error}`);
@@ -479,12 +470,8 @@ export default {
       this.currentPage = updatedText;
     },
     MovePage: function (page) {
-      // console.log('안녕안녕');
-      // console.log(this.currentPage);
 
       this.currentPage = page;
-      // console.log(page);
-
       getlist_pop(
         //최신순 //장르전체
         //this.page,

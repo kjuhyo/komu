@@ -241,11 +241,9 @@ export default {
         .dispatch('LOGOUT')
         .then(() => {
           if (this.$route.path !== '/') this.$router.replace('/');
-          console.log('네브바로그아웃');
           this.showModal = false;
         })
         .catch((error) => {
-          console.log('로그아웃 문제!');
           if (error.name != 'NavigationDuplicated') {
             throw error;
           }

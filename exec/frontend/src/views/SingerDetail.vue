@@ -45,22 +45,6 @@
               <div>
                 <div class="track_list">
                   <table>
-                    <!-- <thead>
-                      <tr>
-                        <th scope="col" class="thumb">
-                          <span class="blind">자켓 이미지</span>
-                        </th>
-                        <th scope="col" class="song">
-                          <span class="blind">곡명</span>
-                        </th>
-                        <th scope="col" class="artist">
-                          <span class="blind">아티스트명</span>
-                        </th>
-                        <th scope="col" class="album">
-                          <span class="blind">앨범명</span>
-                        </th>
-                      </tr>
-                    </thead> -->
                     <tbody>
                       <tr>
                         <td class="thumb">
@@ -212,21 +196,6 @@
                 <h4><strong>IDOL</strong></h4>
                 <span>방탄소년단</span>
               </div>
-              <!-- <div class="">
-                <iframe width="560px" height="560" src="https://www.youtube.com/embed/gdZLi9oWNZg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <h4><strong>Dynamite</strong></h4>
-                <span>방탄소년단</span>
-              </div>
-              <div class="video-item">
-                <iframe width="560" height="560" src="https://www.youtube.com/embed/XsX3ATc3FbA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <h4><strong>작은 것들을 위한 시</strong></h4>
-                <span>방탄소년단</span>
-              </div>
-              <div class="video-item">
-                <iframe width="560" height="560" src="https://www.youtube.com/embed/pBuZEGYXA6E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <h4><strong>IDOL</strong></h4>
-                <span>방탄소년단</span>
-              </div> -->
             </div>
           </div>
           <div>
@@ -294,38 +263,6 @@ export default {
   .album {
     text-align: left;
   }
-  // .track_section {
-  //   padding: 5px 0 32px;
-  // }
-  // .track_list {
-  //   position: relative;
-  //   margin: 0 -14px;
-  //   color: #232323;
-  // }
-  // table {
-  //   width: 100%;
-  //   text-align: center;
-  //   // border: 0;
-  //   // border: 1px solid black;
-  // }
-  // thead {
-  //   display: table-header-group;
-  //   vertical-align: middle;
-  //   border-color: inherit;
-  // }
-  // tbody {
-  //   display: table-row-group;
-  //   vertical-align: middle;
-  //   border-color: inherit;
-  // }
-  // .blind {
-  //   overflow: hidden;
-  //   position: absolute;
-  //   clip: rect(0 0 0 0);
-  //   width: 1px;
-  //   height: 1px;
-  //   margin: -1px;
-  // }
   .inner {
     position: relative;
     width: 60px;
