@@ -49,8 +49,9 @@
 
                 <div v-if="this.community.uid == this.loginid && isLogin">
                   <router-link
-                  :to="`/communityupdate/${community.cid}`"
-                  v-if="isLogin">
+                    :to="`/communityupdate/${community.cid}`"
+                    v-if="isLogin"
+                  >
                     <span class="comdetail-btn-text">수정</span>
                   </router-link>
                   <span class="comdetail-btn-text" @click="Delete">삭제</span>
@@ -144,7 +145,9 @@
                         </template>
 
                         <template slot="footer">
-                          <md-button class="md-danger md-simple"
+                          <md-button
+                            class="md-danger md-simple"
+                            @click="modaldel"
                             >신고하기</md-button
                           >
                           <md-button class="md-simple" @click="classicModalHide"
@@ -328,6 +331,11 @@ export default {
     window.addEventListener('resize', this.onResize);
   },
   methods: {
+    modaldel() {
+      console.log('함수들왔쪄');
+      this.classicModal = false;
+      alert('신고 완료되었습니다');
+    },
     onResize: function () {
       this.isMobile = window.innerWidth <= 480;
     },
