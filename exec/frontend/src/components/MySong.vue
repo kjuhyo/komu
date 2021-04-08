@@ -1,9 +1,9 @@
 <template>
   <div>
-    <ul class="cards">
-      <h4 class="textalign" v-if="this.songList.length == 0">
-        좋아요한 노래가 없어요!
-      </h4>
+    <div class="mypost-article" v-if="this.songList.length == 0">
+      좋아요한 노래가 없어요!
+    </div>
+    <ul v-else class="cards">
       <li v-for="(song, idx) in songList" :key="idx" class="cards__item">
         <div v-if="song != null" class="song-card">
           <router-link
@@ -44,7 +44,14 @@ export default {
 </script>
 
 <style scoped>
-.textalign {
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+.mypost-article {
+  font-family: 'Nanum Gothic', sans-serif;
   text-align: center;
+  /* margin: auto; */
+  padding: 20px;
+  font-size: 18px;
+  margin: 10px;
 }
 </style>
