@@ -45,8 +45,8 @@ Vue.mixin({
 new Vue({
   router,
   store,
-  beforeCreate() {
-    this.$store.dispatch('getMemberInfo')
-  },
+  //beforeCreate() {
+  //  this.$store.dispatch('getMemberInfo')
+  //},
   render: h => h(App)
 }).$mount("#app");

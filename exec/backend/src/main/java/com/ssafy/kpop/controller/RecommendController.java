@@ -58,7 +58,7 @@ public class RecommendController {
 			
 			String path = System.getProperty("user.dir");
 			path=path.replace("\\", "\\\\");
-			path=path.replace("backend", "python\\\\Algorithm\\\\TF-IDF.py");
+			path=path.replace("backend", "python/Algorithm/TF-IDF.py");
 
 			List<String> args = new ArrayList<>();
 			args.add(program);
@@ -125,7 +125,7 @@ public class RecommendController {
 			
 			String path = System.getProperty("user.dir");
 			path=path.replace("\\", "\\\\");
-			path=path.replace("backend", "python\\\\Algorithm\\\\genre.py");
+			path=path.replace("backend", "python/Algorithm/genre.py");
 
 			List<String> args = new ArrayList<>();
 			args.add(program);
