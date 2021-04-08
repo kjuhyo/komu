@@ -1,0 +1,21 @@
+.userprofile-image {
+  position: relative;
+}
+
+.profileedit-btn {
+  position: absolute;
+  top: 50px;
+  left: 57%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  /* z-index: 1; */
+}
+
+.profile-edit-div {
+}
+.profile-edit-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 25%;
+}

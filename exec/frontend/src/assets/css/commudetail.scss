@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+.community-detail-header {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  font-family: 'Nanum Gothic', sans-serif;
+  padding-top: 2rem;
+}
+
+.community-detail-container {
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.comm-detail-main {
+  padding-left: 10px;
+}
+
+.community-detail-title {
+  margin-top: 30px;
+  margin-bottom: 25px !important;
+}
+
+.community-detail-title-text {
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+}
+.writer-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 2px;
+}
+.writer-info {
+  display: flex;
+  padding-left: 10px;
+}
+
+.article_info {
+  font-size: 15px;
+}
+
+.profile_info {
+  font-size: 16px;
+}
+
+.com-detail-btn {
+  display: flex;
+  padding-right: 5px;
+  cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  position: absolute;
+  right: 0px;
+  top: 145px;
+}
+.comdetail-btn-text {
+  margin-right: 14px;
+}
+.comdetail-btn-text-cnt {
+  margin-right: 2px;
+}
+
+.thumb {
+  margin-right: 10px;
+}
+.community-detail-content {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.reply-box {
+  display: flex;
+  justify-content: space-between;
+}
+.box-left {
+  display: flex;
+}
+
+.like-article {
+  margin-right: 16px;
+  padding-top: 25px;
+}
+
+.button-comment {
+  padding-top: 25px;
+  padding-left: 10px;
+}
+
+.comm-detail-icon {
+  //   padding-top: 5px;
+}
+.com-detail-like-count {
+  display: inline-block;
+  margin-left: 5px;
+  font-size: 16px;
+}
+.com-detail-comment-count {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 16px;
+}
+
+// 댓글
+ul {
+  list-style: none;
+}
+.comdetail-comment_option {
+  position: relative;
+  padding-top: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 11px;
+  padding-left: 30px;
+}
+.comdetail-comment-area {
+  position: relative;
+  padding: 12px 23px 10px 0;
+}
+.comdetail-comment-thumb {
+  position: absolute;
+  top: 12px;
+  left: 0;
+}
+
+.comdetail-comment-info-box {
+  font-size: 15px;
+}
+.comdetail-comment-text-box {
+  font-size: 15px;
+}
+.comment-box {
+  padding-left: 46px;
+}
+
+// 댓글작성
+.comdetail-comment-writer {
+  font-family: 'Nanum Gothic', sans-serif;
+  margin: 12px 40px 50px;
+  padding: 16px 10px 10px 18px;
+  border: 1px solid gray;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+.comdetail-comment-inbox {
+  position: relative;
+  margin-bottom: 6px;
+}
+.comdetail-comment-inbox-name {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.comdetail-comment-inbox-text {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  width: 100%;
+  min-height: 17px;
+  padding-right: 1px;
+  border: 0;
+  font-size: 13px;
+  -webkit-appearance: none;
+  resize: none;
+  box-sizing: border-box;
+  background: transparent;
+  color: var(--skinTextColor);
+  outline: 0;
+}
+.comdetail-comment-attach {
+  position: relative;
+  top: -36px;
+  right: 10px;
+}
+.comdetail-register-box {
+  float: right;
+  color: gray;
+  font-weight: 200;
+  text-align: center;
+}

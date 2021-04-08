@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
+
+.komuwiki_container {
+  font-family: 'Nanum Gothic', sans-serif;
+}
+
+.komuwiki_header {
+  display: flex;
+  margin: 10px;
+  padding-bottom: 10px;
+}
+
+.komuwiki_title {
+  float: left;
+  font-weight: bold;
+  font-size: 35px;
+  padding-left: 8px;
+}
+.komuwiki_option_area {
+  position: absolute;
+  right: 0;
+  padding-right: 20px;
+  float: right;
+  //   text-align: right;
+}
+
+.wiki_option_icon {
+  margin: 5px;
+  cursor: pointer;
+}
+
+.komuwiki_body_img {
+  margin: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.m_komuwiki_body_img {
+  margin: 3px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.k_body_img {
+  max-width: 90%;
+}
+
+.komuwiki_body_content {
+  margin: 40px;
+  font-size: 17px;
+}
+
+.m_komuwiki_body_content {
+  margin: 5px;
+  font-size: 16px;
+}
