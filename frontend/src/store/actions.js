@@ -30,7 +30,7 @@ const actions = {
           }
         }
         axios
-            .get("http://localhost:9999/komu/user/getUserInfo", config)
+            .get("http://j4c104.p.ssafy.io/api/user/getUserInfo", config)
             .then(response=> {
              // console.log("actions에서")
              // console.log(response.data)
