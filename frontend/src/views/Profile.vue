@@ -67,6 +67,8 @@ import MyWord from '../components/MyWord.vue';
 import { getuidCookie } from '@/util/cookie.js';
 import { profileByUid } from '@/api/user.js';
 import { myPostList, mySongList, myWordList } from '@/api/my.js';
+import swal from 'sweetalert';
+
 export default {
   components: {
     Tabs,
@@ -84,40 +86,40 @@ export default {
           this.profile = response.data.info.profile;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       ),
       myPostList(
         this.uid,
         (response) => {
-          console.log('푸하하');
-          console.log(response.data);
+          // console.log('푸하하');
+          // console.log(response.data);
           this.commuList = response.data;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       ),
       mySongList(
         this.uid,
         (response) => {
-          console.log('무하하');
-          console.log(response.data);
+          // console.log('무하하');
+          // console.log(response.data);
           this.songList = response.data;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       ),
       myWordList(
         this.uid,
         (response) => {
-          console.log('우하하');
-          console.log(response.data);
+          // console.log('우하하');
+          // console.log(response.data);
           this.wordList = response.data;
         },
         (error) => {
-          console.log(error);
+          swal(`${error}`);
         }
       );
   },
@@ -199,10 +201,6 @@ export default {
   [class*='tab-pane-'] {
     margin-top: 3.213rem;
     padding-bottom: 50px;
-
-    // img {
-    //   margin-bottom: 2.142rem;
-    // }
   }
 }
 </style>
