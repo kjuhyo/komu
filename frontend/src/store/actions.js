@@ -6,7 +6,7 @@ const actions = {
     googleCallback(context, data) {
       console.log(data)
         axios
-          .post("http://j4c104.p.ssafy.io/api/user/login/google", data.tc.id_token)
+          .post("http://localhost:9999/komu/user/login/google", data.tc.id_token)
           .then(response => {
             console.log(response.data.user)
             let token = response.data.access_token
@@ -30,7 +30,7 @@ const actions = {
           }
         }
         axios
-            .get("http://j4c104.p.ssafy.io/api/user/getUserInfo", config)
+            .get("http://localhost:9999/komu/user/getUserInfo", config)
             .then(response=> {
              // console.log("actions에서")
              // console.log(response.data)
