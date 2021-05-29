@@ -94,7 +94,7 @@ $ npm run serve
 
 
 
-![ERD](documents/erd.JPG)
+![erd](https://user-images.githubusercontent.com/34257254/120065002-21dc6f80-c0aa-11eb-974c-4d862db1cebc.JPG)
 
 
 
