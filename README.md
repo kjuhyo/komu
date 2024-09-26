@@ -1,8 +1,10 @@
+# komu
 [![Generic badge](https://img.shields.io/badge/python-3.6.8-<COLOR>.svg)](https://shields.io/)[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/releases/)
 
 
 
-![KOMU 로고](documents/KOMU 로고.png)
+![logo](https://user-images.githubusercontent.com/34257254/120065089-8697ca00-c0aa-11eb-9bfd-8573b0a1d1b2.JPG)
+
 
 
 
@@ -93,7 +95,7 @@ $ npm run serve
 
 
 
-![ERD](documents/erd.JPG)
+![erd](https://user-images.githubusercontent.com/34257254/120065002-21dc6f80-c0aa-11eb-974c-4d862db1cebc.JPG)
 
 
 
@@ -105,7 +107,7 @@ $ npm run serve
 
 
 
-![시스템 아키텍쳐](documents/시스템 아키텍쳐.JPG)
+![시스템아키텍처](https://user-images.githubusercontent.com/34257254/120065091-88fa2400-c0aa-11eb-81f2-d9064b81d0fc.JPG)
 
 
 
